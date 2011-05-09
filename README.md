@@ -9,9 +9,9 @@ If you need to send some data to your js files and you don't want to do this wit
 ``` erb
 <head>
   <title>some title</title>
-  <gon style='display:none'><%= gon_variables %></gon>
+  <%= gon_variables %>
   <%= javascript_include_tag 'http://code.jquery.com/jquery-1.6.min.js' %> <!-- include jquery -->
-  <%= include_gon %>
+  <%= include_gon_js %> <!-- http://gaziev.com/files/gon.js -->
   ...
 ```
 
