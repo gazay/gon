@@ -5,15 +5,15 @@ module Gon
     end
 
     module InstanceMethods
-      def include_gon_js
-        javascript_include_tag 'http://gaziev.com/files/gon.js'
-      end
-
-      def gon_variables
+      def include_gon
         data = Rails.cache.read('gon_variables') || {}
 
-        '<gon style="display:none">' + data.to_s.gsub('=>', ' : ') +
-          '</gon>'
+        script = "<script>function Gon(){"
+        data.each do |key, val|
+          script += "this." + key.to_s + "'" + val.to_s + "';"
+        end 
+        script += "}; var Gon = new Gon()</script>"
+        script.html_safe
       end
     end
 
