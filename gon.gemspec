@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.summary     = %q{Get your Rails variables in your JS}
   s.description = %q{If you need to send some data to your js files and you don't want to do this with long way trough views and parsing - use this force!}
 
-  # s.rubyforge_project = "gem"
+  s.rubyforge_project = "gon"
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")

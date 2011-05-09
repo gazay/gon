@@ -1,10 +1,34 @@
 # Gon gem — get your Rails variables in your js
 
-TODO: write description
+If you need to send some data to your js files and you don't want to do this with long way trough views and parsing - use this force!
 
 ## Usage
 
-TODO: write usage
+`app/views/layouts/application.html.erb`
+
+``` erb
+<head>
+  <title>some title</title>
+  <gon style='display:none'><%= gon_variables %></gon>
+  <%= javascript_include_tag 'http://code.jquery.com/jquery-1.6.min.js' %> <!-- include jquery -->
+  <%= include_gon %>
+  ...
+```
+
+In action of your controller you put something like this:
+
+``` ruby
+@your_variable = 123
+Gon.your_variable = @your_variable
+Gon.your_other_variable = 345 + @your_variable
+```
+
+In javascript file for view of this action write call to your variable:
+
+``` js
+alert(Gon.your_variable)
+alert(Gon.your_other_variable)
+```
 
 ## Installation
 
