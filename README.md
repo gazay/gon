@@ -20,7 +20,7 @@ Or if you are old-school Rails 2 developer put this into `config/environment.rb`
 config.gem 'gon', :version => '0.1.0'
 ```
 
-Or manually install variants gem: `$ gem install gon`
+Or manually install gon gem: `$ gem install gon`
 
 ## Contributors
 
