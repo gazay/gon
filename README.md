@@ -49,7 +49,7 @@ Or manually install gon gem: `$ gem install gon`
 
 * @gazay
 
-Special thanks to @brainopia and @kossnocorp.
+Special thanks to @brainopia, @kossnocorp and @ai.
 
 ## License
 
