@@ -8,11 +8,11 @@ module Gon
       def include_gon
         data = Rails.cache.read('gon_variables') || {}
 
-        script = "<script>function Gon(){"
+        script = "<script>window.Gon = {};"
         data.each do |key, val|
-          script += "this." + key.to_s + val.to_json + ";"
+          script += "Gon." + key.to_s + val.to_json + ";"
         end
-        script += "}; var Gon = new Gon()</script>"
+        script += "</script>"
         script.html_safe
       end
     end
