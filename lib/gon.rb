@@ -13,6 +13,6 @@ module Gon
     new_data[name] = value if name && value
     
     Rails.cache.delete('gon_variables')
-    Rails.cache.write('gon_variables', (new_data.merge data))
+    Rails.cache.write('gon_variables', (new_data.reverse_merge data))
   end
 end
