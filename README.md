@@ -34,13 +34,13 @@ alert(Gon.your_other_variable)
 Puts this line into `Gemfile` then run `$ bundle`:
 
 ``` ruby
-gem 'gon', '0.2.0'
+gem 'gon', '0.2.1'
 ```
 
 Or if you are old-school Rails 2 developer put this into `config/environment.rb` and run `$ rake gems:install`:
 
 ``` ruby
-config.gem 'gon', :version => '0.2.0'
+config.gem 'gon', :version => '0.2.1'
 ```
 
 Or manually install gon gem: `$ gem install gon`
