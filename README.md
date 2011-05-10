@@ -17,16 +17,22 @@ If you need to send some data to your js files and you don't want to do this wit
 In action of your controller you put something like this:
 
 ``` ruby
-@your_variable = 123
-Gon.your_variable = @your_variable
-Gon.your_other_variable = 345 + @your_variable
+@your_int = 123
+@your_array = [1,2]
+@your_hash = {'a' => 1, 'b' => 2}
+Gon.your_int = @your_int
+Gon.your_other_int = 345 + @your_int
+Gon.your_array = @your_array
+Gon.your_hash = @your_hash
 ```
 
 In javascript file for view of this action write call to your variable:
 
 ``` js
-alert(Gon.your_variable)
-alert(Gon.your_other_variable)
+alert(Gon.your_int)
+alert(Gon.your_other_int)
+alert(Gon.your_array)
+alert(Gon.your_hash)
 ```
 
 ## Installation
