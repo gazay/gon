@@ -10,8 +10,9 @@ module Gon
 
         script = "<script>function Gon(){"
         data.each do |key, val|
-          script += "this." + key.to_s + "'" + val.to_s + "';"
-        end 
+          val = "'#{val}'" if val.instance_of? String
+          script += "this." + key.to_s + val.to_json + ";"
+        end
         script += "}; var Gon = new Gon()</script>"
         script.html_safe
       end
