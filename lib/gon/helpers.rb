@@ -20,4 +20,4 @@ module Gon
   end
 end
 
-ActionView::Helpers.send :include, Gon::Helpers
+ActionView::Base.send :include, Gon::Helpers
