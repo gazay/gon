@@ -6,7 +6,7 @@ module Gon
 
     module InstanceMethods
       def include_gon
-        data = Gon.all_variables || {}
+        data = Gon.all_variables
 
         script = "<script>window.Gon = {};"
         data.each do |key, val|
