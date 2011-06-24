@@ -21,9 +21,15 @@ In action of your controller you put something like this:
 @your_array = [1,2]
 @your_hash = {'a' => 1, 'b' => 2}
 Gon.your_int = @your_int
-Gon.your_other_int = 345 + @your_int
+Gon.your_other_int = 345 + Gon.your_int
 Gon.your_array = @your_array
+Gon.your_array << Gon.your_int
 Gon.your_hash = @your_hash
+
+Gon.all_variables # > {:your_int => 123, :your_other_int => 468, :your_array => [1, 2, 123], :your_hash => {'a' => 1, 'b' => 2}}
+Gon.your_array # > [1, 2, 123]
+
+Gon.clear # Gon.all_variables now is {}
 ```
 
 In javascript file for view of this action write call to your variable:
@@ -40,13 +46,13 @@ alert(Gon.your_hash)
 Puts this line into `Gemfile` then run `$ bundle`:
 
 ``` ruby
-gem 'gon', '0.3.0'
+gem 'gon', '1.0.0'
 ```
 
 Or if you are old-school Rails 2 developer put this into `config/environment.rb` and run `$ rake gems:install`:
 
 ``` ruby
-config.gem 'gon', :version => '0.3.0'
+config.gem 'gon', :version => '1.0.0'
 ```
 
 Or manually install gon gem: `$ gem install gon`
