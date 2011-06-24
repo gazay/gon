@@ -1,6 +1,6 @@
 # Gon gem — get your Rails variables in your js
 
-If you need to send some data to your js files and you don't want to do this with long way trough views and parsing - use this force!
+If you need to send some data to your js files and you don't want to do this with long way through views and parsing - use this force!
 
 ## Usage
 
