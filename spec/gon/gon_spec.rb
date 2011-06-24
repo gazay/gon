@@ -19,17 +19,15 @@ describe Gon, '#all_variables' do
     Gon.hash = { :a => 1, :b => '2'}
     Gon.hash_w_array = { :a => [ 2, 3 ] }
     Gon.klass = OpenStruct.new
-    
+  end
+  
+  it 'output as js correct' do
+    Gon.clear
+    Gon.int = 1
     ActionView::Base.instance_methods.include?('include_gon').should == true
     base = ActionView::Base.new
     base.include_gon.should == "<script>window.Gon = {};" +
-                                 "Gon.klass={\"table\":{}};" +
-                                 "Gon.string=\"string\";" +
-                                 "Gon.array=[1,\"string\"];" +
-                                 "Gon.float=1.1;" +
                                  "Gon.int=1;" +
-                                 "Gon.hash={\"a\":1,\"b\":\"2\"};" +
-                                 "Gon.hash_w_array={\"a\":[2,3]};" +
                                "</script>"
   end
 end
