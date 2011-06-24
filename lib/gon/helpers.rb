@@ -6,11 +6,11 @@ module Gon
 
     module InstanceMethods
       def include_gon
-        data = Rails.cache.read('gon_variables') || {}
+        data = Gon.all_variables || {}
 
         script = "<script>window.Gon = {};"
         data.each do |key, val|
-          script += "Gon." + key.to_s + val.to_json + ";"
+          script += "Gon." + key.to_s + '=' + val.to_json + ";"
         end
         script += "</script>"
         script.html_safe

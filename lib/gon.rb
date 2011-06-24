@@ -1,18 +1,14 @@
 require 'action_view'
 require 'gon/helpers'
+require 'ostruct'
 
-module Gon
-  def self.method_missing(m, *args, &block)
-    gon_variables(m.to_s, args[0])
+Gon = OpenStruct.new
+
+class << Gon
+  def all_variables
+    instance_variable_get :@table
   end
-  
-  def self.gon_variables(name=nil, value=nil)
-    data = Rails.cache.read('gon_variables') || {}
-    
-    new_data = {}
-    new_data[name] = value if name && value
-    
-    Rails.cache.delete('gon_variables')
-    Rails.cache.write('gon_variables', (new_data.reverse_merge data))
+  def clear
+    instance_variable_set :@table, {}
   end
 end
