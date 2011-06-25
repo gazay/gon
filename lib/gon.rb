@@ -1,4 +1,5 @@
 require 'action_view'
+require 'action_controller'
 require 'gon/helpers'
 
 module Gon

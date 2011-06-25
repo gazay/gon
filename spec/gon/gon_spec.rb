@@ -3,7 +3,7 @@ require 'gon'
 
 describe Gon, '#all_variables' do 
   before(:each) do 
-    Gon.stub(:request).and_return(request)
+    Gon.request_env = {}
   end
   
   it 'returns all variables in hash' do
@@ -28,10 +28,10 @@ describe Gon, '#all_variables' do
   it 'output as js correct' do
     Gon.clear
     Gon.int = 1
-    ActionView::Base.instance_methods.include?('include_gon').should == true
+    ActionView::Base.instance_methods.map(&:to_s).include?('include_gon').should == true
     base = ActionView::Base.new
-    base.include_gon.should == "<script>window.Gon = {};" +
-                                 "Gon.int=1;" +
+    base.include_gon.should == "<script>window.gon = {};" +
+                                 "gon.int=1;" +
                                "</script>"
   end
   
