@@ -2,12 +2,16 @@
 require 'gon'
 
 describe Gon, '#all_variables' do 
+  before(:each) do 
+    Gon.stub(:request).and_return(request)
+  end
+  
   it 'returns all variables in hash' do
     Gon.a = 1
     Gon.b = 2
     Gon.c = Gon.a + Gon.b
     Gon.c.should == 3
-    Gon.all_variables.should == {:a => 1, :b => 2, :c => 3}
+    Gon.all_variables.should == {'a' => 1, 'b' => 2, 'c' => 3}
   end
   
   it 'supports all data types' do
@@ -18,7 +22,7 @@ describe Gon, '#all_variables' do
     Gon.array = [ 1, 'string' ]
     Gon.hash = { :a => 1, :b => '2'}
     Gon.hash_w_array = { :a => [ 2, 3 ] }
-    Gon.klass = OpenStruct.new
+    Gon.klass = Hash
   end
   
   it 'output as js correct' do
@@ -29,5 +33,9 @@ describe Gon, '#all_variables' do
     base.include_gon.should == "<script>window.Gon = {};" +
                                  "Gon.int=1;" +
                                "</script>"
+  end
+  
+  def request
+    @request ||= double 'request', :env => {}
   end
 end

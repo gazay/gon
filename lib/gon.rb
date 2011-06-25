@@ -1,14 +1,29 @@
 require 'action_view'
 require 'gon/helpers'
-require 'ostruct'
 
-Gon = OpenStruct.new
-
-class << Gon
-  def all_variables
-    @table
+module Gon
+  def self.all_variables
+    request.env[:gon]
   end
-  def clear
-    @table = {}
+  def self.clear
+    request.env[:gon] = {}
+  end
+  
+  def self.method_missing(m, *args, &block)
+    request.env[:gon] ||= {}
+      
+    if ( m.to_s =~ /=/ )
+      set_variable(m.to_s.delete('='), args[0])
+    else
+      get_variable(m.to_s)
+    end
+  end
+
+  def self.get_variable(name)
+    request.env[:gon][name]
+  end
+
+  def self.set_variable(name, value)
+    request.env[:gon][name] = value
   end
 end
