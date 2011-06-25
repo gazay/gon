@@ -20,25 +20,25 @@ In action of your controller you put something like this:
 @your_int = 123
 @your_array = [1,2]
 @your_hash = {'a' => 1, 'b' => 2}
-Gon.your_int = @your_int
-Gon.your_other_int = 345 + Gon.your_int
-Gon.your_array = @your_array
-Gon.your_array << Gon.your_int
-Gon.your_hash = @your_hash
+gon.your_int = @your_int
+gon.your_other_int = 345 + gon.your_int
+gon.your_array = @your_array
+gon.your_array << gon.your_int
+gon.your_hash = @your_hash
 
-Gon.all_variables # > {:your_int => 123, :your_other_int => 468, :your_array => [1, 2, 123], :your_hash => {'a' => 1, 'b' => 2}}
-Gon.your_array # > [1, 2, 123]
+gon.all_variables # > {:your_int => 123, :your_other_int => 468, :your_array => [1, 2, 123], :your_hash => {'a' => 1, 'b' => 2}}
+gon.your_array # > [1, 2, 123]
 
-Gon.clear # Gon.all_variables now is {}
+gon.clear # gon.all_variables now is {}
 ```
 
 In javascript file for view of this action write call to your variable:
 
 ``` js
-alert(Gon.your_int)
-alert(Gon.your_other_int)
-alert(Gon.your_array)
-alert(Gon.your_hash)
+alert(gon.your_int)
+alert(gon.your_other_int)
+alert(gon.your_array)
+alert(gon.your_hash)
 ```
 
 ## Installation
@@ -46,13 +46,13 @@ alert(Gon.your_hash)
 Puts this line into `Gemfile` then run `$ bundle`:
 
 ``` ruby
-gem 'gon', '1.0.0'
+gem 'gon', '1.1.0'
 ```
 
 Or if you are old-school Rails 2 developer put this into `config/environment.rb` and run `$ rake gems:install`:
 
 ``` ruby
-config.gem 'gon', :version => '1.0.0'
+config.gem 'gon', :version => '1.1.0'
 ```
 
 Or manually install gon gem: `$ gem install gon`
