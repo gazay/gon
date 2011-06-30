@@ -6,14 +6,18 @@ module Gon
 
     module InstanceMethods
       def include_gon
-        data = Gon.all_variables
+        if Gon.request_env
+          data = Gon.all_variables
 
-        script = "<script>window.gon = {};"
-        data.each do |key, val|
-          script += "gon." + key.to_s + '=' + val.to_json + ";"
+          script = "<script>window.gon = {};"
+          data.each do |key, val|
+            script += "gon." + key.to_s + '=' + val.to_json + ";"
+          end
+          script += "</script>"
+          script.html_safe
+        else
+          ""
         end
-        script += "</script>"
-        script.html_safe
       end
     end
   end
