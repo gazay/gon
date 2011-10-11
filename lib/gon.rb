@@ -24,7 +24,10 @@ module Gon
   def self.method_missing(m, *args, &block)
     @request_env[:gon] ||= {}
 
-    if ( m.to_s =~ /=/ )
+    if ( m.to_s =~ /=$/ )
+      if self.public_methods.include? m[0..-2].to_sym
+        raise "You can't use Gon public methods for storing data"
+      end
       set_variable(m.to_s.delete('='), args[0])
     else
       get_variable(m.to_s)
