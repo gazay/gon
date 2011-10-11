@@ -6,7 +6,7 @@ module Gon
 
     module InstanceMethods
       def include_gon
-        if Gon.request_env
+        if Gon.request_env && Gon.request_env.object_id == request.env.object_id
           data = Gon.all_variables
 
           script = "<script>window.gon = {};"
