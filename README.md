@@ -20,8 +20,17 @@ For camelize your variables in js you can use:
 <head>
   <title>some title</title>
   <%= include_gon(:camel_case => true) %>
-  <!-- or just include_gon(true) -->
   <!-- include your action js code with camelized variables -->
+  ...
+```
+
+For different namespace of your variables in js you can use:
+
+``` erb
+<head>
+  <title>some title</title>
+  <%= include_gon(:namespace => 'serverExports') %>
+  <!-- include your action js code with 'serverExports' namespace -->
   ...
 ```
 
@@ -61,18 +70,27 @@ alert(gon.yourArray)
 alert(gon.yourHash)
 ```
 
+With custom namespace and camelize:
+
+``` js
+alert(customNamespace.yourInt)
+alert(customNamespace.yourOtherInt)
+alert(customNamespace.yourArray)
+alert(customNamespace.yourHash)
+```
+
 ## Installation
 
 Puts this line into `Gemfile` then run `$ bundle`:
 
 ``` ruby
-gem 'gon', '1.1.1'
+gem 'gon', '1.1.2'
 ```
 
 Or if you are old-school Rails 2 developer put this into `config/environment.rb` and run `$ rake gems:install`:
 
 ``` ruby
-config.gem 'gon', :version => '1.1.1'
+config.gem 'gon', :version => '1.1.2'
 ```
 
 Or manually install gon gem: `$ gem install gon`
