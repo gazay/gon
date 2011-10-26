@@ -14,6 +14,17 @@ If you need to send some data to your js files and you don't want to do this wit
   ...
 ```
 
+For camelize your variables in js you can use:
+
+``` erb
+<head>
+  <title>some title</title>
+  <%= include_gon(:camel_case => true) %>
+  <!-- or just include_gon(true) -->
+  <!-- include your action js code with camelized variables -->
+  ...
+```
+
 In action of your controller you put something like this:
 
 ``` ruby
@@ -41,18 +52,27 @@ alert(gon.your_array)
 alert(gon.your_hash)
 ```
 
+With camelize:
+
+``` js
+alert(gon.yourInt)
+alert(gon.yourOtherInt)
+alert(gon.yourArray)
+alert(gon.yourHash)
+```
+
 ## Installation
 
 Puts this line into `Gemfile` then run `$ bundle`:
 
 ``` ruby
-gem 'gon', '1.1.0'
+gem 'gon', '1.1.1'
 ```
 
 Or if you are old-school Rails 2 developer put this into `config/environment.rb` and run `$ rake gems:install`:
 
 ``` ruby
-config.gem 'gon', :version => '1.1.0'
+config.gem 'gon', :version => '1.1.1'
 ```
 
 Or manually install gon gem: `$ gem install gon`

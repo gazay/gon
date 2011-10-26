@@ -5,13 +5,19 @@ module Gon
     end
 
     module InstanceMethods
-      def include_gon
+      def include_gon(camel_case = false)
         if Gon.request_env
           data = Gon.all_variables
 
           script = "<script>window.gon = {};"
-          data.each do |key, val|
-            script += "gon." + key.to_s + '=' + val.to_json + ";"
+          unless camel_case
+            data.each do |key, val|
+              script += "gon." + key.to_s + '=' + val.to_json + ";"
+            end
+          else
+            data.each do |key, val|
+              script += "gon." + key.to_s.camelize(:lower) + '=' + val.to_json + ";"
+            end
           end
           script += "</script>"
           script.html_safe
