@@ -1,6 +1,7 @@
 require 'action_view'
 require 'action_controller'
 require 'gon/helpers'
+require 'gon/partial'
 
 module Gon
   def self.all_variables
@@ -25,7 +26,7 @@ module Gon
     @request_env[:gon] ||= {}
 
     if ( m.to_s =~ /=$/ )
-      if self.public_methods.include? m[0..-2].to_sym
+      if self.public_methods.include? m.to_s[0..-2].to_sym
         raise "You can't use Gon public methods for storing data"
       end
       set_variable(m.to_s.delete('='), args[0])
@@ -40,5 +41,10 @@ module Gon
 
   def self.set_variable(name, value)
     @request_env[:gon][name] = value
+  end
+
+  def self.[](object)
+    request_env[:partials] ||= {}
+    request_env[:partials][object] ||= Gon::Partial.new
   end
 end

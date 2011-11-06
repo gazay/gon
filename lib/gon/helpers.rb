@@ -19,11 +19,37 @@ module Gon
               script += namespace + "." + key.to_s.camelize(:lower) + '=' + val.to_json + ";"
             end
           end
+          script += partials_js(namespace)
           script += "</script>"
           script.html_safe
         else
           ""
         end
+      end
+      
+      def gon_partials(object, options = {})
+        if Gon.request_env
+          data = Gon[object].all_variables
+          attribute = "data-gon-partial={"
+          unless options[:camel_case]
+            data.each do |key, val|
+              attribute += '"' + key.to_s + '":' + val.to_json + ","
+            end
+          else
+            data.each do |key, val|
+              attribute += '"' + key.to_s.camelize(:lower) + '":' + val.to_json + ","
+            end
+          end
+          attribute = attribute[0..-2] + "}"
+          attribute.html_safe
+        end        
+      end
+
+      def partials_js(namespace)
+        "window." + namespace + ".getPartial = function(domObject) {" +
+          "data = domObject.getAttribute('data-gon-partial');" + 
+          "return JSON.parse(data);" +
+        "};"
       end
     end
   end
