@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.authors     = ['gazay']
   s.email       = ['alex.gaziev@gmail.com']
-  s.homepage    = ""
+  s.homepage    = "https://github.com/gazay/gon"
   s.summary     = %q{Get your Rails variables in your JS}
   s.description = %q{If you need to send some data to your js files and you don't want to do this with long way trough views and parsing - use this force!}
 
