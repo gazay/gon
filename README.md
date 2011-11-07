@@ -3,9 +3,7 @@
 
 If you need to send some data to your js files and you don't want to do this with long way through views and parsing - use this force!
 
--------
-*Now with [Rabl](https://github.com/nesquena/rabl) support!*
--------
+Now with [Rabl](https://github.com/nesquena/rabl) support!
 
 ## A example of typical use
 
