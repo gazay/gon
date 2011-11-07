@@ -10,23 +10,23 @@ Now with [Rabl](https://github.com/nesquena/rabl) support!
 When you need to send some start data from your controller to your js
 you probably doing something like this:
 
-1. Write this data in controller(presenter/model) in some variable
-2. In view for this action you put this data in some objects by data
-   attributes, or write js right in view
-3. Then in js it depends - if you previously write data in data
-   attributes - you should parse this attributes and write data to some
-js variable. If you write js right in view (many frontenders shame you for
-that) - you just use data from this js - OK.
-4. You can use your data in your js
+  1. Write this data in controller(presenter/model) in some variable
+  2. In view for this action you put this data in some objects by data
+     attributes, or write js right in view
+  3. Then in js it depends - if you previously write data in data
+     attributes - you should parse this attributes and write data to some
+  js variable. If you write js right in view (many frontenders shame you for
+  that) - you just use data from this js - OK.
+  4. You can use your data in your js
 
 And everytime when you need some data from action to js you do this.
 
 With gon you configure it firstly - just put in layout one tag, and add
 gem line to your Gemfile and do two actions:
 
-1. Write variables by gon.variable_name = variable_value
-2. In your js you get this by gon.variable_name
-3. profit?
+  1. Write variables by gon.variable_name = variable_value
+  2. In your js you get this by gon.variable_name
+  3. profit?
 
 ## Usage
 
@@ -111,11 +111,12 @@ Now you can write your variables assign logic in templates with [Rabl](https://g
 How write templates very clearly described in their repo.
 
 Profit of using Rabl with gon:
-1. You can clean your controllers now!
-2. Clear and easy work with database objects and collections
-3. All power of Rabl
-4. You still can be lazy and don't use common way to transfer data in js
-5. And so on
+
+  1. You can clean your controllers now!
+  2. Clear and easy work with database objects and collections
+  3. All power of Rabl
+  4. You still can be lazy and don't use common way to transfer data in js
+  5. And so on
 
 For using gon with Rabl you need to create new Rabl template and map gon
 to it. 
@@ -123,34 +124,34 @@ For example you have model Post with attributes :title and :body.
 You want to get all your posts in your js as an Array.
 Thats what you need to do:
 
-1. Create Rabl template. I preffer creating special directory for
-   templates which are not view templates.
+  1. Create Rabl template. I preffer creating special directory for
+     templates which are not view templates.
 
-`app/goners/posts/index.rabl`
+    `app/goners/posts/index.rabl`
 
-``` rabl
-collection @posts => 'posts'
-attributes :id, :title, :body
-```
+    ``` rabl
+    collection @posts => 'posts'
+    attributes :id, :title, :body
+    ```
 
-2. After that you need only map this template to gon.
+  2. After that you need only map this template to gon.
 
-`app/controllers/post_controller.rb#index`
+    `app/controllers/post_controller.rb#index`
 
-``` ruby
-def index
-  # some controller logic
-  @posts = Post.all # Rabl works with instance variables of controller
+    ``` ruby
+    def index
+      # some controller logic
+      @posts = Post.all # Rabl works with instance variables of controller
 
-  gon.rabl 'app/goners/posts/index.rabl'
-end
-```
+      gon.rabl 'app/goners/posts/index.rabl'
+    end
+    ```
 
-Thats it! In your js now you get gon.posts variable which is Array of
-post objects with attributes :id, :title and :body.
+    Thats it! In your js now you get gon.posts variable which is Array of
+    post objects with attributes :id, :title and :body.
 
-P.s. If you didn't put include_gon tag in your html head area - it
-wouldn't work. You can read about this in common usage above.
+    P.s. If you didn't put include_gon tag in your html head area - it
+    wouldn't work. You can read about this in common usage above.
 
 ### Some tips of usage Rabl with gon:
 
