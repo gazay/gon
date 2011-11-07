@@ -25,7 +25,7 @@ module Gon
     @request_env[:gon] ||= {}
 
     if ( m.to_s =~ /=$/ )
-      if self.public_methods.include? m[0..-2].to_sym
+      if self.public_methods.include? m.to_s[0..-2].to_sym
         raise "You can't use Gon public methods for storing data"
       end
       set_variable(m.to_s.delete('='), args[0])
