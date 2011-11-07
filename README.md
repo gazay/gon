@@ -171,8 +171,8 @@ alert(gon.posts[0])
 alert(gon.posts[0].post.body)
 ```
 
-    P.s. If you didn't put include_gon tag in your html head area - it
-    wouldn't work. You can read about this in common usage above.
+P.s. If you didn't put include_gon tag in your html head area - it
+wouldn't work. You can read about this in common usage above.
 
 ### Some tips of usage Rabl with gon:
 
