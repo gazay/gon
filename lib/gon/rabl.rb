@@ -6,7 +6,7 @@ module Gon::Rabl
       source = File.read(rabl_path)
       rabl_engine = Rabl::Engine.new(source, :format => 'json')
       output = rabl_engine.render(controller, {})
-      
+      JSON.parse(output)
     end
   end
 end
