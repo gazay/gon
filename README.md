@@ -5,27 +5,39 @@ If you need to send some data to your js files and you don't want to do this wit
 
 Now with [Rabl](https://github.com/nesquena/rabl) support!
 
-## A example of typical use
+## An example of typical use
 
 When you need to send some start data from your controller to your js
-you probably doing something like this:
+you might be doing something like this:
 
-  1. Write this data in controller(presenter/model) in some variable
-  2. In view for this action you put this data in some objects by data
+  1. Write this data in controller(presenter/model) to some variable
+  2. In view for this action you put this variable to some objects by data
      attributes, or write js right in view
-  3. Then in js it depends - if you previously write data in data
+  3. Then there can be two ways in js:
+    + if you previously wrote data in data
      attributes - you should parse this attributes and write data to some
-  js variable. If you write js right in view (many frontenders shame you for
+  js variable. 
+    + if you wrote js right in view (many frontenders would shame you for
   that) - you just use data from this js - OK.
   4. You can use your data in your js
 
-And everytime when you need some data from action to js you do this.
+And everytime when you need to send some data from action to js you do this.
 
 With gon you configure it firstly - just put in layout one tag, and add
-gem line to your Gemfile and do two actions:
+gem line to your Gemfile and do the following:
 
-  1. Write variables by gon.variable_name = variable_value
-  2. In your js you get this by gon.variable_name
+  1. Write variables by
+
+    ``` ruby
+    gon.variable_name = variable_value
+    ```
+
+  2. In your js you get this by
+
+    ``` js
+    gon.variable_name
+    ```
+
   3. profit?
 
 ## Usage
@@ -107,24 +119,24 @@ alert(customNamespace.yourHash)
 
 ## Usage with Rabl
 
-Now you can write your variables assign logic in templates with [Rabl](https://github.com/nesquena/rabl).
-How write templates very clearly described in their repo.
+Now you can write your variables assign logic to templates with [Rabl](https://github.com/nesquena/rabl).
+The way of writing Rabl templates is very clearly described in their repo.
 
 Profit of using Rabl with gon:
 
   1. You can clean your controllers now!
   2. Clear and easy work with database objects and collections
   3. All power of Rabl
-  4. You still can be lazy and don't use common way to transfer data in js
+  4. You can still be lazy and don't use common way to transfer data in js
   5. And so on
 
 For using gon with Rabl you need to create new Rabl template and map gon
 to it. 
 For example you have model Post with attributes :title and :body.
 You want to get all your posts in your js as an Array.
-Thats what you need to do:
+That's what you need to do:
 
-  1. Create Rabl template. I preffer creating special directory for
+  1. Create Rabl template. I prefer creating special directory for
      templates which are not view templates.
 
     `app/goners/posts/index.rabl`
@@ -134,7 +146,7 @@ Thats what you need to do:
     attributes :id, :title, :body
     ```
 
-  2. After that you need only map this template to gon.
+  2. All you need to do after that is only to map this template to gon.
 
     `app/controllers/post_controller.rb#index`
 
@@ -144,11 +156,20 @@ Thats what you need to do:
       @posts = Post.all # Rabl works with instance variables of controller
 
       gon.rabl 'app/goners/posts/index.rabl'
+      # some controller logic
     end
     ```
 
-    Thats it! In your js now you get gon.posts variable which is Array of
+    Thats it! Now you will get in your js gon.posts variable which is Array of
     post objects with attributes :id, :title and :body.
+
+In javascript file for view of this action write call to your variable:
+
+``` js
+alert(gon.posts)
+alert(gon.posts[0])
+alert(gon.posts[0].post.body)
+```
 
     P.s. If you didn't put include_gon tag in your html head area - it
     wouldn't work. You can read about this in common usage above.
@@ -169,10 +190,10 @@ collection @posts => 'alias'
 ....
 ```
 
-Rabl will return you array and gon by default put it to variable
+Rabl will return you an array and gon by default will put it to variable
 gon.rabl
 
-Two way how you can change it - using aliases or you can add alias to
+Two ways how you can change it - using aliases or you can add alias to
 gon mapping method:
 
 ``` ruby
