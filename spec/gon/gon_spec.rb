@@ -40,6 +40,15 @@ describe Gon, '#all_variables' do
     lambda { Gon.all_variables = 123 }.should raise_error
   end
 
+  it 'render json from rabl template' do
+    Gon.clear
+    controller = ActionController::Base.new
+    objects = [1,2]
+    controller.instance_variable_set('@objects', objects)
+    Gon.rabl 'spec/test_data/sample.rabl', :controller => controller
+    Gon.objects.length.should == 2
+  end
+
   def request
     @request ||= double 'request', :env => {}
   end
