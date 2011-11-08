@@ -44,7 +44,11 @@ module Gon
     end
 
     def rabl(view_path, options = {})
-      rabl_data = Gon::Rabl.parse_rabl(view_path, @request_env['action_controller.instance'])
+      rabl_data = Gon::Rabl.parse_rabl(view_path, options[:controller] || 
+                                                  @request_env['action_controller.instance'] || 
+                                                  @request_env['action_controller.rescue.response'].
+                                                    instance_variable_get('@template').
+                                                    instance_variable_get('@controller'))
       if options[:as]
         set_variable(options[:as].to_s, rabl_data)
       elsif rabl_data.is_a? Hash
