@@ -13,8 +13,8 @@ module Gon
       @request_env[:gon] = {}
     end
 
-    def request_env=(request_env)
-      @request_env = request_env
+    def request_env=(environment)
+      @request_env = environment
       @request_env[:gon] ||= {}
     end
 

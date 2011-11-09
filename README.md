@@ -207,13 +207,13 @@ gon.rabl 'path/to/rabl/file', :as => 'alias'
 Puts this line into `Gemfile` then run `$ bundle`:
 
 ``` ruby
-gem 'gon', '2.0.1'
+gem 'gon', '2.0.2'
 ```
 
 Or if you are old-school Rails 2 developer put this into `config/environment.rb` and run `$ rake gems:install`:
 
 ``` ruby
-config.gem 'gon', :version => '2.0.1'
+config.gem 'gon', :version => '2.0.2'
 ```
 
 Or manually install gon gem: `$ gem install gon`
