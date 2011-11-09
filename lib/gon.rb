@@ -24,6 +24,14 @@ module Gon
       end
     end
 
+    def request
+      @request_id if defined? @request_id
+    end
+
+    def request=(request_id)
+      @request_id = request_id      
+    end
+
     def method_missing(m, *args, &block)
       if ( m.to_s =~ /=$/ )
         if public_methods.include? m.to_s[0..-2].to_sym

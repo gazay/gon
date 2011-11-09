@@ -35,7 +35,8 @@ module Gon
 
     module InstanceMethods
       def gon
-        if !Gon.request_env || Gon.request_env.object_id != request.env.object_id
+        if !Gon.request_env || Gon.request != request.object_id
+          Gon.request = request.object_id
           Gon.request_env = request.env
         end
         Gon
