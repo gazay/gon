@@ -52,7 +52,7 @@ gem line to your Gemfile and do the following:
   ...
 ```
 
-For camelize your variables in js you can use:
+To camelize your variables in js you can use:
 
 ``` erb
 <head>
@@ -62,7 +62,7 @@ For camelize your variables in js you can use:
   ...
 ```
 
-For different namespace of your variables in js you can use:
+You can change the namespace of the variables:
 
 ``` erb
 <head>
@@ -72,7 +72,7 @@ For different namespace of your variables in js you can use:
   ...
 ```
 
-In action of your controller you put something like this:
+You put something like this in the action of your controller:
 
 ``` ruby
 @your_int = 123
@@ -90,7 +90,7 @@ gon.your_array # > [1, 2, 123]
 gon.clear # gon.all_variables now is {}
 ```
 
-In javascript file for view of this action write call to your variable:
+Access the varaibles from your JavaScript file:
 
 ``` js
 alert(gon.your_int)
@@ -125,7 +125,7 @@ The way of writing Rabl templates is very clearly described in their repo.
 Profit of using Rabl with gon:
 
   1. You can clean your controllers now!
-  2. Clear and easy work with database objects and collections
+  2. Work with database objects and collections clearly and easyly
   3. All power of Rabl
   4. You can still be lazy and don't use common way to transfer data in js
   5. And so on
