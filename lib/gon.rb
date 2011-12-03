@@ -2,6 +2,9 @@ require 'action_view'
 require 'action_controller'
 require 'gon/helpers'
 require 'gon/rabl'
+if RUBY_VERSION =~ /9/
+  require 'gon/jbuilder'
+end
 
 module Gon
   class << self
@@ -65,6 +68,25 @@ module Gon
         end
       else
         set_variable('rabl', rabl_data)
+      end
+    end
+
+    def jbuilder(view_path, options = {})
+      raise NoMethodError.new('You can use Jbuilder support only in 1.9+') if RUBY_VERSION !~ /9/
+
+      jbuilder_data = Gon::Jbuilder.parse_jbuilder(view_path, options[:controller] || 
+                                                  @request_env['action_controller.instance'] || 
+                                                  @request_env['action_controller.rescue.response'].
+                                                    instance_variable_get('@template').
+                                                    instance_variable_get('@controller'))
+      if options[:as]
+        set_variable(options[:as].to_s, jbuilder_data)
+      elsif jbuilder_data.is_a? Hash
+        jbuilder_data.each do |key, value|
+          set_variable(key, value)
+        end
+      else
+        set_variable('jbuilder', jbuilder_data)
       end
     end
   end

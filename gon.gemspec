@@ -20,6 +20,9 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
   s.add_dependency "actionpack", '>= 2.3.0'
   s.add_dependency "rabl"
+  if RUBY_VERSION =~ /9/
+    s.add_dependency "jbuilder"
+  end
   s.add_dependency "json"
   s.add_development_dependency "rspec"
 end
