@@ -49,6 +49,15 @@ describe Gon, '#all_variables' do
     Gon.objects.length.should == 2
   end
 
+  it 'render json from jbuilder template' do
+    Gon.clear
+    controller = ActionController::Base.new
+    objects = [1,2]
+    controller.instance_variable_set('@objects', objects)
+    Gon.jbuilder 'spec/test_data/sample.json.jbuilder', :controller => controller
+    Gon.objects.length.should == 2
+  end
+
   def request
     @request ||= double 'request', :env => {}
   end

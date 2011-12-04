@@ -1,3 +1,4 @@
+gem 'blankslate'
 require 'action_view'
 require 'action_controller'
 require 'gon/helpers'
