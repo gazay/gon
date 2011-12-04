@@ -3,7 +3,7 @@
 
 If you need to send some data to your js files and you don't want to do this with long way through views and parsing - use this force!
 
-Now with [Rabl](https://github.com/nesquena/rabl) support!
+Now with [Jbuilder](https://github.com/rails/jbuilder) and [Rabl](https://github.com/nesquena/rabl) support!
 
 ## An example of typical use
 
@@ -202,18 +202,54 @@ gon mapping method:
 gon.rabl 'path/to/rabl/file', :as => 'alias'
 ```
 
+## Usage with Jbuilder
+
+Use gon with [Jbuilder](https://github.com/rails/jbuilder) as with [Rabl](https://guthub.com/nesquena/rabl):
+
+Jbuilder works now only on Ruby 1.9+, so Gon support for Jbuilder works on 1.9+ only
+
+  1. Create Jbuilder template.
+
+    `app/views/posts/index.json.jbuilder`
+
+    ``` jbuilder
+    json.posts @posts, :id, :title, :body
+    ```
+
+  2. In your controller you should map this template to gon.
+
+    ``` ruby
+    def index
+      # some controller logic
+      @posts = Post.all
+
+      gon.jbuilder 'app/views/posts/index.json.jbuilder'
+      # some controller logic
+    end
+    ```
+In javascript file for view of this action write call to your variable:
+
+``` js
+alert(gon.posts)
+alert(gon.posts[0])
+alert(gon.posts[0].post.body)
+```
+
+P.s. If you didn't put include_gon tag in your html head area - it
+wouldn't work. You can read about this in common usage above.
+
 ## Installation
 
 Puts this line into `Gemfile` then run `$ bundle`:
 
 ``` ruby
-gem 'gon', '2.0.3'
+gem 'gon', '2.0.4'
 ```
 
 Or if you are old-school Rails 2 developer put this into `config/environment.rb` and run `$ rake gems:install`:
 
 ``` ruby
-config.gem 'gon', :version => '2.0.3'
+config.gem 'gon', :version => '2.0.4'
 ```
 
 Or manually install gon gem: `$ gem install gon`
