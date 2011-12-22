@@ -3,7 +3,7 @@ require 'action_view'
 require 'action_controller'
 require 'gon/helpers'
 require 'gon/rabl'
-if RUBY_VERSION =~ /9/
+if RUBY_VERSION =~ /9/ && defined?(Jbuilder)
   require 'gon/jbuilder'
 end
 
@@ -73,7 +73,11 @@ module Gon
     end
 
     def jbuilder(view_path, options = {})
-      raise NoMethodError.new('You can use Jbuilder support only in 1.9+') if RUBY_VERSION !~ /9/
+      if RUBY_VERSION !~ /9/
+        raise NoMethodError.new('You can use Jbuilder support only in 1.9+') 
+      elsif !defined?(Gon::Jbuilder)
+        raise NoMethodError.new('You should define Jbuilder in your Gemfile') 
+      end
 
       jbuilder_data = Gon::Jbuilder.parse_jbuilder(view_path, options[:controller] || 
                                                   @request_env['action_controller.instance'] || 
