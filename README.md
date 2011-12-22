@@ -208,6 +208,15 @@ Use gon with [Jbuilder](https://github.com/rails/jbuilder) as with [Rabl](https:
 
 Jbuilder works now only on Ruby 1.9+, so Gon support for Jbuilder works on 1.9+ only
 
+  0. Add jbuilder to your Gemfile (because of it depends on
+     ActiveSuppurt '~> 3.0.0')
+
+    `Gemfile`
+
+    ``` ruby
+    gem 'jbuilder'
+    ```
+
   1. Create Jbuilder template.
 
     `app/views/posts/index.json.jbuilder`
@@ -227,12 +236,29 @@ Jbuilder works now only on Ruby 1.9+, so Gon support for Jbuilder works on 1.9+ 
       # some controller logic
     end
     ```
+
 In javascript file for view of this action write call to your variable:
+
+Now you can use partials in jbuilder:
+
+`app/views/posts/index.json.jbuilder`
+
+``` jbuilder
+json.partial! 'app/views/posts/_part.json.jbuilder', :comments => @posts[0].comments
+```
+
+`app/views/posts/_part.json.jbuilder`
+
+``` jbuilder
+json.comments comments.map{ |it| 'comment#' + it.id }
+```
 
 ``` js
 alert(gon.posts)
 alert(gon.posts[0])
 alert(gon.posts[0].post.body)
+alert(gon.comments)
+alert(gon.comments[0])
 ```
 
 P.s. If you didn't put include_gon tag in your html head area - it
@@ -243,13 +269,13 @@ wouldn't work. You can read about this in common usage above.
 Puts this line into `Gemfile` then run `$ bundle`:
 
 ``` ruby
-gem 'gon', '2.0.4'
+gem 'gon', '2.0.5'
 ```
 
 Or if you are old-school Rails 2 developer put this into `config/environment.rb` and run `$ rake gems:install`:
 
 ``` ruby
-config.gem 'gon', :version => '2.0.4'
+config.gem 'gon', :version => '2.0.5'
 ```
 
 Or manually install gon gem: `$ gem install gon`
