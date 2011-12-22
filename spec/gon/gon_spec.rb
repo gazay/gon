@@ -58,6 +58,16 @@ describe Gon, '#all_variables' do
     Gon.objects.length.should == 2
   end
 
+  it 'render json from jbuilder template with a partial' do
+    Gon.clear
+    controller = ActionController::Base.new
+    controller.view_paths << 'spec/test_data'
+    objects = [1,2]
+    controller.instance_variable_set('@objects', objects)
+    Gon.jbuilder 'spec/test_data/sample_with_partial.json.jbuilder', :controller => controller
+    Gon.objects.length.should == 2
+  end
+
   def request
     @request ||= double 'request', :env => {}
   end
