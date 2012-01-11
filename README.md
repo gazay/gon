@@ -5,6 +5,8 @@ If you need to send some data to your js files and you don't want to do this wit
 
 Now with [Jbuilder](https://github.com/rails/jbuilder) and [Rabl](https://github.com/nesquena/rabl) support!
 
+For Sinatra available [gon-sinatra](https://github.com/gazay/gon-sinatra).
+
 ## An example of typical use
 
 When you need to send some start data from your controller to your js
