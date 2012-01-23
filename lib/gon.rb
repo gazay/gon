@@ -1,4 +1,6 @@
-gem 'blankslate'
+if RUBY_VERSION =~ /9/ && defined?(Jbuilder)
+  gem 'blankslate'
+end
 require 'action_view'
 require 'action_controller'
 require 'gon/helpers'
