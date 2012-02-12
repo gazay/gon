@@ -1,5 +1,4 @@
 # Gon gem — get your Rails variables in your js
-![Gon. You should try this.](https://github.com/gazay/gon/raw/master/doc/logo.png)
 
 
 If you need to send some data to your js files and you don't want to do this with long way through views and parsing - use this force!
