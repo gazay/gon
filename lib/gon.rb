@@ -4,7 +4,9 @@ end
 require 'action_view'
 require 'action_controller'
 require 'gon/helpers'
-require 'gon/rabl'
+if defined?(Rabl)
+  require 'gon/rabl'
+end
 if RUBY_VERSION =~ /9/ && defined?(Jbuilder)
   require 'gon/jbuilder'
 end
