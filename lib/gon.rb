@@ -4,7 +4,9 @@ end
 require 'action_view'
 require 'action_controller'
 require 'gon/helpers'
-require 'gon/rabl'
+if defined?(Rabl)
+  require 'gon/rabl'
+end
 if RUBY_VERSION =~ /9/ && defined?(Jbuilder)
   require 'gon/jbuilder'
 end
@@ -58,6 +60,9 @@ module Gon
     end
 
     def rabl(view_path, options = {})
+      if !defined?(Gon::Rabl)
+        raise NoMethodError.new('You should define Rabl in your Gemfile') 
+      end
       rabl_data = Gon::Rabl.parse_rabl(view_path, options[:controller] || 
                                                   @request_env['action_controller.instance'] || 
                                                   @request_env['action_controller.rescue.response'].

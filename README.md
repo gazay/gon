@@ -126,6 +126,14 @@ alert(customNamespace.yourHash)
 Now you can write your variables assign logic to templates with [Rabl](https://github.com/nesquena/rabl).
 The way of writing Rabl templates is very clearly described in their repo.
 
+Add Rabl to your Gemfile
+
+  `Gemfile`
+
+  ``` ruby
+  gem 'rabl'
+  ```
+
 Profit of using Rabl with gon:
 
   1. You can clean your controllers now!
