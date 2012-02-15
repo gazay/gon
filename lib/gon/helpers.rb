@@ -1,5 +1,6 @@
 module Gon
   module Helpers
+
     def self.included base
       base.send(:include, InstanceMethods)
     end
@@ -43,6 +44,7 @@ module Gon
       end
     end
   end
+
 end
 
 ActionView::Base.send :include, Gon::Helpers

@@ -11,6 +11,8 @@ For Sinatra available [gon-sinatra](https://github.com/gazay/gon-sinatra).
 
 ## An example of typical use
 
+### Very good and detailed example and reasons to use is considered in [railscast](http://railscasts.com/episodes/324-passing-data-to-javascript) by Ryan Bates
+
 When you need to send some start data from your controller to your js
 you might be doing something like this:
 

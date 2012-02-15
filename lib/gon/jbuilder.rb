@@ -41,6 +41,7 @@ module Gon
           end
         end.flatten
       end
+
     end
   end
 end

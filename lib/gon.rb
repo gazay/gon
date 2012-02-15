@@ -13,6 +13,7 @@ end
 
 module Gon
   class << self
+
     def all_variables
       @request_env[:gon]
     end
@@ -63,10 +64,12 @@ module Gon
       @request_env[:gon][name] = value
     end
 
+    # TODO: Remove required argument view_path, and by default use current action
     def rabl(view_path, options = {})
       if !defined?(Gon::Rabl)
         raise NoMethodError.new('You should define Rabl in your Gemfile')
       end
+
       rabl_data = Gon::Rabl.parse_rabl(view_path, options[:controller] ||
                                                   @request_env['action_controller.instance'] ||
                                                   @request_env['action_controller.rescue.response'].
@@ -106,4 +109,5 @@ module Gon
       end
     end
   end
+
 end
