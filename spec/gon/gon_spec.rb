@@ -1,7 +1,7 @@
 # gon_spec_rb
 require 'gon'
 
-describe Gon, '#all_variables' do 
+describe Gon, '#all_variables' do
 
   before(:each) do
     Gon.request_env = {}
@@ -41,13 +41,26 @@ describe Gon, '#all_variables' do
     lambda { Gon.all_variables = 123 }.should raise_error
   end
 
-  it 'render json from rabl template' do
-    Gon.clear
-    controller = ActionController::Base.new
-    objects = [1,2]
-    controller.instance_variable_set('@objects', objects)
-    Gon.rabl 'spec/test_data/sample.rabl', :controller => controller
-    Gon.objects.length.should == 2
+  context 'render json from rabl template' do
+    before :each do
+      Gon.clear
+      controller.instance_variable_set('@objects', objects)
+    end
+
+    let(:controller) { ActionController::Base.new}
+    let(:objects) { [1,2]}
+
+    it 'raises an error if rabl is not included' do
+      expect { Gon.rabl 'spec/test_data/sample.rabl', :controller => controller}.to raise_error
+    end
+
+    it 'works if rabl is included' do
+      require 'rabl'
+      require 'gon/rabl'
+      Gon.rabl 'spec/test_data/sample.rabl', :controller => controller
+      Gon.objects.length.should == 2
+    end
+
   end
 
   if RUBY_VERSION =~ /1.9/
