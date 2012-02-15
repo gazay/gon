@@ -17,6 +17,10 @@ module Gon
       @request_env[:gon]
     end
 
+    def all_variables=(values)
+      raise "You can't use Gon public methods for storing data"
+    end
+
     def clear
       @request_env[:gon] = {}
     end
@@ -37,7 +41,7 @@ module Gon
     end
 
     def request=(request_id)
-      @request_id = request_id      
+      @request_id = request_id
     end
 
     def method_missing(m, *args, &block)
@@ -61,10 +65,10 @@ module Gon
 
     def rabl(view_path, options = {})
       if !defined?(Gon::Rabl)
-        raise NoMethodError.new('You should define Rabl in your Gemfile') 
+        raise NoMethodError.new('You should define Rabl in your Gemfile')
       end
-      rabl_data = Gon::Rabl.parse_rabl(view_path, options[:controller] || 
-                                                  @request_env['action_controller.instance'] || 
+      rabl_data = Gon::Rabl.parse_rabl(view_path, options[:controller] ||
+                                                  @request_env['action_controller.instance'] ||
                                                   @request_env['action_controller.rescue.response'].
                                                     instance_variable_get('@template').
                                                     instance_variable_get('@controller'))
@@ -81,13 +85,13 @@ module Gon
 
     def jbuilder(view_path, options = {})
       if RUBY_VERSION !~ /9/
-        raise NoMethodError.new('You can use Jbuilder support only in 1.9+') 
+        raise NoMethodError.new('You can use Jbuilder support only in 1.9+')
       elsif !defined?(Gon::Jbuilder)
-        raise NoMethodError.new('You should define Jbuilder in your Gemfile') 
+        raise NoMethodError.new('You should define Jbuilder in your Gemfile')
       end
 
-      jbuilder_data = Gon::Jbuilder.parse_jbuilder(view_path, options[:controller] || 
-                                                  @request_env['action_controller.instance'] || 
+      jbuilder_data = Gon::Jbuilder.parse_jbuilder(view_path, options[:controller] ||
+                                                  @request_env['action_controller.instance'] ||
                                                   @request_env['action_controller.rescue.response'].
                                                     instance_variable_get('@template').
                                                     instance_variable_get('@controller'))
