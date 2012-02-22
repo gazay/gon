@@ -44,7 +44,7 @@ module Gon
 
     def method_missing(m, *args, &block)
       if ( m.to_s =~ /=$/ )
-        if RUBY_VERSION /1.9/
+        if RUBY_VERSION =~ /1.9/
           if public_methods.include? m.to_s[0..-2].to_sym
             raise "You can't use Gon public methods for storing data"
           end
