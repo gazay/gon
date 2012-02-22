@@ -1,3 +1,4 @@
+
 if RUBY_VERSION =~ /9/ && defined?(Jbuilder)
   gem 'blankslate'
 end
@@ -16,10 +17,6 @@ module Gon
 
     def all_variables
       @request_env[:gon]
-    end
-
-    def all_variables=(values)
-      raise "You can't use Gon public methods for storing data"
     end
 
     def clear
@@ -47,9 +44,16 @@ module Gon
 
     def method_missing(m, *args, &block)
       if ( m.to_s =~ /=$/ )
-        if public_methods.include? m.to_s[0..-2].to_sym
-          raise "You can't use Gon public methods for storing data"
+        if RUBY_VERSION /1.9/
+          if public_methods.include? m.to_s[0..-2].to_sym
+            raise "You can't use Gon public methods for storing data"
+          end
+        else
+          if public_methods.include? m.to_s[0..-2]
+            raise "You can't use Gon public methods for storing data"
+          end
         end
+
         set_variable(m.to_s.delete('='), args[0])
       else
         get_variable(m.to_s)
@@ -64,50 +68,59 @@ module Gon
       @request_env[:gon][name] = value
     end
 
-    # TODO: Remove required argument view_path, and by default use current action
-    def rabl(view_path, options = {})
-      if !defined?(Gon::Rabl)
-        raise NoMethodError.new('You should define Rabl in your Gemfile')
-      end
-
-      rabl_data = Gon::Rabl.parse_rabl(view_path, options[:controller] ||
-                                                  @request_env['action_controller.instance'] ||
-                                                  @request_env['action_controller.rescue.response'].
-                                                    instance_variable_get('@template').
-                                                    instance_variable_get('@controller'))
-      if options[:as]
-        set_variable(options[:as].to_s, rabl_data)
-      elsif rabl_data.is_a? Hash
-        rabl_data.each do |key, value|
-          set_variable(key, value)
+    %w(rabl jbuilder).each do |builder_name|
+      define_method builder_name do |*options|
+        if options.length >= 2
+          warn "[DEPRECATION] view_path argument is now optional. If you need to specify it please use #{builder}(:template => 'path')"
+          options = options.extract_options!.merge(:template => options[0])
+        else
+          options = options ? options.first : { }
         end
-      else
-        set_variable('rabl', rabl_data)
+
+        builder_module = get_builder(builder_name)
+
+        data = builder_module.send("parse_#{builder_name}", get_template_path(options, builder_name), get_controller(options))
+
+        if options[:as]
+          set_variable(options[:as].to_s, data)
+        elsif data.is_a? Hash
+          data.each do |key, value|
+            set_variable(key, value)
+          end
+        else
+          set_variable(builder_name, data)
+        end
       end
     end
 
-    def jbuilder(view_path, options = {})
-      if RUBY_VERSION !~ /9/
-        raise NoMethodError.new('You can use Jbuilder support only in 1.9+')
-      elsif !defined?(Gon::Jbuilder)
-        raise NoMethodError.new('You should define Jbuilder in your Gemfile')
-      end
+    alias_method :orig_jbuilder, :jbuilder
 
-      jbuilder_data = Gon::Jbuilder.parse_jbuilder(view_path, options[:controller] ||
-                                                  @request_env['action_controller.instance'] ||
-                                                  @request_env['action_controller.rescue.response'].
-                                                    instance_variable_get('@template').
-                                                    instance_variable_get('@controller'))
-      if options[:as]
-        set_variable(options[:as].to_s, jbuilder_data)
-      elsif jbuilder_data.is_a? Hash
-        jbuilder_data.each do |key, value|
-          set_variable(key, value)
-        end
+    def jbuilder(*options)
+      raise NoMethodError.new('You can use Jbuilder support only in 1.9+') if RUBY_VERSION !~ /9/
+      orig_jbuilder(options)
+    end
+
+
+    private
+    def get_builder(builder_name)
+      "Gon::#{builder_name.classify}".constantize rescue raise NoMethodError.new("You should define #{builder_name.classify} in your Gemfile")
+    end
+
+    def get_controller(options)
+      options[:controller] ||
+        @request_env['action_controller.instance'] ||
+        @request_env['action_controller.rescue.response'].
+        instance_variable_get('@template').
+        instance_variable_get('@controller')
+    end
+
+    def get_template_path(options, extension)
+      if options[:template]
+        File.extname(options[:template]) == ".#{extension}" ? options[:template] : "#{options[:template]}.#{extension}"
       else
-        set_variable('jbuilder', jbuilder_data)
+        "app/views/#{get_controller(options).controller_path}/#{get_controller(options).action_name}.json.#{extension}"
       end
     end
+
   end
-
 end
