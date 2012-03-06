@@ -29,8 +29,10 @@ describe Gon, '#all_variables' do
   it 'output as js correct' do
     Gon.clear
     Gon.int = 1
+    Gon.instance_variable_set(:@request_id, request.object_id)
     ActionView::Base.instance_methods.map(&:to_s).include?('include_gon').should == true
     base = ActionView::Base.new
+    base.request = request
     base.include_gon.should == "<script>window.gon = {};" +
                                  "gon.int=1;" +
                                "</script>"
