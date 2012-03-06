@@ -7,7 +7,7 @@ module Gon
 
     module InstanceMethods
       def include_gon(options = {})
-        if Gon.request_env && Gon.all_variables.present?
+        if Gon.request_env && Gon.all_variables.present? && Gon.request == request.object_id
           data = Gon.all_variables
           namespace = options[:namespace] || 'gon'
           script = '<script>window.' + namespace + ' = {};'
