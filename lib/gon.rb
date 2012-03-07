@@ -1,5 +1,5 @@
 
-if RUBY_VERSION =~ /9/ && defined?(Jbuilder)
+if RUBY_VERSION > '1.9' && defined?(Jbuilder)
   gem 'blankslate'
 end
 require 'action_view'
@@ -9,7 +9,7 @@ require 'gon/escaper'
 if defined?(Rabl)
   require 'gon/rabl'
 end
-if RUBY_VERSION =~ /9/ && defined?(Jbuilder)
+if RUBY_VERSION > '1.9' && defined?(Jbuilder)
   require 'gon/jbuilder'
 end
 
@@ -45,7 +45,7 @@ module Gon
 
     def method_missing(m, *args, &block)
       if ( m.to_s =~ /=$/ )
-        if public_methods.include?(RUBY_VERSION =~ /1.9/ ? m.to_s[0..-2].to_sym : m.to_s[0..-2])
+        if public_methods.include?(RUBY_VERSION > '1.9' ? m.to_s[0..-2].to_sym : m.to_s[0..-2])
           raise "You can't use Gon public methods for storing data"
         end
         set_variable(m.to_s.delete('='), args[0])
@@ -91,7 +91,7 @@ module Gon
     alias_method :orig_jbuilder, :jbuilder
 
     def jbuilder(*options)
-      raise NoMethodError.new('You can use Jbuilder support only in 1.9+') if RUBY_VERSION !~ /9/
+      raise NoMethodError.new('You can use Jbuilder support only in 1.9+') if RUBY_VERSION < '1.9'
       orig_jbuilder(*options)
     end
 
