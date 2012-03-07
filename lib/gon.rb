@@ -66,10 +66,8 @@ module Gon
         if options.first.is_a? String
           warn "[DEPRECATION] view_path argument is now optional. If you need to specify it please use #{builder}(:template => 'path')"
           options = options.extract_options!.merge(:template => options[0])
-        elsif options.first.is_a? Hash
-          options = options ? options.first : { }
         else
-          raise ArgumentError.new("You pass wrong argument type to template generator method: #{options.first.class.to_s}")
+          options = (options && options.first.is_a?(Hash)) ? options.first : { }
         end
 
         builder_module = get_builder(builder_name)
