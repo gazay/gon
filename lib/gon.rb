@@ -15,7 +15,7 @@ module Gon
   class << self
 
     def all_variables
-      @request_env[:gon]
+      @request_env['gon']
     end
 
     def all_variables=(values)
@@ -23,12 +23,12 @@ module Gon
     end
 
     def clear
-      @request_env[:gon] = {}
+      @request_env['gon'] = {}
     end
 
     def request_env=(environment)
       @request_env = environment
-      @request_env[:gon] ||= {}
+      @request_env['gon'] ||= {}
     end
 
     def request_env
@@ -57,11 +57,11 @@ module Gon
     end
 
     def get_variable(name)
-      @request_env[:gon][name]
+      @request_env['gon'][name]
     end
 
     def set_variable(name, value)
-      @request_env[:gon][name] = value
+      @request_env['gon'][name] = value
     end
 
     # TODO: Remove required argument view_path, and by default use current action
