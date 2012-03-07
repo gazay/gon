@@ -149,31 +149,45 @@ Profit of using Rabl with gon:
   5. And so on
 
 For using gon with Rabl you need to create new Rabl template and map gon
-to it. 
+to it.
 For example you have model Post with attributes :title and :body.
 You want to get all your posts in your js as an Array.
 That's what you need to do:
 
-  1. Create Rabl template. I prefer creating special directory for
-     templates which are not view templates.
+  1. Create Rabl template. You can choose spepicific directory but better
+     use default directory for action.
 
-    `app/goners/posts/index.rabl`
+    `app/views/posts/index.json.rabl`
 
     ``` rabl
     collection @posts => 'posts'
     attributes :id, :title, :body
     ```
 
-  2. All you need to do after that is only to map this template to gon.
+  2. If you create template in default directory for action, you just write in this action:
 
-    `app/controllers/post_controller.rb#index`
+    `app/controllers/posts_controller.rb#index`
 
     ``` ruby
     def index
       # some controller logic
       @posts = Post.all # Rabl works with instance variables of controller
 
-      gon.rabl 'app/goners/posts/index.rabl'
+      gon.rabl
+      # some controller logic
+    end
+    ```
+
+     But if you choose some specific category - you need to map this template to gon.
+
+    `app/controllers/posts_controller.rb#index`
+
+    ``` ruby
+    def index
+      # some controller logic
+      @posts = Post.all # Rabl works with instance variables of controller
+
+      gon.rabl :template => 'app/goners/posts/index.rabl'
       # some controller logic
     end
     ```
@@ -217,7 +231,7 @@ gon mapping method:
 ``` ruby
 # your controller stuff here
 
-gon.rabl 'path/to/rabl/file', :as => 'alias'
+gon.rabl :as => 'alias'
 ```
 
 ## Usage with Jbuilder
@@ -243,7 +257,8 @@ Jbuilder works now only on Ruby 1.9+, so Gon support for Jbuilder works on 1.9+ 
     json.posts @posts, :id, :title, :body
     ```
 
-  2. In your controller you should map this template to gon.
+  2. In your controller you should just call 'gon.jbuilder' - if your template in
+     default directory for action. In the other case - you still can use :template option.
 
     ``` ruby
     def index
@@ -287,13 +302,13 @@ wouldn't work. You can read about this in common usage above.
 Puts this line into `Gemfile` then run `$ bundle`:
 
 ``` ruby
-gem 'gon', '2.1.2'
+gem 'gon', '2.2.0'
 ```
 
 Or if you are old-school Rails 2 developer put this into `config/environment.rb` and run `$ rake gems:install`:
 
 ``` ruby
-config.gem 'gon', :version => '2.1.2'
+config.gem 'gon', :version => '2.2.0'
 ```
 
 Or manually install gon gem: `$ gem install gon`

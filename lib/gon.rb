@@ -1,4 +1,3 @@
-
 if RUBY_VERSION > '1.9' && defined?(Jbuilder)
   gem 'blankslate'
 end
