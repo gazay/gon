@@ -6,11 +6,13 @@ module Gon
     end
 
     module InstanceMethods
+
       def include_gon(options = {})
-        if Gon.request_env && Gon.all_variables.present?
+        if Gon.request_env && Gon.all_variables.present? && Gon.request == request.object_id
           data = Gon.all_variables
           namespace = options[:namespace] || 'gon'
-          script = '<script>window.' + namespace + ' = {};'
+          start = '<script>window.' + namespace + ' = {};'
+          script = ''
           if options[:camel_case]
             data.each do |key, val|
               script << namespace + '.' + key.to_s.camelize(:lower) + '=' + val.to_json + ';'
@@ -20,21 +22,24 @@ module Gon
               script << namespace + '.' + key.to_s + '=' + val.to_json + ';'
             end
           end
-          script << '</script>'
+          script = start + Gon::Escaper.escape(script) + '</script>'
           script.html_safe
         else
           ""
         end
       end
+
     end
   end
 
   module GonHelpers
+
     def self.included base
       base.send(:include, InstanceMethods)
     end
 
     module InstanceMethods
+
       def gon
         if !Gon.request_env || Gon.request != request.object_id
           Gon.request = request.object_id
@@ -42,9 +47,10 @@ module Gon
         end
         Gon
       end
-    end
-  end
 
+    end
+
+  end
 end
 
 ActionView::Base.send :include, Gon::Helpers

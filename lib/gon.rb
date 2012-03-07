@@ -5,6 +5,7 @@ end
 require 'action_view'
 require 'action_controller'
 require 'gon/helpers'
+require 'gon/escaper'
 if defined?(Rabl)
   require 'gon/rabl'
 end
@@ -16,16 +17,16 @@ module Gon
   class << self
 
     def all_variables
-      @request_env[:gon]
+      @request_env['gon']
     end
 
     def clear
-      @request_env[:gon] = {}
+      @request_env['gon'] = {}
     end
 
     def request_env=(environment)
       @request_env = environment
-      @request_env[:gon] ||= {}
+      @request_env['gon'] ||= {}
     end
 
     def request_env
@@ -54,11 +55,11 @@ module Gon
     end
 
     def get_variable(name)
-      @request_env[:gon][name]
+      @request_env['gon'][name]
     end
 
     def set_variable(name, value)
-      @request_env[:gon][name] = value
+      @request_env['gon'][name] = value
     end
 
     %w(rabl jbuilder).each do |builder_name|

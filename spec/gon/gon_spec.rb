@@ -26,19 +26,43 @@ describe Gon, '#all_variables' do
     Gon.klass = Hash
   end
 
-  it 'output as js correct' do
-    Gon.clear
-    Gon.int = 1
-    ActionView::Base.instance_methods.map(&:to_s).include?('include_gon').should == true
-    base = ActionView::Base.new
-    base.include_gon.should == "<script>window.gon = {};" +
-                                 "gon.int=1;" +
-                               "</script>"
+  describe '#include_gon' do
+
+    before(:each) do
+      Gon.clear
+      Gon.instance_variable_set(:@request_id, request.object_id)
+      ActionView::Base.instance_methods.map(&:to_s).include?('include_gon').should == true
+      @base = ActionView::Base.new
+      @base.request = request
+    end
+
+    it 'outputs correct js with an integer' do
+      Gon.int = 1
+      @base.include_gon.should == '<script>window.gon = {};' +
+                                    'gon.int=1;' +
+                                  '</script>'
+    end
+
+    it 'outputs correct js with a string' do
+      Gon.str = %q(a'b"c)
+      @base.include_gon.should == '<script>window.gon = {};' +
+                                    %q(gon.str="a'b\"c";) +
+                                  '</script>'
+    end
+
+    it 'outputs correct js with a script string' do
+      Gon.str = %q(</script><script>alert('!')</script>)
+      @base.include_gon.should == '<script>window.gon = {};' +
+                                    %q(gon.str="<\\/script><script>alert('!')<\\/script>";) +
+                                  '</script>'
+    end
+
   end
 
   it 'returns exception if try to set public method as variable' do
     Gon.clear
     lambda { Gon.all_variables = 123 }.should raise_error
+    lambda { Gon.rabl = 123 }.should raise_error
   end
 
   describe '.rabl' do
