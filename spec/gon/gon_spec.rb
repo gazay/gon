@@ -26,16 +26,30 @@ describe Gon, '#all_variables' do
     Gon.klass = Hash
   end
 
-  it 'output as js correct' do
-    Gon.clear
-    Gon.int = 1
-    Gon.instance_variable_set(:@request_id, request.object_id)
-    ActionView::Base.instance_methods.map(&:to_s).include?('include_gon').should == true
-    base = ActionView::Base.new
-    base.request = request
-    base.include_gon.should == "<script>window.gon = {};" +
-                                 "gon.int=1;" +
-                               "</script>"
+  describe '#include_gon' do
+
+    before(:each) do
+      Gon.clear
+      Gon.instance_variable_set(:@request_id, request.object_id)
+      ActionView::Base.instance_methods.map(&:to_s).include?('include_gon').should == true
+      @base = ActionView::Base.new
+      @base.request = request
+    end
+
+    it 'outputs correct js with an integer' do
+        Gon.int = 1
+        @base.include_gon.should == "<script>window.gon = {};" +
+                                     "gon.int=1;" +
+                                   "</script>"
+    end
+
+    it 'outputs correct js with a string' do
+      Gon.str = %q(a'b"c)
+      @base.include_gon.should == '<script>window.gon = {};' +
+                                   %q(gon.str="a'b\"c";) +
+                                 '</script>'
+    end
+
   end
 
   it 'returns exception if try to set public method as variable' do
