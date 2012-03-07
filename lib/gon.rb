@@ -64,11 +64,13 @@ module Gon
 
     %w(rabl jbuilder).each do |builder_name|
       define_method builder_name do |*options|
-        if options.length >= 2
+        if options.first.is_a? String
           warn "[DEPRECATION] view_path argument is now optional. If you need to specify it please use #{builder}(:template => 'path')"
           options = options.extract_options!.merge(:template => options[0])
-        else
+        elsif options.first.is_a? Hash
           options = options ? options.first : { }
+        else
+          raise ArgumentError.new("You pass wrong argument type to template generator method: #{options.first.class.to_s}")
         end
 
         builder_module = get_builder(builder_name)
@@ -86,18 +88,21 @@ module Gon
         end
       end
     end
-
     alias_method :orig_jbuilder, :jbuilder
 
     def jbuilder(*options)
       raise NoMethodError.new('You can use Jbuilder support only in 1.9+') if RUBY_VERSION !~ /9/
-      orig_jbuilder(options)
+      orig_jbuilder(*options)
     end
 
-
     private
+
     def get_builder(builder_name)
-      "Gon::#{builder_name.classify}".constantize rescue raise NoMethodError.new("You should define #{builder_name.classify} in your Gemfile")
+      begin
+        "Gon::#{builder_name.classify}".constantize
+      rescue
+        raise NoMethodError.new("You should define #{builder_name.classify} in your Gemfile")
+      end
     end
 
     def get_controller(options)
