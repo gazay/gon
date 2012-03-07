@@ -3,7 +3,7 @@
 ![Gon. You should try this. If you look closer - you will see an elephant.](https://github.com/gazay/gon/raw/master/doc/logo_small.png)
 
 
-== Build Status {<img src="https://secure.travis-ci.org/gazay/gon.png"/>}[http://travis-ci.org/gazay/gon]
+### Build Status [http://travis-ci.org/gazay/gon](<img src="https://secure.travis-ci.org/gazay/gon.png"/>)
 
 If you need to send some data to your js files and you don't want to do this with long way through views and parsing - use this force!
 
