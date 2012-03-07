@@ -22,7 +22,7 @@ module Gon
               script << namespace + '.' + key.to_s + '=' + val.to_json + ';'
             end
           end
-          script = start + Gon.escape(script) + '</script>'
+          script = start + Gon::Escaper.escape(script) + '</script>'
           script.html_safe
         else
           ""
