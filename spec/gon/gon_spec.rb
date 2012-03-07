@@ -62,6 +62,7 @@ describe Gon, '#all_variables' do
   it 'returns exception if try to set public method as variable' do
     Gon.clear
     lambda { Gon.all_variables = 123 }.should raise_error
+    lambda { Gon.rabl = 123 }.should raise_error
   end
 
   context 'render json from rabl template' do
