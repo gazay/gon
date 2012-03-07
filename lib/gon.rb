@@ -4,6 +4,7 @@ end
 require 'action_view'
 require 'action_controller'
 require 'gon/helpers'
+require 'gon/escaper'
 if defined?(Rabl)
   require 'gon/rabl'
 end

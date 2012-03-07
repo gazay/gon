@@ -37,17 +37,24 @@ describe Gon, '#all_variables' do
     end
 
     it 'outputs correct js with an integer' do
-        Gon.int = 1
-        @base.include_gon.should == "<script>window.gon = {};" +
-                                     "gon.int=1;" +
-                                   "</script>"
+      Gon.int = 1
+      @base.include_gon.should == '<script>window.gon = {};' +
+                                    'gon.int=1;' +
+                                  '</script>'
     end
 
     it 'outputs correct js with a string' do
       Gon.str = %q(a'b"c)
       @base.include_gon.should == '<script>window.gon = {};' +
-                                   %q(gon.str="a'b\"c";) +
-                                 '</script>'
+                                    %q(gon.str="a'b\"c";) +
+                                  '</script>'
+    end
+
+    it 'outputs correct js with a script string' do
+      Gon.str = %q(</script><script>alert('!')</script>)
+      @base.include_gon.should == '<script>window.gon = {};' +
+                                    %q(gon.str="<\\/script><script>alert('!')<\\/script>";) +
+                                  '</script>'
     end
 
   end
