@@ -26,7 +26,7 @@ you might be doing something like this:
   3. Then there can be two ways in js:
     + if you previously wrote data in data
      attributes - you should parse this attributes and write data to some
-  js variable. 
+  js variable.
     + if you wrote js right in view (many frontenders would shame you for
   that) - you just use data from this js - OK.
   4. You can use your data in your js
@@ -287,13 +287,13 @@ wouldn't work. You can read about this in common usage above.
 Puts this line into `Gemfile` then run `$ bundle`:
 
 ``` ruby
-gem 'gon', '2.1.0'
+gem 'gon', '2.1.2'
 ```
 
 Or if you are old-school Rails 2 developer put this into `config/environment.rb` and run `$ rake gems:install`:
 
 ``` ruby
-config.gem 'gon', :version => '2.1.0'
+config.gem 'gon', :version => '2.1.2'
 ```
 
 Or manually install gon gem: `$ gem install gon`
