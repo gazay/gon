@@ -132,12 +132,14 @@ alert(customNamespace.yourHash)
 Now you can write your variables assign logic to templates with [Rabl](https://github.com/nesquena/rabl).
 The way of writing Rabl templates is very clearly described in their repo.
 
-Add Rabl to your Gemfile
+Add Rabl to your Gemfile before requiring gon - because gon checks Rabl constant
 
   `Gemfile`
 
   ``` ruby
   gem 'rabl'
+  ...
+  gem 'gon'
   ```
 
 Profit of using Rabl with gon:
