@@ -67,6 +67,7 @@ describe Gon do
     Gon.clear
     lambda { Gon.all_variables = 123 }.should raise_error
     lambda { Gon.rabl = 123 }.should raise_error
+    lambda { Gon.request = 123 }.should raise_error
   end
 
   describe '.rabl' do
