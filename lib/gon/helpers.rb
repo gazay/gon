@@ -11,7 +11,7 @@ module Gon
         if Gon.request_env && Gon.all_variables.present? && Gon.request == request.object_id
           data = Gon.all_variables
           namespace = options[:namespace] || 'gon'
-          start = '<script>window.' + namespace + ' = {};'
+          start = ((options[:need_script_tag].nil? || options[:need_script_tag])  ? '<script>' : '') + 'window.' + namespace + ' = {};'
           script = ''
           if options[:camel_case]
             data.each do |key, val|
@@ -22,7 +22,7 @@ module Gon
               script << namespace + '.' + key.to_s + '=' + val.to_json + ';'
             end
           end
-          script = start + Gon::Escaper.escape(script) + '</script>'
+          script = start + Gon::Escaper.escape(script) + ((options[:need_script_tag].nil? || options[:need_script_tag]) ? '</script>' : '')
           script.html_safe
         else
           ""
