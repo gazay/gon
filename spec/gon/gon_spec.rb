@@ -4,7 +4,9 @@ require 'gon'
 describe Gon do
 
   before(:each) do
-    Gon.request_env = {}
+#   require 'ruby-debug'
+#   debugger
+    Gon::Request.env = {}
   end
 
   describe '#all_variables' do
