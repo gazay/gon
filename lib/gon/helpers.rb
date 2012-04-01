@@ -8,25 +8,19 @@ module Gon
     module InstanceMethods
 
       def include_gon(options = {})
-        if Gon.request_env && Gon.all_variables.present? && Gon.request == request.object_id
-          data = Gon.all_variables
-          namespace = options[:namespace] || 'gon'
-          start = '<script>window.' + namespace + ' = {};'
-          script = ''
-          if options[:camel_case]
-            data.each do |key, val|
-              script << namespace + '.' + key.to_s.camelize(:lower) + '=' + val.to_json + ';'
-            end
-          else
-            data.each do |key, val|
-              script << namespace + '.' + key.to_s + '=' + val.to_json + ';'
-            end
-          end
-          script = start + Gon::Escaper.escape(script) + '</script>'
-          script.html_safe
+        if variables_for_request_present?
+          Gon::Base.render_data(options)
         else
           ""
         end
+      end
+
+      private
+
+      def variables_for_request_present?
+        Gon::Request.env &&
+        Gon::Request.id == request.object_id &&
+        Gon.all_variables.present?
       end
 
     end
@@ -41,11 +35,18 @@ module Gon
     module InstanceMethods
 
       def gon
-        if !Gon.request_env || Gon.request != request.object_id
-          Gon.request = request.object_id
-          Gon.request_env = request.env
+        if wrong_gon_request?
+          Gon::Request.id = request.object_id
+          Gon::Request.env = request.env
         end
         Gon
+      end
+
+      private
+
+      def wrong_gon_request?
+        Gon::Request.env.blank? ||
+        Gon::Request.id != request.object_id
       end
 
     end

@@ -17,14 +17,6 @@ end
 module Gon
   class << self
 
-    def all_variables
-      Request.gon
-    end
-
-    def clear
-      Request.clear
-    end
-
     def method_missing(method, *args, &block)
       if ( method.to_s =~ /=$/ )
         if public_method_name? method
@@ -35,6 +27,31 @@ module Gon
       else
         get_variable(method.to_s)
       end
+    end
+
+    def all_variables
+      Request.gon
+    end
+
+    def clear
+      Request.clear
+    end
+
+    def rabl(*args)
+      data, options = Gon::Rabl.handler(args)
+
+      store_builder_data 'rabl', data, options
+    end
+
+    def jbuilder(*args)
+      if RUBY_VERSION < '1.9'
+        text = 'You can use Jbuilder support only in 1.9+'
+        raise NoMethodError.new text
+      end
+
+      data, options = Gon::Jbuilder.handler(args)
+
+      store_builder_data 'jbuilder', data, options
     end
 
     def inspect
@@ -49,6 +66,18 @@ module Gon
 
     def set_variable(name, value)
       Request.gon[name] = value
+    end
+
+    def store_builder_data(builder, data, options)
+      if options[:as]
+        set_variable(options[:as].to_s, data)
+      elsif data.is_a? Hash
+        data.each do |key, value|
+          set_variable(key, value)
+        end
+      else
+        set_variable(builder, data)
+      end
     end
 
     def public_method_name?(method)

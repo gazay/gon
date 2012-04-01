@@ -36,8 +36,12 @@ describe Gon do
 
     before(:each) do
       Gon.clear
-      Gon.instance_variable_set(:@request_id, request.object_id)
-      ActionView::Base.instance_methods.map(&:to_s).include?('include_gon').should == true
+      Gon::Request.
+        instance_variable_set(:@request_id, request.object_id)
+      ActionView::Base.
+        instance_methods.
+        map(&:to_s).
+        include?('include_gon').should == true
       @base = ActionView::Base.new
       @base.request = request
     end
@@ -69,7 +73,6 @@ describe Gon do
     Gon.clear
     lambda { Gon.all_variables = 123 }.should raise_error
     lambda { Gon.rabl = 123 }.should raise_error
-    lambda { Gon.request = 123 }.should raise_error
   end
 
   describe '.rabl' do
@@ -108,11 +111,11 @@ describe Gon do
       context 'template is specified' do
 
         it 'add the extension if not included in the template name' do
-          Gon.send(:get_template_path, { :template => 'spec/test_data/sample'}, 'rabl').should eql('spec/test_data/sample.rabl')
+          Gon::Base.send(:get_template_path, { :template => 'spec/test_data/sample'}, 'rabl').should eql('spec/test_data/sample.rabl')
         end
 
         it 'return the specified template' do
-          Gon.send(:get_template_path, { :template => 'spec/test_data/sample.rabl'}, 'rabl').should eql('spec/test_data/sample.rabl')
+          Gon::Base.send(:get_template_path, { :template => 'spec/test_data/sample.rabl'}, 'rabl').should eql('spec/test_data/sample.rabl')
         end
 
       end
@@ -130,7 +133,7 @@ describe Gon do
 
         context 'the action doesn as a template at a different format' do
           it 'return the same template as the action with rabl extension' do
-            Gon.send(:get_template_path, {:controller => controller}, 'rabl').should eql('app/views/action_controller/base/show.json.rabl')
+            Gon::Base.send(:get_template_path, {:controller => controller}, 'rabl').should eql('app/views/action_controller/base/show.json.rabl')
           end
         end
 
@@ -188,11 +191,11 @@ describe Gon do
       context 'template is specified' do
 
         it 'add the extension if not included in the template name' do
-          Gon.send(:get_template_path, { :template => 'spec/test_data/sample'}, 'jbuilder').should eql('spec/test_data/sample.jbuilder')
+          Gon::Base.send(:get_template_path, { :template => 'spec/test_data/sample'}, 'jbuilder').should eql('spec/test_data/sample.jbuilder')
         end
 
         it 'return the specified template' do
-          Gon.send(:get_template_path, { :template => 'spec/test_data/sample.jbuilder'}, 'jbuilder').should eql('spec/test_data/sample.jbuilder')
+          Gon::Base.send(:get_template_path, { :template => 'spec/test_data/sample.jbuilder'}, 'jbuilder').should eql('spec/test_data/sample.jbuilder')
         end
 
       end

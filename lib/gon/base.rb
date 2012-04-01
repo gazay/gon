@@ -6,63 +6,24 @@ module Gon
         Global
       end
 
-      protected
+      def render_data(options)
+        data = Gon.all_variables
+        namespace = options[:namespace] || 'gon'
+        start = '<script>window.' + namespace + ' = {};'
+        script = ''
 
-      def check_method(method, *args, &block)
-
-      end
-
-      private
-
-
-
-      def get_variable(name)
-        raise NotImplementedError
-      end
-
-      def set_variable(name, value)
-        raise NotImplementedError
-      end
-
-      %w(rabl jbuilder).each do |builder_name|
-        define_method builder_name do |*options|
-          if options.first.is_a? String
-            warn "[DEPRECATION] view_path argument is now optional. If you need to specify it please use #{builder}(:template => 'path')"
-            options = options.extract_options!.merge(:template => options[0])
-          else
-            options = (options && options.first.is_a?(Hash)) ? options.first : { }
+        if options[:camel_case]
+          data.each do |key, val|
+            script << "#{namespace}.#{key.to_s.camelize(:lower)}=#{val.to_json};"
           end
-
-          builder_module = get_builder(builder_name)
-
-          data = builder_module.send("parse_#{builder_name}", get_template_path(options, builder_name), get_controller(options))
-
-          if options[:as]
-            set_variable(options[:as].to_s, data)
-          elsif data.is_a? Hash
-            data.each do |key, value|
-              set_variable(key, value)
-            end
-          else
-            set_variable(builder_name, data)
+        else
+          data.each do |key, val|
+            script << "#{namespace}.#{key.to_s}=#{val.to_json};"
           end
         end
-      end
-      alias_method :orig_jbuilder, :jbuilder
 
-      def jbuilder(*options)
-        raise NoMethodError.new('You can use Jbuilder support only in 1.9+') if RUBY_VERSION < '1.9'
-        orig_jbuilder(*options)
-      end
-
-      private
-
-      def get_builder(builder_name)
-        begin
-          "Gon::#{builder_name.classify}".constantize
-        rescue
-          raise NoMethodError.new("You should define #{builder_name.classify} in your Gemfile")
-        end
+        script = start + Gon::Escaper.escape(script) + '</script>'
+        script.html_safe
       end
 
       def get_controller(options)
@@ -75,10 +36,22 @@ module Gon
 
       def get_template_path(options, extension)
         if options[:template]
-          File.extname(options[:template]) == ".#{extension}" ? options[:template] : "#{options[:template]}.#{extension}"
+          if right_extension?(extension, options[:template])
+            options[:template]
+          else
+            [options[:template], extension].join('.')
+          end
         else
-          "app/views/#{get_controller(options).controller_path}/#{get_controller(options).action_name}.json.#{extension}"
+          controller = get_controller(options).controller_path
+          action = get_controller(options).action_name
+          "app/views/#{controller}/#{action}.json.#{extension}"
         end
+      end
+
+      private
+
+      def right_extension?(extension, template_path)
+        File.extname(template_path) == ".#{extension}"
       end
 
     end

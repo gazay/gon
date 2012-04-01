@@ -11,11 +11,11 @@ module Gon
         @request_env['gon'] ||= {}
       end
 
-      def request
+      def id
         @request_id if defined? @request_id
       end
 
-      def request=(request_id)
+      def id=(request_id)
         @request_id = request_id
       end
 
