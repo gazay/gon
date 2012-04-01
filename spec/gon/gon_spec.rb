@@ -180,7 +180,7 @@ describe Gon do
         RUBY_VERSION = '1.9.2'
         Gon.send(:remove_const, :Jbuilder)
 
-        expect { Gon.jbuilder 'some_path' }.to raise_error(NoMethodError, /Gemfile/)
+        expect { Gon.jbuilder 'some_path' }.to raise_error(NameError)
         load 'jbuilder.rb'
         load 'gon/jbuilder.rb'
       end
@@ -213,7 +213,7 @@ describe Gon do
 
         context 'the action doesn as a template at a different format' do
           it 'return the same template as the action with rabl extension' do
-            Gon.send(:get_template_path, {:controller => controller}, 'jbuilder').should eql('app/views/action_controller/base/show.json.jbuilder')
+            Gon::Base.send(:get_template_path, {:controller => controller}, 'jbuilder').should eql('app/views/action_controller/base/show.json.jbuilder')
           end
         end
 
