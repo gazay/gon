@@ -302,13 +302,13 @@ wouldn't work. You can read about this in common usage above.
 Puts this line into `Gemfile` then run `$ bundle`:
 
 ``` ruby
-gem 'gon', '2.2.2'
+gem 'gon', '2.3.0'
 ```
 
 Or if you are old-school Rails 2 developer put this into `config/environment.rb` and run `$ rake gems:install`:
 
 ``` ruby
-config.gem 'gon', :version => '2.2.2'
+config.gem 'gon', :version => '2.3.0'
 ```
 
 Or manually install gon gem: `$ gem install gon`
