@@ -1,0 +1,422 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Gon by gazay</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/gazay/gon">Fork On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/gazay/gon/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/gazay/gon/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
+
+    <div class="wrapper">
+
+      <section>
+        <div id="title">
+          <h1>Gon</h1>
+          <p>Your Rails variables in your JS</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/gazay">gazay</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/#!/michigangraham">mattgraham</a></span>
+        </div>
+
+        <h1>Gon gem — get your Rails variables in your js</h1>
+
+<p><img src="https://github.com/gazay/gon/raw/master/doc/logo_small.png" alt="Gon. You should try this. If you look closer - you will see an elephant."></p>
+
+<h3>Build Status <img src="https://secure.travis-ci.org/gazay/gon.png" alt="http://travis-ci.org/gazay/gon">
+</h3>
+
+<p>If you need to send some data to your js files and you don't want to do this with long way through views and parsing - use this force!</p>
+
+<p>Now with <a href="https://github.com/rails/jbuilder">Jbuilder</a> and <a href="https://github.com/nesquena/rabl">Rabl</a> support!</p>
+
+<p>For Sinatra available <a href="https://github.com/gazay/gon-sinatra">gon-sinatra</a>.</p>
+
+<p>For .Net MVC available port <a href="https://github.com/brooklynDev/NGon">NGon</a>.</p>
+
+<h2>An example of typical use</h2>
+
+<h3>Very good and detailed example and reasons to use is considered in <a href="http://railscasts.com/episodes/324-passing-data-to-javascript">railscast</a> by Ryan Bates</h3>
+
+<p>When you need to send some start data from your controller to your js
+you might be doing something like this:</p>
+
+<ol>
+<li>Write this data in controller(presenter/model) to some variable</li>
+<li>In view for this action you put this variable to some objects by data
+ attributes, or write js right in view</li>
+<li>Then there can be two ways in js:
+
+<ul>
+<li>if you previously wrote data in data
+attributes - you should parse this attributes and write data to some
+js variable.</li>
+<li>if you wrote js right in view (many frontenders would shame you for
+that) - you just use data from this js - OK.</li>
+</ul>
+</li>
+<li>You can use your data in your js</li>
+</ol><p>And everytime when you need to send some data from action to js you do this.</p>
+
+<p>With gon you configure it firstly - just put in layout one tag, and add
+gem line to your Gemfile and do the following:</p>
+
+<ol>
+<li>
+<p>Write variables by</p>
+
+<div class="highlight">
+<pre><span class="n">gon</span><span class="o">.</span><span class="n">variable_name</span> <span class="o">=</span> <span class="n">variable_value</span>
+</pre>
+</div>
+</li>
+<li>
+<p>In your js you get this by</p>
+
+<div class="highlight">
+<pre><span class="nx">gon</span><span class="p">.</span><span class="nx">variable_name</span>
+</pre>
+</div>
+</li>
+<li><p>profit?</p></li>
+</ol><h2>Usage</h2>
+
+<p><code>app/views/layouts/application.html.erb</code></p>
+
+<div class="highlight">
+<pre><span class="x">&lt;head&gt;</span>
+<span class="x">  &lt;title&gt;some title&lt;/title&gt;</span>
+<span class="x">  </span><span class="cp">&lt;%=</span> <span class="n">include_gon</span> <span class="cp">%&gt;</span><span class="x"></span>
+<span class="x">  &lt;!-- include your action js code --&gt;</span>
+<span class="x">  ...</span>
+</pre>
+</div>
+
+
+<p>To camelize your variables in js you can use:</p>
+
+<div class="highlight">
+<pre><span class="x">&lt;head&gt;</span>
+<span class="x">  &lt;title&gt;some title&lt;/title&gt;</span>
+<span class="x">  </span><span class="cp">&lt;%=</span> <span class="n">include_gon</span><span class="p">(</span><span class="ss">:camel_case</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="x"></span>
+<span class="x">  &lt;!-- include your action js code with camelized variables --&gt;</span>
+<span class="x">  ...</span>
+</pre>
+</div>
+
+
+<p>You can change the namespace of the variables:</p>
+
+<div class="highlight">
+<pre><span class="x">&lt;head&gt;</span>
+<span class="x">  &lt;title&gt;some title&lt;/title&gt;</span>
+<span class="x">  </span><span class="cp">&lt;%=</span> <span class="n">include_gon</span><span class="p">(</span><span class="ss">:namespace</span> <span class="o">=&gt;</span> <span class="s1">'serverExports'</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="x"></span>
+<span class="x">  &lt;!-- include your action js code with 'serverExports' namespace --&gt;</span>
+<span class="x">  ...</span>
+</pre>
+</div>
+
+
+<p>You put something like this in the action of your controller:</p>
+
+<div class="highlight">
+<pre><span class="vi">@your_int</span> <span class="o">=</span> <span class="mi">123</span>
+<span class="vi">@your_array</span> <span class="o">=</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="o">]</span>
+<span class="vi">@your_hash</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'a'</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">'b'</span> <span class="o">=&gt;</span> <span class="mi">2</span><span class="p">}</span>
+<span class="n">gon</span><span class="o">.</span><span class="n">your_int</span> <span class="o">=</span> <span class="vi">@your_int</span>
+<span class="n">gon</span><span class="o">.</span><span class="n">your_other_int</span> <span class="o">=</span> <span class="mi">345</span> <span class="o">+</span> <span class="n">gon</span><span class="o">.</span><span class="n">your_int</span>
+<span class="n">gon</span><span class="o">.</span><span class="n">your_array</span> <span class="o">=</span> <span class="vi">@your_array</span>
+<span class="n">gon</span><span class="o">.</span><span class="n">your_array</span> <span class="o">&lt;&lt;</span> <span class="n">gon</span><span class="o">.</span><span class="n">your_int</span>
+<span class="n">gon</span><span class="o">.</span><span class="n">your_hash</span> <span class="o">=</span> <span class="vi">@your_hash</span>
+
+<span class="n">gon</span><span class="o">.</span><span class="n">all_variables</span> <span class="c1"># &gt; {:your_int =&gt; 123, :your_other_int =&gt; 468, :your_array =&gt; [1, 2, 123], :your_hash =&gt; {'a' =&gt; 1, 'b' =&gt; 2}}</span>
+<span class="n">gon</span><span class="o">.</span><span class="n">your_array</span> <span class="c1"># &gt; [1, 2, 123]</span>
+
+<span class="n">gon</span><span class="o">.</span><span class="n">clear</span> <span class="c1"># gon.all_variables now is {}</span>
+</pre>
+</div>
+
+
+<p>Access the varaibles from your JavaScript file:</p>
+
+<div class="highlight">
+<pre><span class="nx">alert</span><span class="p">(</span><span class="nx">gon</span><span class="p">.</span><span class="nx">your_int</span><span class="p">)</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">gon</span><span class="p">.</span><span class="nx">your_other_int</span><span class="p">)</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">gon</span><span class="p">.</span><span class="nx">your_array</span><span class="p">)</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">gon</span><span class="p">.</span><span class="nx">your_hash</span><span class="p">)</span>
+</pre>
+</div>
+
+
+<p>With camelize:</p>
+
+<div class="highlight">
+<pre><span class="nx">alert</span><span class="p">(</span><span class="nx">gon</span><span class="p">.</span><span class="nx">yourInt</span><span class="p">)</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">gon</span><span class="p">.</span><span class="nx">yourOtherInt</span><span class="p">)</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">gon</span><span class="p">.</span><span class="nx">yourArray</span><span class="p">)</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">gon</span><span class="p">.</span><span class="nx">yourHash</span><span class="p">)</span>
+</pre>
+</div>
+
+
+<p>With custom namespace and camelize:</p>
+
+<div class="highlight">
+<pre><span class="nx">alert</span><span class="p">(</span><span class="nx">customNamespace</span><span class="p">.</span><span class="nx">yourInt</span><span class="p">)</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">customNamespace</span><span class="p">.</span><span class="nx">yourOtherInt</span><span class="p">)</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">customNamespace</span><span class="p">.</span><span class="nx">yourArray</span><span class="p">)</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">customNamespace</span><span class="p">.</span><span class="nx">yourHash</span><span class="p">)</span>
+</pre>
+</div>
+
+
+<h2>Usage with Rabl</h2>
+
+<p>Now you can write your variables assign logic to templates with <a href="https://github.com/nesquena/rabl">Rabl</a>.
+The way of writing Rabl templates is very clearly described in their repo.</p>
+
+<p>Add Rabl to your Gemfile before requiring gon - because gon checks Rabl constant</p>
+
+<p><code>Gemfile</code></p>
+
+<div class="highlight">
+<pre>  <span class="n">gem</span> <span class="s1">'rabl'</span>
+  <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+  <span class="n">gem</span> <span class="s1">'gon'</span>
+</pre>
+</div>
+
+
+<p>Profit of using Rabl with gon:</p>
+
+<ol>
+<li>You can clean your controllers now!</li>
+<li>Work with database objects and collections clearly and easyly</li>
+<li>All power of Rabl</li>
+<li>You can still be lazy and don't use common way to transfer data in js</li>
+<li>And so on</li>
+</ol><p>For using gon with Rabl you need to create new Rabl template and map gon
+to it.
+For example you have model Post with attributes :title and :body.
+You want to get all your posts in your js as an Array.
+That's what you need to do:</p>
+
+<ol>
+<li>
+<p>Create Rabl template. You can choose spepicific directory but better
+ use default directory for action.</p>
+
+<p><code>app/views/posts/index.json.rabl</code></p>
+
+<pre lang="rabl"><code>collection @posts =&gt; 'posts'
+attributes :id, :title, :body
+</code></pre>
+</li>
+<li>
+<p>If you create template in default directory for action, you just write in this action:</p>
+
+<p><code>app/controllers/posts_controller.rb#index</code></p>
+
+<div class="highlight">
+<pre><span class="k">def</span> <span class="nf">index</span>
+  <span class="c1"># some controller logic</span>
+  <span class="vi">@posts</span> <span class="o">=</span> <span class="no">Post</span><span class="o">.</span><span class="n">all</span> <span class="c1"># Rabl works with instance variables of controller</span>
+
+  <span class="n">gon</span><span class="o">.</span><span class="n">rabl</span>
+  <span class="c1"># some controller logic</span>
+<span class="k">end</span>
+</pre>
+</div>
+
+
+<p>But if you choose some specific category - you need to map this template to gon.</p>
+
+<p><code>app/controllers/posts_controller.rb#index</code></p>
+
+<div class="highlight">
+<pre><span class="k">def</span> <span class="nf">index</span>
+  <span class="c1"># some controller logic</span>
+  <span class="vi">@posts</span> <span class="o">=</span> <span class="no">Post</span><span class="o">.</span><span class="n">all</span> <span class="c1"># Rabl works with instance variables of controller</span>
+
+  <span class="n">gon</span><span class="o">.</span><span class="n">rabl</span> <span class="ss">:template</span> <span class="o">=&gt;</span> <span class="s1">'app/goners/posts/index.rabl'</span>
+  <span class="c1"># some controller logic</span>
+<span class="k">end</span>
+</pre>
+</div>
+
+
+<p>Thats it! Now you will get in your js gon.posts variable which is Array of
+post objects with attributes :id, :title and :body.</p>
+</li>
+</ol><p>In javascript file for view of this action write call to your variable:</p>
+
+<div class="highlight">
+<pre><span class="nx">alert</span><span class="p">(</span><span class="nx">gon</span><span class="p">.</span><span class="nx">posts</span><span class="p">)</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">gon</span><span class="p">.</span><span class="nx">posts</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">gon</span><span class="p">.</span><span class="nx">posts</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">post</span><span class="p">.</span><span class="nx">body</span><span class="p">)</span>
+</pre>
+</div>
+
+
+<p>P.s. If you didn't put include_gon tag in your html head area - it
+wouldn't work. You can read about this in common usage above.</p>
+
+<h3>Some tips of usage Rabl with gon:</h3>
+
+<p>If you don't use alias in Rabl template:</p>
+
+<pre lang="rabl"><code>collection @posts
+....
+</code></pre>
+
+<p>instead of using that:</p>
+
+<pre lang="rabl"><code>collection @posts =&gt; 'alias'
+....
+</code></pre>
+
+<p>Rabl will return you an array and gon by default will put it to variable
+gon.rabl</p>
+
+<p>Two ways how you can change it - using aliases or you can add alias to
+gon mapping method:</p>
+
+<div class="highlight">
+<pre><span class="c1"># your controller stuff here</span>
+
+<span class="n">gon</span><span class="o">.</span><span class="n">rabl</span> <span class="ss">:as</span> <span class="o">=&gt;</span> <span class="s1">'alias'</span>
+</pre>
+</div>
+
+
+<h2>Usage with Jbuilder</h2>
+
+<p>Use gon with <a href="https://github.com/rails/jbuilder">Jbuilder</a> as with <a href="https://guthub.com/nesquena/rabl">Rabl</a>:</p>
+
+<p>Jbuilder works now only on Ruby 1.9+, so Gon support for Jbuilder works on 1.9+ only</p>
+
+<ol>
+<li>
+<p>Add jbuilder to your Gemfile (because of it depends on
+ ActiveSuppurt '~&gt; 3.0.0')</p>
+
+<p><code>Gemfile</code></p>
+
+<div class="highlight">
+<pre><span class="n">gem</span> <span class="s1">'jbuilder'</span>
+</pre>
+</div>
+</li>
+<li>
+<p>Create Jbuilder template.</p>
+
+<p><code>app/views/posts/index.json.jbuilder</code></p>
+
+<pre lang="jbuilder"><code>json.posts @posts, :id, :title, :body
+</code></pre>
+</li>
+<li>
+<p>In your controller you should just call 'gon.jbuilder' - if your template in
+ default directory for action. In the other case - you still can use :template option.</p>
+
+<div class="highlight">
+<pre><span class="k">def</span> <span class="nf">index</span>
+  <span class="c1"># some controller logic</span>
+  <span class="vi">@posts</span> <span class="o">=</span> <span class="no">Post</span><span class="o">.</span><span class="n">all</span>
+
+  <span class="n">gon</span><span class="o">.</span><span class="n">jbuilder</span> <span class="s1">'app/views/posts/index.json.jbuilder'</span>
+  <span class="c1"># some controller logic</span>
+<span class="k">end</span>
+</pre>
+</div>
+</li>
+</ol><p>In javascript file for view of this action write call to your variable:</p>
+
+<p>Now you can use partials in jbuilder:</p>
+
+<p><code>app/views/posts/index.json.jbuilder</code></p>
+
+<pre lang="jbuilder"><code>json.partial! 'app/views/posts/_part.json.jbuilder', :comments =&gt; @posts[0].comments
+</code></pre>
+
+<p><code>app/views/posts/_part.json.jbuilder</code></p>
+
+<pre lang="jbuilder"><code>json.comments comments.map{ |it| 'comment#' + it.id }
+</code></pre>
+
+<div class="highlight">
+<pre><span class="nx">alert</span><span class="p">(</span><span class="nx">gon</span><span class="p">.</span><span class="nx">posts</span><span class="p">)</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">gon</span><span class="p">.</span><span class="nx">posts</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">gon</span><span class="p">.</span><span class="nx">posts</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">post</span><span class="p">.</span><span class="nx">body</span><span class="p">)</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">gon</span><span class="p">.</span><span class="nx">comments</span><span class="p">)</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">gon</span><span class="p">.</span><span class="nx">comments</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre>
+</div>
+
+
+<p>P.s. If you didn't put include_gon tag in your html head area - it
+wouldn't work. You can read about this in common usage above.</p>
+
+<h2>Installation</h2>
+
+<p>Puts this line into <code>Gemfile</code> then run <code>$ bundle</code>:</p>
+
+<div class="highlight">
+<pre><span class="n">gem</span> <span class="s1">'gon'</span><span class="p">,</span> <span class="s1">'2.2.2'</span>
+</pre>
+</div>
+
+
+<p>Or if you are old-school Rails 2 developer put this into <code>config/environment.rb</code> and run <code>$ rake gems:install</code>:</p>
+
+<div class="highlight">
+<pre><span class="n">config</span><span class="o">.</span><span class="n">gem</span> <span class="s1">'gon'</span><span class="p">,</span> <span class="ss">:version</span> <span class="o">=&gt;</span> <span class="s1">'2.2.2'</span>
+</pre>
+</div>
+
+
+<p>Or manually install gon gem: <code>$ gem install gon</code></p>
+
+<h2>Contributors</h2>
+
+<ul>
+<li><a href="/gazay" class="user-mention">@gazay</a></li>
+</ul><p>Special thanks to <a href="/brainopia" class="user-mention">@brainopia</a>, <a href="/kossnocorp" class="user-mention">@kossnocorp</a> and <a href="/ai" class="user-mention">@ai</a>.</p>
+
+<h2>License</h2>
+
+<p>The MIT License</p>
+
+<p>Copyright (c) 2011-2012 gazay</p>
+
+<p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
+
+<p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
+
+<p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
+      </section>
+
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
+  </body>
+</html>
