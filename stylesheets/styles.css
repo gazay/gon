@@ -68,6 +68,12 @@
   -webkit-font-smoothing: antialiased;
 }
 
+/* My styles */
+.title-pic {
+  margin: 0, 30px, 0, 0;
+  text-align: center;
+}
+
 /* normalize.css 2012-02-07T12:37 UTC - http://github.com/necolas/normalize.css */
 /* =============================================================================
    HTML5 display definitions
