@@ -240,8 +240,6 @@ gon.rabl :as => 'alias'
 
 Use gon with [Jbuilder](https://github.com/rails/jbuilder) as with [Rabl](https://guthub.com/nesquena/rabl):
 
-Jbuilder works now only on Ruby 1.9+, so Gon support for Jbuilder works on 1.9+ only
-
   0. Add jbuilder to your Gemfile (because of it depends on
      ActiveSuppurt '~> 3.0.0')
 
