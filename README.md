@@ -265,7 +265,7 @@ Use gon with [Jbuilder](https://github.com/rails/jbuilder) as with [Rabl](https:
       # some controller logic
       @posts = Post.all
 
-      gon.jbuilder 'app/views/posts/index.json.jbuilder'
+      gon.jbuilder
       # some controller logic
     end
     ```
