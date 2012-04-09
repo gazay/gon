@@ -73,6 +73,7 @@ describe Gon do
     Gon.clear
     lambda { Gon.all_variables = 123 }.should raise_error
     lambda { Gon.rabl = 123 }.should raise_error
+    lambda { Gon.request = 123 }.should raise_error
   end
 
   describe '.rabl' do
@@ -142,7 +143,6 @@ describe Gon do
 
   end
 
-  if RUBY_VERSION > '1.9'
     require 'jbuilder'
     require 'gon/jbuilder'
 
@@ -170,14 +170,7 @@ describe Gon do
 
       end
 
-      it 'should throw error if you use gon.jbuilder with ruby < 1.9+' do
-        RUBY_VERSION = '1.8.7'
-
-        expect { Gon.jbuilder 'some_path'}.to raise_error(NoMethodError, /1.9/)
-      end
-
       it 'should raise error if you use gon.jbuilder without requiring jbuilder gem' do
-        RUBY_VERSION = '1.9.2'
         Gon.send(:remove_const, :Jbuilder)
 
         expect { Gon.jbuilder 'some_path' }.to raise_error(NameError)
@@ -220,7 +213,6 @@ describe Gon do
       end
     end
 
-  end
 
   def request
     @request ||= double 'request', :env => {}

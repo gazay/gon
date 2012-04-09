@@ -1,4 +1,4 @@
-if RUBY_VERSION > '1.9' && defined?(Jbuilder)
+if defined?(Jbuilder)
   gem 'blankslate'
 end
 require 'action_view'
@@ -10,7 +10,7 @@ require 'gon/escaper'
 if defined?(Rabl)
   require 'gon/rabl'
 end
-if RUBY_VERSION > '1.9' && defined?(Jbuilder)
+if defined?(Jbuilder)
   require 'gon/jbuilder'
 end
 
