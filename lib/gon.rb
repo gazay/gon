@@ -4,6 +4,7 @@ end
 require 'action_view'
 require 'action_controller'
 require 'gon/base'
+require 'gon/global'
 require 'gon/request'
 require 'gon/helpers'
 require 'gon/escaper'
@@ -16,6 +17,10 @@ end
 
 module Gon
   class << self
+
+    def global
+      Gon::Global
+    end
 
     def method_missing(method, *args, &block)
       if ( method.to_s =~ /=$/ )
@@ -44,11 +49,6 @@ module Gon
     end
 
     def jbuilder(*args)
-      if RUBY_VERSION < '1.9'
-        text = 'You can use Jbuilder support only in 1.9+'
-        raise NoMethodError.new text
-      end
-
       data, options = Gon::Jbuilder.handler(args)
 
       store_builder_data 'jbuilder', data, options

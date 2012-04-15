@@ -73,7 +73,6 @@ describe Gon do
     Gon.clear
     lambda { Gon.all_variables = 123 }.should raise_error
     lambda { Gon.rabl = 123 }.should raise_error
-    lambda { Gon.request = 123 }.should raise_error
   end
 
   describe '.rabl' do
@@ -143,75 +142,75 @@ describe Gon do
 
   end
 
-    require 'jbuilder'
-    require 'gon/jbuilder'
+  require 'jbuilder'
+  require 'gon/jbuilder'
 
-    describe '.jbuilder' do
-      context 'render jbuilder templates' do
+  describe '.jbuilder' do
+    context 'render jbuilder templates' do
 
-        before do
-          Gon.clear
-          controller.instance_variable_set('@objects', objects)
-        end
-
-        let(:controller) { ActionController::Base.new }
-        let(:objects) { [1,2] }
-
-        it 'render json from jbuilder template' do
-          Gon.jbuilder 'spec/test_data/sample.json.jbuilder', :controller => controller
-          Gon.objects.length.should == 2
-        end
-
-        it 'render json from jbuilder template with a partial' do
-          controller.view_paths << 'spec/test_data'
-          Gon.jbuilder 'spec/test_data/sample_with_partial.json.jbuilder', :controller => controller
-          Gon.objects.length.should == 2
-        end
-
+      before do
+        Gon.clear
+        controller.instance_variable_set('@objects', objects)
       end
 
-      it 'should raise error if you use gon.jbuilder without requiring jbuilder gem' do
-        Gon.send(:remove_const, :Jbuilder)
+      let(:controller) { ActionController::Base.new }
+      let(:objects) { [1,2] }
 
-        expect { Gon.jbuilder 'some_path' }.to raise_error(NameError)
-        load 'jbuilder.rb'
-        load 'gon/jbuilder.rb'
+      it 'render json from jbuilder template' do
+        Gon.jbuilder 'spec/test_data/sample.json.jbuilder', :controller => controller
+        Gon.objects.length.should == 2
+      end
+
+      it 'render json from jbuilder template with a partial' do
+        controller.view_paths << 'spec/test_data'
+        Gon.jbuilder 'spec/test_data/sample_with_partial.json.jbuilder', :controller => controller
+        Gon.objects.length.should == 2
       end
 
     end
 
-    describe '.get_template_path' do
-      context 'template is specified' do
+    it 'should raise error if you use gon.jbuilder without requiring jbuilder gem' do
+      Gon.send(:remove_const, :Jbuilder)
 
-        it 'add the extension if not included in the template name' do
-          Gon::Base.send(:get_template_path, { :template => 'spec/test_data/sample'}, 'jbuilder').should eql('spec/test_data/sample.jbuilder')
-        end
-
-        it 'return the specified template' do
-          Gon::Base.send(:get_template_path, { :template => 'spec/test_data/sample.jbuilder'}, 'jbuilder').should eql('spec/test_data/sample.jbuilder')
-        end
-
-      end
-
-      context 'template is not specified' do
-
-        before do
-          Gon.clear
-          controller.instance_variable_set('@objects', objects)
-          controller.action_name = 'show'
-        end
-
-        let(:controller) { ActionController::Base.new }
-        let(:objects) { [1,2] }
-
-        context 'the action doesn as a template at a different format' do
-          it 'return the same template as the action with rabl extension' do
-            Gon::Base.send(:get_template_path, {:controller => controller}, 'jbuilder').should eql('app/views/action_controller/base/show.json.jbuilder')
-          end
-        end
-
-      end
+      expect { Gon.jbuilder 'some_path' }.to raise_error(NameError)
+      load 'jbuilder.rb'
+      load 'gon/jbuilder.rb'
     end
+
+  end
+
+  describe '.get_template_path' do
+    context 'template is specified' do
+
+      it 'add the extension if not included in the template name' do
+        Gon::Base.send(:get_template_path, { :template => 'spec/test_data/sample'}, 'jbuilder').should eql('spec/test_data/sample.jbuilder')
+      end
+
+      it 'return the specified template' do
+        Gon::Base.send(:get_template_path, { :template => 'spec/test_data/sample.jbuilder'}, 'jbuilder').should eql('spec/test_data/sample.jbuilder')
+      end
+
+    end
+
+    context 'template is not specified' do
+
+      before do
+        Gon.clear
+        controller.instance_variable_set('@objects', objects)
+        controller.action_name = 'show'
+      end
+
+      let(:controller) { ActionController::Base.new }
+      let(:objects) { [1,2] }
+
+      context 'the action doesn as a template at a different format' do
+        it 'return the same template as the action with rabl extension' do
+          Gon::Base.send(:get_template_path, {:controller => controller}, 'jbuilder').should eql('app/views/action_controller/base/show.json.jbuilder')
+        end
+      end
+
+    end
+  end
 
 
   def request

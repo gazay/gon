@@ -2,12 +2,8 @@ module Gon
   module Base
     class << self
 
-      def global
-        Global
-      end
-
       def render_data(options)
-        data = Gon.all_variables
+        data = Gon.all_variables.merge(Gon.global.all_variables)
         namespace = options[:namespace] || 'gon'
         start = '<script>window.' + namespace + ' = {};'
         script = ''

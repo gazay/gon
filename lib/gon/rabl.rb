@@ -4,8 +4,11 @@ module Gon
   module Rabl
     class << self
 
-      def handler(args)
+      def handler(args, global = false)
         options = parse_options_from args
+        if global && !options[:template]
+          raise 'You should provide :template when use rabl with global variables'
+        end
 
         data = parse_rabl \
           Gon::Base.get_template_path(options, 'rabl'),
