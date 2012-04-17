@@ -310,13 +310,13 @@ For example I want to tell anybody my application session secret token :) Now wi
 
 ```ruby
 GonTest::Application.config.secret_token = "You can't see my token"
-Gon.global.session = "You can't see it I said"
+Gon.global.secret_token = "You can't see it I said"
 ```
 
 `in some js which can reach window.gon variable`
 
 ```javascript
-alert(gon.global.session)
+alert(gon.global.secret_token)
 ```
 
 Thats it!
