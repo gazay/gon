@@ -302,21 +302,24 @@ wouldn't work. You can read about this in common usage above.
 Now you can use gon for sending your data to js from anywhere!
 
 It works just as simple `gon` but you need to write `Gon.global` instead of `gon` in your ruby code,
-`gon.global` in javascript and it will not clear self after each request. All other things the same.
+`gon.global` in javascript and it will not clear self after each request. All other things remain the same.
 
-For example I want to tell anybody my application session secret token :) Now with Gon.global it's easy!
+For example I want to set start data into gon, which will be there before I clear it.
 
-`config/initializers/secret_token.rb`
+Maybe some configuration data or url address which should be present on each page with `include_gon` helper in head.
+
+Now with Gon.global it's easy!
+
+`config/initializers/some_initializer.rb or any file where you can reach Gon constant`
 
 ```ruby
-GonTest::Application.config.secret_token = "You can't see my token"
-Gon.global.secret_token = "You can't see it I said"
+Gon.global.variable = 'Some data'
 ```
 
 `in some js which can reach window.gon variable`
 
 ```javascript
-alert(gon.global.secret_token)
+alert(gon.global.variable)
 ```
 
 Thats it!
