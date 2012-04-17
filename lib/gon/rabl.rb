@@ -1,3 +1,4 @@
+require 'action_view'
 require 'rabl'
 
 module Gon
@@ -9,6 +10,8 @@ module Gon
         if global && !options[:template]
           raise 'You should provide :template when use rabl with global variables'
         end
+
+        include_helpers
 
         data = parse_rabl \
           Gon::Base.get_template_path(options, 'rabl'),
@@ -38,6 +41,12 @@ module Gon
           args.first
         else
           {}
+        end
+      end
+
+      def include_helpers
+        unless ::Rabl::Engine.include? ::ActionView::Helpers
+          ::Rabl::Engine.send(:include, ::ActionView::Helpers)
         end
       end
 

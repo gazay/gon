@@ -32,6 +32,11 @@ describe Gon do
       Gon.objects.length.should == 2
     end
 
+    it 'works with ActionView::Helpers' do
+      Gon.rabl :template =>'spec/test_data/sample_with_helpers.rabl', :controller => controller
+      Gon.objects.first['object']['time_ago'].should == 'about 6 hours'
+    end
+
     it 'raise exception if rabl is not included' do
       Gon.send :remove_const, 'Rabl'
       expect { Gon.rabl :template =>'spec/test_data/sample.rabl', :controller => controller}.to raise_error
