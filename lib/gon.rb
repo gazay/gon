@@ -85,11 +85,6 @@ module Gon
         end
       end
     end
-    alias_method :orig_jbuilder, :jbuilder
-
-    def jbuilder(*options)
-      orig_jbuilder(*options)
-    end
 
     private
 
