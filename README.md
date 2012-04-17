@@ -7,7 +7,7 @@
 
 If you need to send some data to your js files and you don't want to do this with long way through views and parsing - use this force!
 
-Now with [Jbuilder](https://github.com/rails/jbuilder) and [Rabl](https://github.com/nesquena/rabl) support!
+With [Jbuilder](https://github.com/rails/jbuilder) and [Rabl](https://github.com/nesquena/rabl) support!
 
 For Sinatra available [gon-sinatra](https://github.com/gazay/gon-sinatra).
 
@@ -129,7 +129,7 @@ alert(customNamespace.yourHash)
 
 ## Usage with Rabl
 
-Now you can write your variables assign logic to templates with [Rabl](https://github.com/nesquena/rabl).
+You can write your variables assign logic to templates with [Rabl](https://github.com/nesquena/rabl).
 The way of writing Rabl templates is very clearly described in their repo.
 
 Add Rabl to your Gemfile before requiring gon - because gon checks Rabl constant
@@ -297,18 +297,42 @@ alert(gon.comments[0])
 P.s. If you didn't put include_gon tag in your html head area - it
 wouldn't work. You can read about this in common usage above.
 
+## gon.global
+
+Now you can use gon for sending your data to js from anywhere!
+
+It works just as simple `gon` but you need to write `Gon.global` instead of `gon` in your ruby code,
+`gon.global` in javascript and it will not clear self after each request. All other things the same.
+
+For example I want to tell anybody my application session secret token :) Now with Gon.global it's easy!
+
+`config/initializers/secret_token.rb`
+
+```ruby
+GonTest::Application.config.secret_token = 'You can't see my token'
+Gon.global.session = 'You can't see it I said'
+```
+
+`in some js which can reach window.gon variable`
+
+```javascript
+alert(gon.global.session)
+```
+
+Thats it!
+
 ## Installation
 
 Puts this line into `Gemfile` then run `$ bundle`:
 
 ``` ruby
-gem 'gon', '2.3.0'
+gem 'gon', '3.0.0'
 ```
 
 Or if you are old-school Rails 2 developer put this into `config/environment.rb` and run `$ rake gems:install`:
 
 ``` ruby
-config.gem 'gon', :version => '2.3.0'
+config.gem 'gon', :version => '3.0.0'
 ```
 
 Or manually install gon gem: `$ gem install gon`
