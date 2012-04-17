@@ -6,7 +6,7 @@ module Gon
     class << self
 
       def handler(args, global = false)
-        options = parse_options_from args
+        options = parse_options_from args, global
         if global && !options[:template]
           raise 'You should provide :template when use rabl with global variables'
         end
@@ -29,12 +29,14 @@ module Gon
         JSON.parse(output)
       end
 
-      def parse_options_from(args)
+      def parse_options_from(args, global)
         if old_api? args
-          text =  "[DEPRECATION] view_path argument is now optional. "
-          text << "If you need to specify it, "
-          text << "please use gon.rabl(:template => 'path')"
-          warn text
+          unless global
+            text =  "[DEPRECATION] view_path argument is now optional. "
+            text << "If you need to specify it, "
+            text << "please use gon.rabl(:template => 'path')"
+            warn text
+          end
 
           args.extract_options!.merge(:template => args[0])
         elsif new_api? args

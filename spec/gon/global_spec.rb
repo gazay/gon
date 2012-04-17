@@ -82,8 +82,35 @@ describe Gon::Global do
     lambda { Gon.global.rabl = 123 }.should raise_error
   end
 
-  it 'works fine with rabl and jbuilder' do
-    pending
+  context 'with jbuilder and rabl' do
+
+    before :each do
+      Gon.global.clear
+      controller.instance_variable_set('@objects', objects)
+    end
+
+    let(:controller) { ActionController::Base.new }
+    let(:objects) { [1,2] }
+
+    it 'works fine with rabl' do
+      Gon.global.rabl :template =>'spec/test_data/sample.rabl', :controller => controller
+      Gon.global.objects.length.should == 2
+    end
+
+    it 'works fine with jbuilder' do
+      Gon.global.jbuilder :template =>'spec/test_data/sample.json.jbuilder', :controller => controller
+      Gon.global.objects.length.should == 2
+    end
+
+    it 'should throw exception, if use rabl or jbuilder without :template' do
+      lambda { Gon.global.rabl }.should raise_error
+      lambda { Gon.global.jbuilder }.should raise_error
+    end
+
+  end
+
+  after(:all) do
+    Gon.global.clear
   end
 
   def request
