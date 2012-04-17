@@ -309,8 +309,8 @@ For example I want to tell anybody my application session secret token :) Now wi
 `config/initializers/secret_token.rb`
 
 ```ruby
-GonTest::Application.config.secret_token = 'You can't see my token'
-Gon.global.session = 'You can't see it I said'
+GonTest::Application.config.secret_token = "You can't see my token"
+Gon.global.session = "You can't see it I said"
 ```
 
 `in some js which can reach window.gon variable`
