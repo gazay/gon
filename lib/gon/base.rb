@@ -3,7 +3,10 @@ module Gon
     class << self
 
       def render_data(options)
-        data = Gon.all_variables.merge(Gon.global.all_variables)
+        if Gon.global.all_variables.present?
+          Gon::Request.gon['global'] = Gon.global.all_variables
+        end
+        data = Gon.all_variables
         namespace = options[:namespace] || 'gon'
         start = '<script>window.' + namespace + ' = {};'
         script = ''
@@ -24,8 +27,8 @@ module Gon
 
       def get_controller(options)
         options[:controller] ||
-          @request_env['action_controller.instance'] ||
-          @request_env['action_controller.rescue.response'].
+          Gon::Request.env['action_controller.instance'] ||
+          Gon::Request.env['action_controller.rescue.response'].
           instance_variable_get('@template').
           instance_variable_get('@controller')
       end

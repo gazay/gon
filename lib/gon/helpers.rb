@@ -10,6 +10,9 @@ module Gon
       def include_gon(options = {})
         if variables_for_request_present?
           Gon::Base.render_data(options)
+        elsif Gon.global.all_variables.present?
+          Gon.clear
+          Gon::Base.render_data(options)
         else
           ""
         end

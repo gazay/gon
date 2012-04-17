@@ -31,6 +31,10 @@ module Gon
         store_builder_data 'jbuilder', data, options
       end
 
+      def clear
+        @global_vars = {}
+      end
+
       def inspect
         'Gon'
       end
