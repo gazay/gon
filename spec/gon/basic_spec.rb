@@ -64,6 +64,21 @@ describe Gon do
                                   '</script>'
     end
 
+    it 'outputs correct js with an integer, camel-case and namespace' do
+      Gon.int_cased = 1
+      @base.include_gon(camel_case: true, namespace: 'camel_cased').should == \
+                                  '<script>window.camel_cased = {};' +
+                                    'camel_cased.intCased=1;' +
+                                  '</script>'
+    end
+
+    it 'outputs correct js with an integer and without tag' do
+      Gon.int = 1
+      @base.include_gon(need_tag: false).should == \
+                                  'window.gon = {};' +
+                                  'gon.int=1;'
+    end
+
   end
 
   it 'returns exception if try to set public method as variable' do

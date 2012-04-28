@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 3.0.2
+
+  * Added need_tag option
+
 ## 3.0.0
 
   * Almost all code refactored

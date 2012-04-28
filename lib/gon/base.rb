@@ -8,7 +8,8 @@ module Gon
         end
         data = Gon.all_variables
         namespace = options[:namespace] || 'gon'
-        start = '<script>window.' + namespace + ' = {};'
+        need_tag = options[:need_tag].nil? || options[:need_tag]
+        start = "#{need_tag ? '<script>' : ''}window.#{namespace} = {};"
         script = ''
 
         if options[:camel_case]
@@ -21,7 +22,8 @@ module Gon
           end
         end
 
-        script = start + Gon::Escaper.escape(script) + '</script>'
+        script = start + Gon::Escaper.escape(script)
+        script << '</script>' if need_tag
         script.html_safe
       end
 

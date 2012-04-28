@@ -82,6 +82,16 @@ You can change the namespace of the variables:
   ...
 ```
 
+You can get json without script tag (kudos to @afa):
+
+``` erb
+<head>
+  <title>some title</title>
+  <script><%= include_gon(:need_tag => false) %></script>
+  <!-- include your action js code with 'serverExports' namespace -->
+  ...
+```
+
 You put something like this in the action of your controller:
 
 ``` ruby
@@ -329,13 +339,13 @@ Thats it!
 Puts this line into `Gemfile` then run `$ bundle`:
 
 ``` ruby
-gem 'gon', '3.0.0'
+gem 'gon', '3.0.2'
 ```
 
 Or if you are old-school Rails 2 developer put this into `config/environment.rb` and run `$ rake gems:install`:
 
 ``` ruby
-config.gem 'gon', :version => '3.0.0'
+config.gem 'gon', :version => '3.0.2'
 ```
 
 Or manually install gon gem: `$ gem install gon`
