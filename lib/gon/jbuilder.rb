@@ -46,6 +46,8 @@ module Gon
             name,
             controller.instance_variable_get(name)
         end
+        self.extend(controller._helpers)
+
         lines = find_partials File.readlines(jbuilder_path)
         source = lines.join('')
 
