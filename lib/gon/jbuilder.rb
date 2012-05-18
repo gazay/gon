@@ -8,6 +8,8 @@ module Gon
           raise 'You should provide :template when use rabl with global variables'
         end
 
+        include_helpers
+
         data = parse_jbuilder \
           Gon::Base.get_template_path(options,'jbuilder'),
           Gon::Base.get_controller(options)
@@ -16,6 +18,12 @@ module Gon
       end
 
       private
+
+      def include_helpers
+        unless self.class.include? ::ActionView::Helpers
+          self.class.send(:include, ::ActionView::Helpers)
+        end
+      end
 
       def parse_options_from(args)
         if old_api? args

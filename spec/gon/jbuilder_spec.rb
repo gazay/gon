@@ -26,6 +26,11 @@ describe Gon do
         Gon.objects.length.should == 2
       end
 
+      it 'render json from jbuilder template with helpers' do
+        Gon.jbuilder 'spec/test_data/sample_with_helpers.json.jbuilder', :controller => controller
+        Gon.date.should == 'about 6 hours'
+      end
+
       it 'render json from jbuilder template with a partial' do
         controller.view_paths << 'spec/test_data'
         Gon.jbuilder 'spec/test_data/sample_with_partial.json.jbuilder', :controller => controller
