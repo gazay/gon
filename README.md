@@ -82,6 +82,16 @@ You can change the namespace of the variables:
   ...
 ```
 
+You can initialize window.gon = {}; on each request
+
+``` erb
+<head>
+  <title>some title</title>
+  <%= include_gon(:init => true) %>
+  <!-- include your action js code with 'serverExports' namespace -->
+  ...
+```
+
 You can get json without script tag (kudos to @afa):
 
 ``` erb

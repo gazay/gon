@@ -81,7 +81,8 @@ describe Gon do
 
     
     it 'outputs correct js without variables, without tag and gon init' do
-      @base.include_gon(need_tag: false, init: true).should == 'window.gon = {};'
+      @base.include_gon(need_tag: false, init: true).should == \
+                                  'window.gon = {};'
     end
 
     it 'outputs correct js without variables, without tag and gon init' do
