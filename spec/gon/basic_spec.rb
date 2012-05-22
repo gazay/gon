@@ -79,6 +79,12 @@ describe Gon do
                                   'gon.int=1;'
     end
 
+    
+    it 'outputs correct js without variables, without tag and gon init' do
+      @base.include_gon(need_tag: false, init: true).should == \
+                                  'window.gon = {};'
+    end
+
   end
 
   it 'returns exception if try to set public method as variable' do
