@@ -12,13 +12,15 @@ module Gon
         start = "#{need_tag ? '<script>' : ''}window.#{namespace} = {};"
         script = ''
 
-        if options[:camel_case]
-          data.each do |key, val|
-            script << "#{namespace}.#{key.to_s.camelize(:lower)}=#{val.to_json};"
-          end
-        else
-          data.each do |key, val|
-            script << "#{namespace}.#{key.to_s}=#{val.to_json};"
+        if data.present?
+          if options[:camel_case]
+            data.each do |key, val|
+              script << "#{namespace}.#{key.to_s.camelize(:lower)}=#{val.to_json};"
+            end
+          else
+            data.each do |key, val|
+              script << "#{namespace}.#{key.to_s}=#{val.to_json};"
+            end
           end
         end
 
