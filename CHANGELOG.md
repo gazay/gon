@@ -1,8 +1,13 @@
 # CHANGELOG
 
+## 3.0.3
+
+  * Include ActionView::Helpers into Gon::JBuilder
+  * Added init option (@torbjon)
+
 ## 3.0.2
 
-  * Added need_tag option
+  * Added need_tag option (@afa)
 
 ## 3.0.0
 
