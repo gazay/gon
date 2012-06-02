@@ -4,6 +4,7 @@ describe Gon::Global do
 
   before(:each) do
     Gon::Global.clear
+    Gon::Request.instance_variable_set(:@request_env, nil)
   end
 
   describe '#all_variables' do
@@ -52,6 +53,7 @@ describe Gon::Global do
     it 'outputs correct js with an integer and integer in Gon' do
       Gon::Request.
         instance_variable_set(:@request_id, request.object_id)
+      Gon::Request.env = {}
       Gon.int = 1
       Gon.global.int = 1
       @base.include_gon.should == "<script>window.gon = {};" +

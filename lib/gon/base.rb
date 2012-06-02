@@ -3,10 +3,10 @@ module Gon
     class << self
 
       def render_data(options)
+        data = Gon.all_variables || {}
         if Gon.global.all_variables.present?
-          Gon::Request.gon['global'] = Gon.global.all_variables
+          data[:global] = Gon.global.all_variables
         end
-        data = Gon.all_variables
         namespace = options[:namespace] || 'gon'
         need_tag = options[:need_tag].nil? || options[:need_tag]
         start = "#{need_tag ? '<script>' : ''}window.#{namespace} = {};"
