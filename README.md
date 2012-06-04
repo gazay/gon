@@ -92,7 +92,7 @@ You can initialize window.gon = {}; on each request
   ...
 ```
 
-You can initialize script tag with type="text/javascript">
+You can initialize script tag with type="text/javascript"
 
 ``` erb
 <head>
