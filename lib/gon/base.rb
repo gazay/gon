@@ -7,10 +7,14 @@ module Gon
         if Gon.global.all_variables.present?
           data[:global] = Gon.global.all_variables
         end
-        namespace = options[:namespace] || 'gon'
-        need_tag = options[:need_tag].nil? || options[:need_tag]
-        start = "#{need_tag ? '<script>' : ''}window.#{namespace} = {};"
-        script = ''
+        namespace  = options[:namespace] || 'gon'
+        need_tag   = options[:need_tag].nil? || options[:need_tag]
+        
+        need_type  = !options[:need_type].nil? || options[:need_type]
+        need_type ? type ='<script type="text/javascript">' : type = '<script>'
+        
+        start     = "#{need_tag ? type : ''}window.#{namespace} = {};"
+        script    = ''
 
         if data.present?
           if options[:camel_case]
