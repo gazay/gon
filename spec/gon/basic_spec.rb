@@ -79,17 +79,23 @@ describe Gon do
                                   'gon.int=1;'
     end
 
-    
     it 'outputs correct js without variables, without tag and gon init' do
       @base.include_gon(need_tag: false, init: true).should == \
                                   'window.gon = {};'
     end
 
-    it 'outputs correct js without variables, without tag and gon init' do
+    it 'outputs correct js without variables, without tag, gon init and an integer' do
       Gon.int = 1
       @base.include_gon(need_tag: false, init: true).should == \
                                   'window.gon = {};' +
                                   'gon.int=1;'
+    end
+
+    it 'outputs correct js with type text/javascript' do
+      @base.include_gon(need_type: true, init: true).should == \
+                                  '<script type="text/javascript">' +
+                                    'window.gon = {};'\
+                                  '</script>'
     end
 
   end
