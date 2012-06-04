@@ -14,7 +14,7 @@ module Gon
           Gon.clear
           Gon::Base.render_data(options)
         elsif options[:init].present?
-          Gon.clear
+          Gon.clear if self.variables_for_request_present?
           Gon::Base.render_data(options)
         else
           ""
