@@ -92,6 +92,16 @@ You can initialize window.gon = {}; on each request
   ...
 ```
 
+You can initialize script tag with type="text/javascript"
+
+``` erb
+<head>
+  <title>some title</title>
+  <%= include_gon(:need_type => true) %>
+  <!-- include your action js code with 'serverExports' namespace -->
+  ...
+```
+
 You can get json without script tag (kudos to @afa):
 
 ``` erb

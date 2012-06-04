@@ -18,13 +18,13 @@ describe Gon do
 
     it 'supports all data types' do
       Gon.clear
-      Gon.int = 1
-      Gon.float = 1.1
-      Gon.string = 'string'
-      Gon.array = [ 1, 'string' ]
-      Gon.hash_var = { :a => 1, :b => '2'}
-      Gon.hash_w_array = { :a => [ 2, 3 ] }
-      Gon.klass = Hash
+      Gon.int           = 1
+      Gon.float         = 1.1
+      Gon.string        = 'string'
+      Gon.array         = [ 1, 'string' ]
+      Gon.hash_var      = { :a => 1, :b => '2'}
+      Gon.hash_w_array  = { :a => [ 2, 3 ] }
+      Gon.klass         = Hash
     end
 
   end
@@ -79,17 +79,23 @@ describe Gon do
                                   'gon.int=1;'
     end
 
-    
     it 'outputs correct js without variables, without tag and gon init' do
       @base.include_gon(need_tag: false, init: true).should == \
                                   'window.gon = {};'
     end
 
-    it 'outputs correct js without variables, without tag and gon init' do
+    it 'outputs correct js without variables, without tag, gon init and an integer' do
       Gon.int = 1
       @base.include_gon(need_tag: false, init: true).should == \
                                   'window.gon = {};' +
                                   'gon.int=1;'
+    end
+
+    it 'outputs correct js with type text/javascript' do
+      @base.include_gon(need_type: true, init: true).should == \
+                                  '<script type="text/javascript">' +
+                                    'window.gon = {};'\
+                                  '</script>'
     end
 
   end
