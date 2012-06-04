@@ -19,13 +19,13 @@ describe Gon::Global do
 
     it 'supports all data types' do
       Gon.global.clear
-      Gon.global.int = 1
-      Gon.global.float = 1.1
-      Gon.global.string = 'string'
-      Gon.global.array = [ 1, 'string' ]
-      Gon.global.hash_var = { :a => 1, :b => '2'}
+      Gon.global.int          = 1
+      Gon.global.float        = 1.1
+      Gon.global.string       = 'string'
+      Gon.global.array        = [ 1, 'string' ]
+      Gon.global.hash_var     = { :a => 1, :b => '2'}
       Gon.global.hash_w_array = { :a => [ 2, 3 ] }
-      Gon.global.klass = Hash
+      Gon.global.klass        = Hash
     end
 
   end

@@ -8,9 +8,9 @@ module Gon
           data[:global] = Gon.global.all_variables
         end
         namespace = options[:namespace] || 'gon'
-        need_tag = options[:need_tag].nil? || options[:need_tag]
-        start = "#{need_tag ? '<script>' : ''}window.#{namespace} = {};"
-        script = ''
+        need_tag  = options[:need_tag].nil? || options[:need_tag]
+        start     = "#{need_tag ? '<script>' : ''}window.#{namespace} = {};"
+        script    = ''
 
         if data.present?
           if options[:camel_case]
