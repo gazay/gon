@@ -3,7 +3,7 @@ module Gon
     class << self
 
       GON_JS_ESCAPE_MAP = {
-        '</'    => '<\/'
+        '</'    => '\u003C/'
       }
 
       def escape(javascript)
