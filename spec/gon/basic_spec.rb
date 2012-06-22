@@ -79,7 +79,14 @@ describe Gon do
                                   'gon.int=1;'
     end
 
-    
+    it 'outputs correct js without variables, without tag and gon init if before there was data' do
+      Gon::Request.
+        instance_variable_set(:@request_id, 123)
+      Gon::Request.instance_variable_set(:@request_env, { 'gon' => { :a => 1 } })
+      @base.include_gon(need_tag: false, init: true).should == \
+                                  'window.gon = {};'
+    end
+
     it 'outputs correct js without variables, without tag and gon init' do
       @base.include_gon(need_tag: false, init: true).should == \
                                   'window.gon = {};'
