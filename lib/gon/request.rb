@@ -24,7 +24,7 @@ module Gon
       end
 
       def clear
-        env && (env[:gon] = {})
+        env && (env['gon'] = {})
       end
 
     end
