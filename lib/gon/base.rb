@@ -7,29 +7,20 @@ module Gon
         if Gon.global.all_variables.present?
           data[:global] = Gon.global.all_variables
         end
-        namespace  = options[:namespace] || 'gon'
-        need_tag   = options[:need_tag].nil? || options[:need_tag]
-        
-        need_type  = !options[:need_type].nil? || options[:need_type]
-        need_type ? type ='<script type="text/javascript">' : type = '<script>'
-        
-        start     = "#{need_tag ? type : ''}window.#{namespace} = {};"
+        namespace, tag, cameled = parse_options options
+        start     = "#{tag if tag}window.#{namespace} = {};"
         script    = ''
 
-        if data.present?
-          if options[:camel_case]
-            data.each do |key, val|
-              script << "#{namespace}.#{key.to_s.camelize(:lower)}=#{val.to_json};"
-            end
+        data.each do |key, val|
+          if cameled
+            script << "#{namespace}.#{key.to_s.camelize(:lower)}=#{val.to_json};"
           else
-            data.each do |key, val|
-              script << "#{namespace}.#{key.to_s}=#{val.to_json};"
-            end
+            script << "#{namespace}.#{key.to_s}=#{val.to_json};"
           end
         end
 
         script = start + Gon::Escaper.escape(script)
-        script << '</script>' if need_tag
+        script << '</script>' if tag
         script.html_safe
       end
 
@@ -56,6 +47,16 @@ module Gon
       end
 
       private
+
+      def parse_options(options)
+        namespace  = options[:namespace] || 'gon'
+        need_tag   = options[:need_tag].nil? || options[:need_tag]
+        need_type  = options[:need_type].present? && options[:need_type]
+        cameled    = options[:camel_case]
+        tag = need_tag && (need_type ? '<script type="text/javascript">' : '<script>')
+
+        [namespace, tag, cameled]
+      end
 
       def right_extension?(extension, template_path)
         File.extname(template_path) == ".#{extension}"
