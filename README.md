@@ -52,6 +52,11 @@ gem line to your Gemfile and do the following:
 
 ## Usage
 
+### More details about configuration and usage you can find in [gon wiki](https://github.com/gazay/gon/wiki)
+
+Old readme available in [./README_old.md](https://github.com/gazay/gon/blob/master/README_old.md)
+
+
 `app/views/layouts/application.html.erb`
 
 ``` erb
@@ -62,55 +67,8 @@ gem line to your Gemfile and do the following:
   ...
 ```
 
-To camelize your variables in js you can use:
-
-``` erb
-<head>
-  <title>some title</title>
-  <%= include_gon(:camel_case => true) %>
-  <!-- include your action js code with camelized variables -->
-  ...
-```
-
-You can change the namespace of the variables:
-
-``` erb
-<head>
-  <title>some title</title>
-  <%= include_gon(:namespace => 'serverExports') %>
-  <!-- include your action js code with 'serverExports' namespace -->
-  ...
-```
-
-You can initialize window.gon = {}; on each request
-
-``` erb
-<head>
-  <title>some title</title>
-  <%= include_gon(:init => true) %>
-  <!-- include your action js code with 'serverExports' namespace -->
-  ...
-```
-
-You can initialize script tag with type="text/javascript"
-
-``` erb
-<head>
-  <title>some title</title>
-  <%= include_gon(:need_type => true) %>
-  <!-- include your action js code with 'serverExports' namespace -->
-  ...
-```
-
-You can get json without script tag (kudos to @afa):
-
-``` erb
-<head>
-  <title>some title</title>
-  <script><%= include_gon(:need_tag => false) %></script>
-  <!-- include your action js code with 'serverExports' namespace -->
-  ...
-```
+You can pass some [options](https://github.com/gazay/gon/wiki/Options)
+to `include_gon` method.
 
 You put something like this in the action of your controller:
 
@@ -139,38 +97,10 @@ alert(gon.your_array)
 alert(gon.your_hash)
 ```
 
-With camelize:
-
-``` js
-alert(gon.yourInt)
-alert(gon.yourOtherInt)
-alert(gon.yourArray)
-alert(gon.yourHash)
-```
-
-With custom namespace and camelize:
-
-``` js
-alert(customNamespace.yourInt)
-alert(customNamespace.yourOtherInt)
-alert(customNamespace.yourArray)
-alert(customNamespace.yourHash)
-```
-
 ## Usage with Rabl
 
 You can write your variables assign logic to templates with [Rabl](https://github.com/nesquena/rabl).
 The way of writing Rabl templates is very clearly described in their repo.
-
-Add Rabl to your Gemfile before requiring gon - because gon checks Rabl constant
-
-  `Gemfile`
-
-  ``` ruby
-  gem 'rabl'
-  ...
-  gem 'gon'
-  ```
 
 Profit of using Rabl with gon:
 
@@ -180,195 +110,23 @@ Profit of using Rabl with gon:
   4. You can still be lazy and don't use common way to transfer data in js
   5. And so on
 
-For using gon with Rabl you need to create new Rabl template and map gon
-to it.
-For example you have model Post with attributes :title and :body.
-You want to get all your posts in your js as an Array.
-That's what you need to do:
-
-  1. Create Rabl template. You can choose spepicific directory but better
-     use default directory for action.
-
-    `app/views/posts/index.json.rabl`
-
-    ``` rabl
-    collection @posts => 'posts'
-    attributes :id, :title, :body
-    ```
-
-  2. If you create template in default directory for action, you just write in this action:
-
-    `app/controllers/posts_controller.rb#index`
-
-    ``` ruby
-    def index
-      # some controller logic
-      @posts = Post.all # Rabl works with instance variables of controller
-
-      gon.rabl
-      # some controller logic
-    end
-    ```
-
-     But if you choose some specific category - you need to map this template to gon.
-
-    `app/controllers/posts_controller.rb#index`
-
-    ``` ruby
-    def index
-      # some controller logic
-      @posts = Post.all # Rabl works with instance variables of controller
-
-      gon.rabl :template => 'app/goners/posts/index.rabl'
-      # some controller logic
-    end
-    ```
-
-    Thats it! Now you will get in your js gon.posts variable which is Array of
-    post objects with attributes :id, :title and :body.
-
-In javascript file for view of this action write call to your variable:
-
-``` js
-alert(gon.posts)
-alert(gon.posts[0])
-alert(gon.posts[0].post.body)
-```
-
-P.s. If you didn't put include_gon tag in your html head area - it
-wouldn't work. You can read about this in common usage above.
-
-### Some tips of usage Rabl with gon:
-
-If you don't use alias in Rabl template:
-
-``` rabl
-collection @posts
-....
-```
-
-instead of using that:
-
-``` rabl
-collection @posts => 'alias'
-....
-```
-
-Rabl will return you an array and gon by default will put it to variable
-gon.rabl
-
-Two ways how you can change it - using aliases or you can add alias to
-gon mapping method:
-
-``` ruby
-# your controller stuff here
-
-gon.rabl :as => 'alias'
-```
+[Instruction](https://github.com/gazay/gon/wiki/Usage-with-rabl) for
+usage gon with Rabl.
 
 ## Usage with Jbuilder
 
 Use gon with [Jbuilder](https://github.com/rails/jbuilder) as with [Rabl](https://guthub.com/nesquena/rabl):
 
-  0. Add jbuilder to your Gemfile (because of it depends on
-     ActiveSuppurt '~> 3.0.0')
-
-    `Gemfile`
-
-    ``` ruby
-    gem 'jbuilder'
-    ```
-
-  1. Create Jbuilder template.
-
-    `app/views/posts/index.json.jbuilder`
-
-    ``` jbuilder
-    json.posts @posts, :id, :title, :body
-    ```
-
-  2. In your controller you should just call 'gon.jbuilder' - if your template in
-     default directory for action. In the other case - you still can use :template option.
-
-    ``` ruby
-    def index
-      # some controller logic
-      @posts = Post.all
-
-      gon.jbuilder
-      # some controller logic
-    end
-    ```
-
-In javascript file for view of this action write call to your variable:
-
-Now you can use partials in jbuilder:
-
-`app/views/posts/index.json.jbuilder`
-
-``` jbuilder
-json.partial! 'app/views/posts/_part.json.jbuilder', :comments => @posts[0].comments
-```
-
-`app/views/posts/_part.json.jbuilder`
-
-``` jbuilder
-json.comments comments.map{ |it| 'comment#' + it.id }
-```
-
-``` js
-alert(gon.posts)
-alert(gon.posts[0])
-alert(gon.posts[0].post.body)
-alert(gon.comments)
-alert(gon.comments[0])
-```
-
-P.s. If you didn't put include_gon tag in your html head area - it
-wouldn't work. You can read about this in common usage above.
+[Instruction](https://github.com/gazay/gon/wiki/Usage-with-jbuilder) for
+usage gon with Jbuilder.
 
 ## gon.global
 
-Now you can use gon for sending your data to js from anywhere!
+You can use gon for sending your data to js from anywhere! It's really
+great for some init data.
 
-It works just as simple `gon` but you need to write `Gon.global` instead of `gon` in your ruby code,
-`gon.global` in javascript and it will not clear self after each request. All other things remain the same.
-
-For example I want to set start data into gon, which will be there before I clear it.
-
-Maybe some configuration data or url address which should be present on each page with `include_gon` helper in head.
-
-Now with Gon.global it's easy!
-
-`config/initializers/some_initializer.rb or any file where you can reach Gon constant`
-
-```ruby
-Gon.global.variable = 'Some data'
-```
-
-`in some js which can reach window.gon variable`
-
-```javascript
-alert(gon.global.variable)
-```
-
-Thats it!
-
-## Installation
-
-Puts this line into `Gemfile` then run `$ bundle`:
-
-``` ruby
-gem 'gon', '3.0.5'
-```
-
-Or if you are old-school Rails 2 developer put this into `config/environment.rb` and run `$ rake gems:install`:
-
-``` ruby
-config.gem 'gon', :version => '3.0.5'
-```
-
-Or manually install gon gem: `$ gem install gon`
+[Instruction](https://github.com/gazay/gon/wiki/Usage-gon-global) for
+usage gon.global.
 
 ## Contributors
 
