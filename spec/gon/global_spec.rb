@@ -72,7 +72,7 @@ describe Gon::Global do
     it 'outputs correct js with a script string' do
       Gon.global.str = %q(</script><script>alert('!')</script>)
       @base.include_gon.should == "<script>window.gon = {};" +
-                                    "gon.global={\"str\":\"<\\/script><script>alert('!')<\\/script>\"};" +
+                                    "gon.global={\"str\":\"\\u003C/script><script>alert('!')\\u003C/script>\"};" +
                                   "</script>"
     end
 
