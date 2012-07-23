@@ -5,6 +5,7 @@ require 'action_view'
 require 'action_controller'
 require 'gon/base'
 require 'gon/global'
+require 'gon/watch'
 require 'gon/request'
 require 'gon/helpers'
 require 'gon/escaper'
@@ -20,6 +21,10 @@ module Gon
 
     def global
       Gon::Global
+    end
+
+    def watch
+      Gon::Watch
     end
 
     def method_missing(method, *args, &block)
@@ -65,7 +70,12 @@ module Gon
     end
 
     def set_variable(name, value)
-      Request.gon[name] = value
+      if Gon::Watch.need_return?
+        Gon::Watch.clear
+        Gon::Watch.return_variable(value)
+      else
+        Request.gon[name] = value
+      end
     end
 
     def store_builder_data(builder, data, options)

@@ -24,7 +24,7 @@ module Gon
         script.html_safe
       end
 
-      def get_controller(options)
+      def get_controller(options = {})
         options[:controller] ||
           Gon::Request.env['action_controller.instance'] ||
           Gon::Request.env['action_controller.rescue.response'].
