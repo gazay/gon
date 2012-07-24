@@ -16,7 +16,7 @@ if defined?(Jbuilder)
   require 'gon/jbuilder'
 end
 
-module Gon
+class Gon
   class << self
 
     def global
@@ -70,12 +70,7 @@ module Gon
     end
 
     def set_variable(name, value)
-      if Gon::Watch.need_return?
-        Gon::Watch.clear
-        Gon::Watch.return_variable(value)
-      else
-        Request.gon[name] = value
-      end
+      Request.gon[name] = value
     end
 
     def store_builder_data(builder, data, options)

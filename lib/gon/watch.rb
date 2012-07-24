@@ -1,4 +1,4 @@
-module Gon
+class Gon
   class Watch
     class << self
 

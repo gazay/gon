@@ -1,4 +1,4 @@
-module Gon
+class Gon
   module Helpers
 
     def self.included base

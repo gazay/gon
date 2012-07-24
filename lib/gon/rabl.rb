@@ -1,7 +1,7 @@
 require 'action_view'
 require 'rabl'
 
-module Gon
+class Gon
   module Rabl
     class << self
 
