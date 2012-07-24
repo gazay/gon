@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 4.0.0
+
+  * Added gon.watch functionality (thanks to @brainopia and @kossnocorp)
+  * Compatibility with jbuilder paths for partial! method
+  * Fixed some bugs
+  * Little bit refactoring - Gon now is a class
+
 ## 3.0.3
 
   * Include ActionView::Helpers into Gon::JBuilder

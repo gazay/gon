@@ -7,6 +7,8 @@
 
 If you need to send some data to your js files and you don't want to do this with long way through views and parsing - use this force!
 
+Now you can easily renew data in your variables through ajax with [gon.watch](https://github.com/gazay/gon/wiki/Usage-gon-watch)!
+
 With [Jbuilder](https://github.com/rails/jbuilder) and [Rabl](https://github.com/nesquena/rabl) support!
 
 For Sinatra available [gon-sinatra](https://github.com/gazay/gon-sinatra).
@@ -49,6 +51,11 @@ gem line to your Gemfile and do the following:
     ```
 
   3. profit?
+
+With `gon.watch` feature you can easily renew data in gon variables!
+Just pass option `:watch => true` to `include_gon` method and call
+`gon.watch` from your js file. It's super useful in modern web
+applications!
 
 ## Usage
 
@@ -96,6 +103,17 @@ alert(gon.your_other_int)
 alert(gon.your_array)
 alert(gon.your_hash)
 ```
+
+## gon.watch - renew your data easily!
+
+You can use gon for renewing your data without reloading pages and
+writing long js functions! It's really
+great for some live values.
+
+Supports `gon.watch.rabl` and `gon.watch.jbuilder` usage.
+
+[Instruction](https://github.com/gazay/gon/wiki/Usage-gon-watch) for
+usage gon.watch.
 
 ## Usage with Rabl
 
