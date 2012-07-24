@@ -2,13 +2,12 @@ class Gon
   class Watch
     class << self
 
-      def method_missing(method, *args, &block)
-        @return = return_variable?(method)
-        Gon.send method, *args, &block
+      def all_variables
+        @watch_variables || {}
       end
 
       def clear
-        @return = false
+        @watch_variables = {}
       end
 
       def need_return?
@@ -23,7 +22,15 @@ class Gon
 
       private
 
+      def method_missing(method, *args, &block)
+        if return_variable?(method)
+          Gon.send method, *args, &block
+        end
+      end
+
       def return_variable?(variable)
+        return false if variable !~ /=$/
+
         controller = Gon::Base.get_controller
         params = controller.params
         variable = variable.to_s.gsub('=', '')
