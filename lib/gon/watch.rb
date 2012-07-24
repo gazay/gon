@@ -3,8 +3,10 @@ class Gon
     class << self
 
       JS_FUNCTION = \
-        "window.gon.watch = function(name, possibleOptions, possibleCallback) {
-           var callback, key, options, value, xhr, _ref;
+        "gon._timers = {};
+
+         gon.watch = function(name, possibleOptions, possibleCallback) {
+           var callback, key, options, performAjax, timer, value, _base, _ref, _ref1;
            if (typeof $ === 'undefined' || $ === null) {
              return;
            }
@@ -24,17 +26,44 @@ class Gon
              options = gon.watchedVariables[name];
              callback = possibleOptions;
            }
-           xhr = $.ajax({
-             type: options.type || 'GET',
-             url: options.url,
-             data: {
-               _method: options.method,
-               gon_return_variable: true,
-               gon_watched_variable: name
+           performAjax = function() {
+             var xhr;
+             xhr = $.ajax({
+               type: options.type || 'GET',
+               url: options.url,
+               data: {
+                 _method: options.method,
+                 gon_return_variable: true,
+                 gon_watched_variable: name
+               }
+             });
+             return xhr.done(callback);
+           };
+           if (options.interval) {
+             timer = setInterval(performAjax, options.interval);
+             if ((_ref1 = (_base = gon._timers)[name]) == null) {
+               _base[name] = [];
              }
-           });
-           xhr.done(callback);
-           return true;
+             return gon._timers[name].push({
+               timer: timer,
+               fn: callback
+             });
+           } else {
+             return performAjax;
+           }
+         };
+
+         gon.unwatch = function(name, fn) {
+           var index, timer, _i, _len, _ref;
+           _ref = gon._timers[name];
+           for (index = _i = 0, _len = _ref.length; _i < _len; index = ++_i) {
+             timer = _ref[index];
+             if (timer.fn === fn) {
+               clearInterval(timer.timer);
+               gon._timers[name].splice(index, 1);
+               return;
+             }
+           }
          };"
 
       def render
