@@ -49,12 +49,6 @@ class Gon
         @watch_variables = {}
       end
 
-      def return_variable(value)
-        controller = Gon::Base.get_controller
-
-        controller.render :text => value.to_json
-      end
-
       private
 
       def set_variable(name, value)
@@ -81,6 +75,12 @@ class Gon
         controller.request.xhr? &&
           params[:gon_return_variable] &&
           params[:gon_watched_variable] == variable
+      end
+
+      def return_variable(value)
+        controller = Gon::Base.get_controller
+
+        controller.render :text => value.to_json
       end
 
     end
