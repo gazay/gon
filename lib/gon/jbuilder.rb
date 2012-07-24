@@ -7,12 +7,14 @@ class Gon
         if global && !options[:template]
           raise 'You should provide :template when use rabl with global variables'
         end
+        controller = Gon::Base.get_controller(options)
+        @_controller_name = global ? '' : controller.controller_path
 
         include_helpers
 
         data = parse_jbuilder \
           Gon::Base.get_template_path(options,'jbuilder'),
-          Gon::Base.get_controller(options)
+          controller
 
         [data, options]
       end
@@ -69,6 +71,7 @@ class Gon
 
       def parse_partial(partial_line)
         path = partial_line.match(/['"]([^'"]*)['"]/)[1]
+        path = parse_path path
         options_hash = partial_line.match(/,(.*)/)[1]
         if options_hash.present?
           options = eval '{' + options_hash + '}'
@@ -80,10 +83,40 @@ class Gon
         find_partials File.readlines(path)
       end
 
+      def parse_path(path)
+        return path if File.exists?(path)
+
+        splitted = path.split('/')
+        if splitted.size == 2
+          tmp_path = construct_path(splitted[0], splitted[1])
+          return tmp_path if tmp_path
+        elsif splitted.size == 1
+          tmp_path = construct_path @_controller_name, splitted[0]
+          return tmp_path if tmp_path
+        end
+
+        raise 'Something wrong with partial path in your jbuilder templates'
+      end
+
+      def construct_path(part1, part2)
+        tmp_path = "app/views/#{part1}/_#{part2}"
+        tmp_path = path_with_ext(tmp_path)
+        return tmp_path if tmp_path
+        tmp_path = "app/views/#{part1}/#{part2}"
+        tmp_path = path_with_ext(tmp_path)
+        return tmp_path if tmp_path
+      end
+
+      def path_with_ext(path)
+        return path if File.exists?(path)
+        return "#{path}.jbuilder" if File.exists?("#{path}.jbuilder")
+        return "#{path}.json.jbuilder" if File.exists?("#{path}.json.jbuilder")
+      end
+
       def find_partials(lines = [])
         lines.map do |line|
           if line =~ /partial!/
-            parse_partial(line)
+            parse_partial line
           else
             line
           end
