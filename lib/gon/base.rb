@@ -7,7 +7,7 @@ class Gon
         if Gon.global.all_variables.present?
           data[:global] = Gon.global.all_variables
         end
-        namespace, tag, cameled = parse_options options
+        namespace, tag, cameled, watch = parse_options options
         start     = "#{tag if tag}window.#{namespace} = {};"
         script    = ''
 
@@ -20,6 +20,7 @@ class Gon
         end
 
         script = start + Gon::Escaper.escape(script)
+        script << Gon.watch.render if watch and Gon::Watch.all_variables.present?
         script << '</script>' if tag
         script.html_safe
       end
@@ -53,9 +54,10 @@ class Gon
         need_tag   = options[:need_tag].nil? || options[:need_tag]
         need_type  = options[:need_type].present? && options[:need_type]
         cameled    = options[:camel_case]
+        watch      = options[:watch]
         tag = need_tag && (need_type ? '<script type="text/javascript">' : '<script>')
 
-        [namespace, tag, cameled]
+        [namespace, tag, cameled, watch]
       end
 
       def right_extension?(extension, template_path)
