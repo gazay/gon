@@ -109,7 +109,7 @@ class Gon
       def return_variable(value)
         controller = Gon::Base.get_controller
 
-        controller.render :text => value.to_json
+        controller.render :json => value
       end
 
     end

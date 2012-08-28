@@ -54,7 +54,7 @@ describe Gon::Watch do
     controller.params = params
     Gon::Request.env['action_controller.instance'] = controller
 
-    controller.should_receive('render').with(:text => '1')
+    controller.should_receive('render').with(:json => 1)
 
     Gon.watch.a = 1
   end
