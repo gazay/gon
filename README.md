@@ -41,13 +41,13 @@ gem line to your Gemfile and do the following:
   1. Write variables by
 
     ``` ruby
-    gon.variable_name = variable_value
+    Gon.variable_name = variable_value
     ```
 
   2. In your js you get this by
 
     ``` js
-    gon.variable_name
+    Gon.variable_name
     ```
 
   3. profit?
@@ -83,16 +83,16 @@ You put something like this in the action of your controller:
 @your_int = 123
 @your_array = [1,2]
 @your_hash = {'a' => 1, 'b' => 2}
-gon.your_int = @your_int
-gon.your_other_int = 345 + gon.your_int
-gon.your_array = @your_array
-gon.your_array << gon.your_int
-gon.your_hash = @your_hash
+Gon.your_int = @your_int
+Gon.your_other_int = 345 + Gon.your_int
+Gon.your_array = @your_array
+Gon.your_array << Gon.your_int
+Gon.your_hash = @your_hash
 
-gon.all_variables # > {:your_int => 123, :your_other_int => 468, :your_array => [1, 2, 123], :your_hash => {'a' => 1, 'b' => 2}}
-gon.your_array # > [1, 2, 123]
+Gon.all_variables # > {:your_int => 123, :your_other_int => 468, :your_array => [1, 2, 123], :your_hash => {'a' => 1, 'b' => 2}}
+Gon.your_array # > [1, 2, 123]
 
-gon.clear # gon.all_variables now is {}
+Gon.clear # Gon.all_variables now is {}
 ```
 
 Access the varaibles from your JavaScript file:
@@ -138,13 +138,13 @@ Use gon with [Jbuilder](https://github.com/rails/jbuilder) as with [Rabl](https:
 [Instruction](https://github.com/gazay/gon/wiki/Usage-with-jbuilder) for
 usage gon with Jbuilder.
 
-## gon.global
+## Gon.global
 
 You can use gon for sending your data to js from anywhere! It's really
 great for some init data.
 
 [Instruction](https://github.com/gazay/gon/wiki/Usage-gon-global) for
-usage gon.global.
+usage Gon.global.
 
 ## Contributors
 
