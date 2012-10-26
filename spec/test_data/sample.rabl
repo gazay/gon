@@ -1,2 +1,2 @@
 collection @objects => 'objects'
-attributes :id
+attributes :inspect

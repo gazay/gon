@@ -15,17 +15,21 @@ class Gon
 
         data = parse_rabl \
           Gon::Base.get_template_path(options, 'rabl'),
-          Gon::Base.get_controller(options)
+          Gon::Base.get_controller(options),
+          options[:locals]
 
         [data, options]
       end
 
       private
 
-      def parse_rabl(rabl_path, controller)
+      def parse_rabl(rabl_path, controller, locals)
+        locals ||= {}
         source = File.read(rabl_path)
         rabl_engine = ::Rabl::Engine.new(source, :format => 'json')
-        output = rabl_engine.render(controller, {})
+
+        output = rabl_engine.render(controller, locals)
+
         JSON.parse(output)
       end
 

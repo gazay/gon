@@ -27,6 +27,25 @@ describe Gon do
       end
     end
 
+    context 'option locals' do
+      it 'works without locals object properly' do
+        Gon.rabl(
+          :template =>'spec/test_data/sample.rabl',
+          :controller => controller
+        )
+        Gon.objects.map { |it| it['object']['inspect'] }.should == ['1', '2']
+      end
+
+      it 'works with different locals object' do
+        Gon.rabl(
+          :template =>'spec/test_data/sample.rabl',
+          :controller => controller,
+          :locals => { :objects => [3, 4] }
+        )
+        Gon.objects.map { |it| it['object']['inspect'] }.should == ['3', '4']
+      end
+    end
+
     it 'works if rabl is included' do
       Gon.rabl :template =>'spec/test_data/sample.rabl', :controller => controller
       Gon.objects.length.should == 2

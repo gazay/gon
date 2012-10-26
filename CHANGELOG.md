@@ -4,6 +4,7 @@
 
   * Removed BlankSlate requirement *Peter Schröder*
   * Gon#set_variable and Gon#get_variable moved to public scope
+  * Added option :locals to gon.rabl functionality
 
 ## 4.0.0
 
