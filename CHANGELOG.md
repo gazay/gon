@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 4.0.1
+
+  * Removed BlankSlate requirement *Peter Schröder*
+
 ## 4.0.0
 
   * Added gon.watch functionality (thanks to @brainopia and @kossnocorp)
