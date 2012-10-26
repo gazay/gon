@@ -36,6 +36,14 @@ class Gon
       end
     end
 
+    def get_variable(name)
+      Request.gon[name]
+    end
+
+    def set_variable(name, value)
+      Request.gon[name] = value
+    end
+
     def all_variables
       Request.gon
     end
@@ -67,14 +75,6 @@ class Gon
     end
 
     private
-
-    def get_variable(name)
-      Request.gon[name]
-    end
-
-    def set_variable(name, value)
-      Request.gon[name] = value
-    end
 
     def store_builder_data(builder, data, options)
       if options[:as]

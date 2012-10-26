@@ -27,6 +27,26 @@ describe Gon do
       Gon.klass         = Hash
     end
 
+    it 'can be filled with dynamic named variables' do
+      Gon.clear
+
+      check = {}
+      3.times do |i|
+        Gon.set_variable("variable#{i}", i)
+        check["variable#{i}"] = i
+      end
+
+      Gon.all_variables.should == check
+    end
+
+    it 'can set and get variable with dynamic name' do
+      Gon.clear
+      var_name = "variable#{rand}"
+
+      Gon.set_variable var_name, 1
+      Gon.get_variable(var_name).should == 1
+    end
+
   end
 
   describe '#include_gon' do

@@ -3,6 +3,7 @@
 ## 4.0.1
 
   * Removed BlankSlate requirement *Peter Schröder*
+  * Gon#set_variable and Gon#get_variable moved to public scope
 
 ## 4.0.0
 
