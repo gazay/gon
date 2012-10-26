@@ -1,6 +1,3 @@
-if defined?(Jbuilder) && Gem.loaded_specs["jbuilder"].version > Gem::Version.new("0.5.0")
-  gem 'blankslate'
-end
 require 'action_view'
 require 'action_controller'
 require 'gon/base'
