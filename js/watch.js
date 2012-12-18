@@ -44,7 +44,7 @@ gon.watch = function(name, possibleOptions, possibleCallback) {
       fn: callback
     });
   } else {
-    return performAjax;
+    return performAjax();
   }
 };
 
