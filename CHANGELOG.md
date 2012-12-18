@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 4.0.2
+
+  * Fixed gon.watch in JS without callback and options
+
 ## 4.0.1
 
   * Removed BlankSlate requirement *Peter Schröder*
