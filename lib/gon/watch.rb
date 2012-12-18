@@ -25,7 +25,7 @@ class Gon
           variable = {}
           @watch_variables ||= {}
           env = Gon::Request.env
-          variable['url'] = env['ORIGINAL_FULLPATH']
+          variable['url'] = env['ORIGINAL_FULLPATH'] || env['REQUEST_URI']
           variable['method'] = env['REQUEST_METHOD']
           variable['name'] = name
 
