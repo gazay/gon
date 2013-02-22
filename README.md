@@ -42,11 +42,11 @@ gem line to your Gemfile and do the following:
     ``` ruby
     gon.variable_name = variable_value
 
-    # on new syntax
-    gon.push(
+    # or new syntax
+    gon.push({
       user_id: 1,
       user_role: 'admin'
-    )
+    })
     ```
 
   2. In your js you get this by
