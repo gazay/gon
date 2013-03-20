@@ -41,6 +41,14 @@ gem line to your Gemfile and do the following:
 
     ``` ruby
     gon.variable_name = variable_value
+
+    # or new syntax
+    gon.push({
+      :user_id => 1,
+      :user_role => "admin"
+    })
+
+    gon.push(any_object) # any_object with respond_to? :each_pair
     ```
 
   2. In your js you get this by

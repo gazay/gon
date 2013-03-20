@@ -44,6 +44,14 @@ class Gon
       Request.gon[name] = value
     end
 
+    def push(data = {})
+      raise "Object must have each_pair method" unless data.respond_to? :each_pair
+
+      data.each_pair do |name, value|
+        set_variable(name, value)
+      end
+    end
+
     def all_variables
       Request.gon
     end
