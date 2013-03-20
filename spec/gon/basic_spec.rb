@@ -47,6 +47,20 @@ describe Gon do
       Gon.get_variable(var_name).should == 1
     end
 
+    it 'can be support new push syntax' do
+      Gon.clear
+
+      Gon.push({ :int => 1, :string => 'string' })
+      Gon.all_variables.should == { :int => 1, :string => 'string' }
+    end
+
+    it 'push with wrong object' do
+      expect {
+        Gon.clear
+        Gon.push(String.new("string object"))
+      }.to raise_error("Object must have each_pair method")
+    end
+
   end
 
   describe '#include_gon' do
