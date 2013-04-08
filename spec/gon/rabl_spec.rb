@@ -1,5 +1,4 @@
-# rabl_spec_rb
-require 'gon'
+require 'spec_helper'
 
 describe Gon do
 
@@ -8,9 +7,6 @@ describe Gon do
   end
 
   describe '.rabl' do
-
-    require 'rabl'
-    require 'gon/rabl'
 
     before :each do
       Gon.clear

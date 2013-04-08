@@ -6,12 +6,8 @@ require 'gon/watch'
 require 'gon/request'
 require 'gon/helpers'
 require 'gon/escaper'
-if defined?(Rabl)
-  require 'gon/rabl'
-end
-if defined?(Jbuilder)
-  require 'gon/jbuilder'
-end
+require 'gon/rabl'
+require 'gon/jbuilder'
 
 class Gon
   class << self
@@ -61,20 +57,13 @@ class Gon
     end
 
     def rabl(*args)
-      unless Gon.constants.include?(:Rabl)
-        raise "Possible wrong require order problem - try to add `gem 'rabl'` before `gem 'gon'` in your Gemfile"
-      end
       data, options = Gon::Rabl.handler(args)
-
       store_builder_data 'rabl', data, options
     end
 
     def jbuilder(*args)
-      unless Gon.constants.include?(:Jbuilder)
-        raise "Possible wrong require order problem - try to add `gem 'jbuilder'` before `gem 'gon'` in your Gemfile"
-      end
+      ensure_template_handler_is_defined
       data, options = Gon::Jbuilder.handler(args)
-
       store_builder_data 'jbuilder', data, options
     end
 
@@ -104,6 +93,13 @@ class Gon
           method.to_s[0..-2]
         end
       )
+    end
+    
+    # JbuilderTemplate will not be defined if jbuilder is required
+    # before gon. By loading jbuilder again, JbuilderTemplate will
+    # now be defined
+    def ensure_template_handler_is_defined
+      load 'jbuilder.rb' unless defined?(JbuilderTemplate)
     end
 
   end
