@@ -1,6 +1,10 @@
 require 'spec_helper'
 
 describe Gon do
+  
+  before(:all) do
+    ensure_rabl_is_loaded
+  end
 
   before(:each) do
     Gon::Request.env = {}
