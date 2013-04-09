@@ -88,6 +88,16 @@ describe Gon::Global do
                                   "</script>"
     end
 
+    it 'outputs correct js with a unicode line separator' do
+      Gon.global.str = "\u2028"
+      @base.include_gon.should == "<script type=\"text/javascript\">" +
+                                    "\n//<![CDATA[\n" +
+                                    "window.gon = {};" +
+                                    "gon.global={\"str\":\"&#x2028;\"};" +
+                                    "\n//]]>\n" +
+                                  "</script>"
+    end
+
   end
 
   it 'returns exception if try to set public method as variable' do

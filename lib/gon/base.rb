@@ -19,6 +19,7 @@ class Gon
         end
 
         script << Gon.watch.render if watch and Gon::Watch.all_variables.present?
+        script = Gon::Escaper.escape_unicode(script)
         script = Gon::Escaper.javascript_tag(script) if tag
         script.html_safe
       end
