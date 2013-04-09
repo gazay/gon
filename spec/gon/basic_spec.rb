@@ -79,30 +79,42 @@ describe Gon do
 
     it 'outputs correct js with an integer' do
       Gon.int = 1
-      @base.include_gon.should == '<script>window.gon = {};' +
+      @base.include_gon.should == '<script type="text/javascript">' +
+                                    "\n//<![CDATA[\n" +
+                                    'window.gon = {};' +
                                     'gon.int=1;' +
+                                    "\n//]]>\n" +
                                   '</script>'
     end
 
     it 'outputs correct js with a string' do
       Gon.str = %q(a'b"c)
-      @base.include_gon.should == '<script>window.gon = {};' +
+      @base.include_gon.should == '<script type="text/javascript">' +
+                                    "\n//<![CDATA[\n" +
+                                    'window.gon = {};' +
                                     %q(gon.str="a'b\"c";) +
+                                    "\n//]]>\n" +
                                   '</script>'
     end
 
     it 'outputs correct js with a script string' do
       Gon.str = %q(</script><script>alert('!')</script>)
-      @base.include_gon.should == '<script>window.gon = {};' +
-                                    %q(gon.str="\\u003C/script><script>alert('!')\\u003C/script>";) +
+      @base.include_gon.should == '<script type="text/javascript">' +
+                                    "\n//<![CDATA[\n" +
+                                    'window.gon = {};' +
+                                    %q(gon.str="</script><script>alert('!')</script>";) +
+                                    "\n//]]>\n" +
                                   '</script>'
     end
 
     it 'outputs correct js with an integer, camel-case and namespace' do
       Gon.int_cased = 1
       @base.include_gon(camel_case: true, namespace: 'camel_cased').should == \
-                                  '<script>window.camel_cased = {};' +
+                                  '<script type="text/javascript">' +
+                                    "\n//<![CDATA[\n" +
+                                    'window.camel_cased = {};' +
                                     'camel_cased.intCased=1;' +
+                                    "\n//]]>\n" +
                                   '</script>'
     end
 
@@ -136,7 +148,9 @@ describe Gon do
     it 'outputs correct js with type text/javascript' do
       @base.include_gon(need_type: true, init: true).should == \
                                   '<script type="text/javascript">' +
+                                    "\n//<![CDATA[\n" +
                                     'window.gon = {};'\
+                                    "\n//]]>\n" +
                                   '</script>'
     end
 

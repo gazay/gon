@@ -45,8 +45,11 @@ describe Gon::Global do
 
     it 'outputs correct js with an integer' do
       Gon.global.int = 1
-      @base.include_gon.should == "<script>window.gon = {};" +
+      @base.include_gon.should == "<script type=\"text/javascript\">" +
+                                    "\n//<![CDATA[\n" +
+                                    "window.gon = {};" +
                                     "gon.global={\"int\":1};" +
+                                    "\n//]]>\n" +
                                   "</script>"
     end
 
@@ -56,23 +59,32 @@ describe Gon::Global do
       Gon::Request.env = {}
       Gon.int = 1
       Gon.global.int = 1
-      @base.include_gon.should == "<script>window.gon = {};" +
+      @base.include_gon.should == "<script type=\"text/javascript\">" +
+                                    "\n//<![CDATA[\n" +
+                                    "window.gon = {};" +
                                     "gon.int=1;" +
                                     "gon.global={\"int\":1};" +
+                                    "\n//]]>\n" +
                                   "</script>"
     end
 
     it 'outputs correct js with a string' do
       Gon.global.str = %q(a'b"c)
-      @base.include_gon.should == "<script>window.gon = {};" +
+      @base.include_gon.should == "<script type=\"text/javascript\">" +
+                                    "\n//<![CDATA[\n" +
+                                    "window.gon = {};" +
                                     "gon.global={\"str\":\"a'b\\\"c\"};" +
+                                    "\n//]]>\n" +
                                   "</script>"
     end
 
     it 'outputs correct js with a script string' do
       Gon.global.str = %q(</script><script>alert('!')</script>)
-      @base.include_gon.should == "<script>window.gon = {};" +
-                                    "gon.global={\"str\":\"\\u003C/script><script>alert('!')\\u003C/script>\"};" +
+      @base.include_gon.should == "<script type=\"text/javascript\">" +
+                                    "\n//<![CDATA[\n" +
+                                    "window.gon = {};" +
+                                    "gon.global={\"str\":\"</script><script>alert('!')</script>\"};" +
+                                    "\n//]]>\n" +
                                   "</script>"
     end
 
