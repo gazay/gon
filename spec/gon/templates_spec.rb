@@ -1,16 +1,10 @@
-# rabl_spec_rb
-require 'gon'
+require 'spec_helper'
 
 describe Gon do
 
   before(:each) do
     Gon::Request.env = {}
   end
-
-  require 'jbuilder'
-  require 'gon/jbuilder'
-  require 'rabl'
-  require 'gon/rabl'
 
   describe '.get_template_path' do
     context 'template is specified' do

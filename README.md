@@ -8,7 +8,7 @@ If you need to send some data to your js files and you don't want to do this wit
 
 Now you can easily renew data in your variables through ajax with [gon.watch](https://github.com/gazay/gon/wiki/Usage-gon-watch)!
 
-With [Jbuilder](https://github.com/rails/jbuilder) and [Rabl](https://github.com/nesquena/rabl) support!
+With [Jbuilder](https://github.com/rails/jbuilder), [Rabl](https://github.com/nesquena/rabl), and [Rabl-Rails](https://github.com/ccocchi/rabl-rails) support!
 
 For Sinatra available [gon-sinatra](https://github.com/gazay/gon-sinatra).
 
@@ -137,6 +137,30 @@ Profit of using Rabl with gon:
 
 [Instruction](https://github.com/gazay/gon/wiki/Usage-with-rabl) for
 usage gon with Rabl.
+
+## Usage with Rabl-Rails
+`gon.rabl` works with [rabl-rails](https://github.com/ccocchi/rabl-rails). Learn to write RABL the rabl-rails way [here](https://github.com/ccocchi/rabl-rails).
+
+Add gon and rabl-rails to your environment:
+```ruby
+gem 'gon'
+gem 'rabl-rails'
+```
+Define a rabl template using rabl-rails syntax:
+```rabl
+#app/views/users/show.rabl
+object :@user
+attributes :id, :name, :email, :location
+```
+Call gon.rabl in your controller
+
+```ruby
+#app/controllers/users_controller.rb
+def show
+  @user = User.find(params[:id])
+  gon.rabl
+end
+```
 
 ## Usage with Jbuilder
 
