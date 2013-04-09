@@ -51,10 +51,9 @@ class Gon
       def parse_options(options)
         namespace  = options[:namespace] || 'gon'
         need_tag   = options[:need_tag].nil? || options[:need_tag]
-        need_type  = options[:need_type].present? && options[:need_type]
         cameled    = options[:camel_case]
         watch      = options[:watch]
-        tag = need_tag && (need_type ? '<script type="text/javascript">' : '<script>')
+        tag        = need_tag
 
         [namespace, tag, cameled, watch]
       end
