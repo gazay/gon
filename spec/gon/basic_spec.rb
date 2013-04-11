@@ -148,6 +148,26 @@ describe Gon do
     lambda { Gon.rabl = 123 }.should raise_error
   end
 
+
+  describe '#check_for_rabl_and_jbuilder' do
+
+    let(:controller) { ActionController::Base.new }
+
+    it 'should be able to handle ruby 1.8.7 style constants array (strings)' do
+      constants_as_strings = Gon.constants.map(&:to_s)
+      Gon.stub(:constants) { constants_as_strings }
+      lambda { Gon.rabl 'spec/test_data/sample.rabl', :controller => controller }.should_not raise_error
+      lambda { Gon.jbuilder 'spec/test_data/sample.json.jbuilder', :controller => controller }.should_not raise_error
+    end
+
+    it 'should be able to handle ruby 1.9+ style constants array (symbols)' do
+      constants_as_symbols = Gon.constants.map(&:to_sym)
+      Gon.stub(:constants) { constants_as_symbols }
+      lambda { Gon.rabl 'spec/test_data/sample.rabl', :controller => controller }.should_not raise_error
+      lambda { Gon.jbuilder 'spec/test_data/sample.json.jbuilder', :controller => controller }.should_not raise_error
+    end
+  end
+
   def request
     @request ||= double 'request', :env => {}
   end
