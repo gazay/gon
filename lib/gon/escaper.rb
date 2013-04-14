@@ -1,14 +1,13 @@
 class Gon
   module Escaper
+    extend ActionView::Helpers::JavaScriptHelper
+    extend ActionView::Helpers::TagHelper
+
     class << self
 
-      GON_JS_ESCAPE_MAP = {
-        '</'    => '\u003C/'
-      }
-
-      def escape(javascript)
+      def escape_unicode(javascript)
         if javascript
-          result = javascript.gsub(/(<\/)/u) {|match| GON_JS_ESCAPE_MAP[match] }
+          result = javascript.gsub(/\342\200\250/u, '&#x2028;')
           javascript.html_safe? ? result.html_safe : result
         else
           ''
