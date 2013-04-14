@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 4.0.3
+
+  * Added new method `Gon#push` for assign variables through Hash-like
+    objects (topdev)
+  * Fixes for 1.8.7 compatibility.
+  * !!!IMPORTANT!!! Last version with compatibility for MRI 1.8.7
+
 ## 4.0.2
 
   * Fixed gon.watch in JS without callback and options
