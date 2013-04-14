@@ -8,8 +8,7 @@ class Gon
           data[:global] = Gon.global.all_variables
         end
         namespace, tag, cameled, watch = parse_options options
-        start     = "#{tag if tag}window.#{namespace} = {};"
-        script    = ''
+        script    = "window.#{namespace} = {};"
 
         data.each do |key, val|
           if cameled
@@ -19,9 +18,9 @@ class Gon
           end
         end
 
-        script = start + Gon::Escaper.escape(script)
         script << Gon.watch.render if watch and Gon::Watch.all_variables.present?
-        script << '</script>' if tag
+        script = Gon::Escaper.escape_unicode(script)
+        script = Gon::Escaper.javascript_tag(script) if tag
         script.html_safe
       end
 
@@ -52,10 +51,9 @@ class Gon
       def parse_options(options)
         namespace  = options[:namespace] || 'gon'
         need_tag   = options[:need_tag].nil? || options[:need_tag]
-        need_type  = options[:need_type].present? && options[:need_type]
         cameled    = options[:camel_case]
         watch      = options[:watch]
-        tag = need_tag && (need_type ? '<script type="text/javascript">' : '<script>')
+        tag        = need_tag
 
         [namespace, tag, cameled, watch]
       end
