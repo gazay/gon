@@ -21,6 +21,7 @@ Gem::Specification.new do |s|
   s.add_dependency "actionpack", '>= 2.3.0'
   s.add_dependency "json"
   s.add_development_dependency "rabl"
+  s.add_development_dependency "rabl-rails"
   s.add_development_dependency "rspec"
   s.add_development_dependency "jbuilder"
   s.add_development_dependency "rake"

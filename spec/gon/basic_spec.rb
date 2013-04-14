@@ -1,4 +1,4 @@
-require 'gon'
+require 'spec_helper'
 
 describe Gon do
 

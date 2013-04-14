@@ -1,16 +1,16 @@
-# rabl_spec_rb
-require 'gon'
+require 'spec_helper'
 
 describe Gon do
+  
+  before(:all) do
+    ensure_rabl_is_loaded
+  end
 
   before(:each) do
     Gon::Request.env = {}
   end
 
   describe '.rabl' do
-
-    require 'rabl'
-    require 'gon/rabl'
 
     before :each do
       Gon.clear
