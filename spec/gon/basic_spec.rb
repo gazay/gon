@@ -51,7 +51,7 @@ describe Gon do
       Gon.clear
 
       Gon.push({ :int => 1, :string => 'string' })
-      Gon.all_variables.should == { :int => 1, :string => 'string' }
+      Gon.all_variables.should == { 'int' => 1, 'string' => 'string' }
     end
 
     it 'push with wrong object' do

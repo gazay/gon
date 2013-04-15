@@ -22,8 +22,26 @@ describe Gon do
         Gon.objects.length.should == 2
       end
 
-      it 'render json from jbuilder template with helpers' do
+      it 'render json from jbuilder template with locals' do
+        Gon.jbuilder 'spec/test_data/sample_with_locals.json.jbuilder', :controller => controller, :locals => { :some_local => 1234 }
+        Gon.some_local.should == 1234
+      end
+
+      it 'render json from jbuilder template with locals' do
         Gon.jbuilder 'spec/test_data/sample_with_helpers.json.jbuilder', :controller => controller
+        Gon.date.should == 'about 6 hours'
+      end
+
+      it 'render json from jbuilder template with controller methods' do
+        pending
+        controller.instance_eval {
+          def private_controller_method
+            puts 'gon test helper works'
+          end
+          private :private_controller_method
+        }
+
+        Gon.jbuilder 'spec/test_data/sample_with_controller_method.json.jbuilder', :controller => controller
         Gon.date.should == 'about 6 hours'
       end
 

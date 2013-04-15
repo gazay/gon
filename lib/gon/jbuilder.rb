@@ -14,7 +14,8 @@ class Gon
 
         data = parse_jbuilder \
           Gon::Base.get_template_path(options,'jbuilder'),
-          controller
+          controller,
+          options[:locals]
 
         [data, options]
       end
@@ -50,11 +51,15 @@ class Gon
         args.first.is_a? Hash
       end
 
-      def parse_jbuilder(jbuilder_path, controller)
+      def parse_jbuilder(jbuilder_path, controller, locals)
         controller.instance_variables.each do |name|
           self.instance_variable_set \
             name,
             controller.instance_variable_get(name)
+        end
+        locals ||= {}
+        locals.each do |name, value|
+          eval "def #{name}; return #{value}; end"
         end
         lines = find_partials File.readlines(jbuilder_path)
         source = lines.join('')
