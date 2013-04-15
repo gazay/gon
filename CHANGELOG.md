@@ -1,9 +1,16 @@
 # CHANGELOG
 
+## 4.1.0
+
+  * Refactored script tag generation (@toothrot)
+  * Stop support for MRI 1.8.7
+  * Added rabl-rails support (@jtherrell)
+  * Accepting locals in jbuilder templates
+
 ## 4.0.3
 
   * Added new method `Gon#push` for assign variables through Hash-like
-    objects (topdev)
+    objects (@topdev)
   * Fixes for 1.8.7 compatibility.
   * !!!IMPORTANT!!! Last version with compatibility for MRI 1.8.7
 
