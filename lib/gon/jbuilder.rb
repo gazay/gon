@@ -78,14 +78,18 @@ class Gon
         path = partial_line.match(/['"]([^'"]*)['"]/)[1]
         path = parse_path path
         options_hash = partial_line.match(/,(.*)/)[1]
-        if options_hash.present?
-          options = eval '{' + options_hash + '}'
-          options.each do |name, val|
-            self.instance_variable_set('@' + name.to_s, val)
-            eval "def #{name}; self.instance_variable_get('@' + '#{name.to_s}'); end"
-          end
-        end
+
+        set_options_from_hash(options_hash) if options_hash.present?
+
         find_partials File.readlines(path)
+      end
+
+      def set_options_from_hash(options_hash)
+        options = eval "{#{options_hash}}"
+        options.each do |name, val|
+          self.instance_variable_set("@#{name.to_s}", val)
+          eval "def #{name}; self.instance_variable_get('@' + '#{name.to_s}'); end"
+        end
       end
 
       def parse_path(path)

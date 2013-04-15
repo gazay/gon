@@ -3,24 +3,13 @@ class Gon
     class << self
 
       def render_data(options)
-        data = Gon.all_variables || {}
-        if Gon.global.all_variables.present?
-          data[:global] = Gon.global.all_variables
-        end
         namespace, tag, cameled, watch = parse_options options
         script    = "window.#{namespace} = {};"
 
-        data.each do |key, val|
-          if cameled
-            script << "#{namespace}.#{key.to_s.camelize(:lower)}=#{val.to_json};"
-          else
-            script << "#{namespace}.#{key.to_s}=#{val.to_json};"
-          end
-        end
-
-        script << Gon.watch.render if watch and Gon::Watch.all_variables.present?
+        script << formatted_data(namespace, cameled, watch)
         script = Gon::Escaper.escape_unicode(script)
         script = Gon::Escaper.javascript_tag(script) if tag
+
         script.html_safe
       end
 
@@ -56,6 +45,31 @@ class Gon
         tag        = need_tag
 
         [namespace, tag, cameled, watch]
+      end
+
+      def formatted_data(namespace, keys_cameled, watch)
+        script = ''
+
+        gon_variables.each do |key, val|
+          js_key = keys_cameled ? key.to_s.camelize(:lower) : key.to_s
+          script << "#{namespace}.#{js_key}=#{val.to_json};"
+        end
+
+        if watch and Gon::Watch.all_variables.present?
+          script << Gon.watch.render
+        end
+
+        script
+      end
+
+      def gon_variables
+        data = Gon.all_variables || {}
+
+        if Gon.global.all_variables.present?
+          data[:global] = Gon.global.all_variables
+        end
+
+        data
       end
 
       def right_extension?(extension, template_path)
