@@ -4,7 +4,10 @@ class Gon
 
       def render_data(options)
         namespace, tag, cameled, watch = parse_options options
-        script    = "window.#{namespace} = {};" unless options[:maintain_previous_data]
+        if options[:maintain_previous_data]
+          script = ""
+        else
+          script = "window.#{namespace} = {};"
 
         script << formatted_data(namespace, cameled, watch)
         script = Gon::Escaper.escape_unicode(script)
