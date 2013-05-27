@@ -8,6 +8,7 @@ class Gon
           script = ""
         else
           script = "window.#{namespace} = {};"
+        end
 
         script << formatted_data(namespace, cameled, watch)
         script = Gon::Escaper.escape_unicode(script)
