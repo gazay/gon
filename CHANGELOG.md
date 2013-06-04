@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 4.1.1
+
+  * Fixed critical XSS vulnerability https://github.com/gazay/gon/issues/84 (@vadimr & @Hebo)
+
 ## 4.1.0
 
   * Refactored script tag generation (@toothrot)
