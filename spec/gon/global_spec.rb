@@ -83,7 +83,7 @@ describe Gon::Global do
       @base.include_gon.should == "<script type=\"text/javascript\">" +
                                     "\n//<![CDATA[\n" +
                                     "window.gon = {};" +
-                                    "gon.global={\"str\":\"</script><script>alert('!')</script>\"};" +
+                                    "gon.global={\"str\":\"\\u003C/script><script>alert('!')\\u003C/script>\"};" +
                                     "\n//]]>\n" +
                                   "</script>"
     end

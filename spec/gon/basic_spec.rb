@@ -102,7 +102,7 @@ describe Gon do
       @base.include_gon.should == '<script type="text/javascript">' +
                                     "\n//<![CDATA[\n" +
                                     'window.gon = {};' +
-                                    %q(gon.str="</script><script>alert('!')</script>";) +
+                                    %q(gon.str="\u003C/script><script>alert('!')\u003C/script>";) +
                                     "\n//]]>\n" +
                                   '</script>'
     end
