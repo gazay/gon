@@ -118,6 +118,28 @@ describe Gon do
                                   '</script>'
     end
 
+    it 'outputs correct js with camel_depth = :recursive' do
+      Gon.test_hash = { test_depth_one: { test_depth_two: 1 } }
+      @base.include_gon(camel_case: true, camel_depth: :recursive).should == \
+                                  '<script type="text/javascript">' +
+                                    "\n//<![CDATA[\n" +
+                                    'window.gon = {};' +
+                                    'gon.testHash={"testDepthOne":{"testDepthTwo":1}};' +
+                                    "\n//]]>\n" +
+                                  '</script>'
+    end
+
+    it 'outputs correct js with camel_depth = 2' do
+      Gon.test_hash = { test_depth_one: { test_depth_two: 1 } }
+      @base.include_gon(camel_case: true, camel_depth: 2).should == \
+                                  '<script type="text/javascript">' +
+                                    "\n//<![CDATA[\n" +
+                                    'window.gon = {};' +
+                                    'gon.testHash={"testDepthOne":{"test_depth_two":1}};' +
+                                    "\n//]]>\n" +
+                                  '</script>'
+    end
+
     it 'outputs correct js with an integer and without tag' do
       Gon.int = 1
       @base.include_gon(need_tag: false).should == \
