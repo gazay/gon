@@ -3,10 +3,10 @@ class Gon
     class << self
 
       def render_data(options)
-        namespace, tag, cameled, watch = parse_options options
+        namespace, tag, cameled, camel_depth, watch = parse_options options
         script    = "window.#{namespace} = {};"
 
-        script << formatted_data(namespace, cameled, watch)
+        script << formatted_data(namespace, cameled, camel_depth, watch)
         script = Gon::Escaper.escape_unicode(script)
         script = Gon::Escaper.javascript_tag(script) if tag
 
@@ -38,21 +38,22 @@ class Gon
       private
 
       def parse_options(options)
-        namespace  = options[:namespace] || 'gon'
-        need_tag   = options[:need_tag].nil? || options[:need_tag]
-        cameled    = options[:camel_case]
-        watch      = options[:watch]
-        tag        = need_tag
+        namespace   = options[:namespace] || 'gon'
+        need_tag    = options[:need_tag].nil? || options[:need_tag]
+        cameled     = options[:camel_case]
+        camel_depth = options[:camel_depth] || 1
+        watch       = options[:watch]
+        tag         = need_tag
 
-        [namespace, tag, cameled, watch]
+        [namespace, tag, cameled, camel_depth, watch]
       end
 
-      def formatted_data(namespace, keys_cameled, watch)
+      def formatted_data(namespace, keys_cameled, camel_depth, watch)
         script = ''
 
         gon_variables.each do |key, val|
           js_key = keys_cameled ? key.to_s.camelize(:lower) : key.to_s
-          script << "#{namespace}.#{js_key}=#{val.to_json};"
+          script << "#{namespace}.#{js_key}=#{to_json(val, camel_depth)};"
         end
 
         if watch and Gon::Watch.all_variables.present?
@@ -60,6 +61,20 @@ class Gon
         end
 
         script
+      end
+
+      def to_json(value, camel_depth)
+        # starts at two because 1 is the root key which is converted in the formatted_data method
+        convert_hash_keys(value, 2, camel_depth).to_json
+      end
+
+      def convert_hash_keys(value, current_depth, max_depth)
+        return value if current_depth > (max_depth.is_a?(Symbol) ? 1000 : max_depth)
+        return value unless value.is_a? Hash
+
+        Hash[value.map { |k, v|
+          [ k.to_s.camelize(:lower), convert_hash_keys(v, current_depth + 1, max_depth) ]
+        }]
       end
 
       def gon_variables
