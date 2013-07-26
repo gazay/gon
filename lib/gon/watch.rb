@@ -46,7 +46,6 @@ class Gon
 
       def return_variable(value)
         controller = Gon::Base.get_controller
-
         controller.render :json => value
       end
 

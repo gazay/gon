@@ -14,18 +14,18 @@ describe Gon::Global do
       Gon.global.b = 2
       Gon.global.c = Gon.global.a + Gon.global.b
       Gon.global.c.should == 3
-      Gon.global.all_variables.should == {'a' => 1, 'b' => 2, 'c' => 3}
+      Gon.global.all_variables.should == { 'a' => 1, 'b' => 2, 'c' => 3 }
     end
 
     it 'supports all data types' do
       Gon.global.clear
-      Gon.global.int = 1
-      Gon.global.float = 1.1
-      Gon.global.string = 'string'
-      Gon.global.array = [ 1, 'string' ]
-      Gon.global.hash_var = { :a => 1, :b => '2'}
-      Gon.global.hash_w_array = { :a => [ 2, 3 ] }
-      Gon.global.klass = Hash
+      Gon.global.int          = 1
+      Gon.global.float        = 1.1
+      Gon.global.string       = 'string'
+      Gon.global.array        = [1, 'string']
+      Gon.global.hash_var     = { :a => 1, :b => '2' }
+      Gon.global.hash_w_array = { :a => [2, 3] }
+      Gon.global.klass        = Hash
     end
 
   end
@@ -47,7 +47,7 @@ describe Gon::Global do
       Gon.global.int = 1
       @base.include_gon.should == "<script type=\"text/javascript\">" +
                                     "\n//<![CDATA[\n" +
-                                    "window.gon = {};" +
+                                    "window.gon={};" +
                                     "gon.global={\"int\":1};" +
                                     "\n//]]>\n" +
                                   "</script>"
@@ -61,7 +61,7 @@ describe Gon::Global do
       Gon.global.int = 1
       @base.include_gon.should == "<script type=\"text/javascript\">" +
                                     "\n//<![CDATA[\n" +
-                                    "window.gon = {};" +
+                                    "window.gon={};" +
                                     "gon.int=1;" +
                                     "gon.global={\"int\":1};" +
                                     "\n//]]>\n" +
@@ -72,7 +72,7 @@ describe Gon::Global do
       Gon.global.str = %q(a'b"c)
       @base.include_gon.should == "<script type=\"text/javascript\">" +
                                     "\n//<![CDATA[\n" +
-                                    "window.gon = {};" +
+                                    "window.gon={};" +
                                     "gon.global={\"str\":\"a'b\\\"c\"};" +
                                     "\n//]]>\n" +
                                   "</script>"
@@ -82,7 +82,7 @@ describe Gon::Global do
       Gon.global.str = %q(</script><script>alert('!')</script>)
       @base.include_gon.should == "<script type=\"text/javascript\">" +
                                     "\n//<![CDATA[\n" +
-                                    "window.gon = {};" +
+                                    "window.gon={};" +
                                     "gon.global={\"str\":\"\\u003C/script><script>alert('!')\\u003C/script>\"};" +
                                     "\n//]]>\n" +
                                   "</script>"
@@ -92,7 +92,7 @@ describe Gon::Global do
       Gon.global.str = "\u2028"
       @base.include_gon.should == "<script type=\"text/javascript\">" +
                                     "\n//<![CDATA[\n" +
-                                    "window.gon = {};" +
+                                    "window.gon={};" +
                                     "gon.global={\"str\":\"&#x2028;\"};" +
                                     "\n//]]>\n" +
                                   "</script>"
@@ -114,15 +114,15 @@ describe Gon::Global do
     end
 
     let(:controller) { ActionController::Base.new }
-    let(:objects) { [1,2] }
+    let(:objects) { [1, 2] }
 
     it 'works fine with rabl' do
-      Gon.global.rabl :template =>'spec/test_data/sample.rabl', :controller => controller
+      Gon.global.rabl :template => 'spec/test_data/sample.rabl', :controller => controller
       Gon.global.objects.length.should == 2
     end
 
     it 'works fine with jbuilder' do
-      Gon.global.jbuilder :template =>'spec/test_data/sample.json.jbuilder', :controller => controller
+      Gon.global.jbuilder :template => 'spec/test_data/sample.json.jbuilder', :controller => controller
       Gon.global.objects.length.should == 2
     end
 

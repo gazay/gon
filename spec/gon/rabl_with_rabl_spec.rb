@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Gon do
-  
+
   before(:all) do
     ensure_rabl_is_loaded
   end
@@ -18,7 +18,7 @@ describe Gon do
     end
 
     let(:controller) { ActionController::Base.new }
-    let(:objects) { [1,2] }
+    let(:objects) { [1, 2] }
 
     context 'render template with deprecation' do
       it 'still works' do
@@ -30,35 +30,35 @@ describe Gon do
     context 'option locals' do
       it 'works without locals object properly' do
         Gon.rabl(
-          :template =>'spec/test_data/sample.rabl',
+          :template   => 'spec/test_data/sample.rabl',
           :controller => controller
         )
-        Gon.objects.map { |it| it['object']['inspect'] }.should == ['1', '2']
+        Gon.objects.map { |it| it['object']['inspect'] }.should == %w(1 2)
       end
 
       it 'works with different locals object' do
         Gon.rabl(
-          :template =>'spec/test_data/sample.rabl',
+          :template   => 'spec/test_data/sample.rabl',
           :controller => controller,
-          :locals => { :objects => [3, 4] }
+          :locals     => { :objects => [3, 4] }
         )
-        Gon.objects.map { |it| it['object']['inspect'] }.should == ['3', '4']
+        Gon.objects.map { |it| it['object']['inspect'] }.should == %w(3 4)
       end
     end
 
     it 'works if rabl is included' do
-      Gon.rabl :template =>'spec/test_data/sample.rabl', :controller => controller
+      Gon.rabl :template => 'spec/test_data/sample.rabl', :controller => controller
       Gon.objects.length.should == 2
     end
 
     it 'works with ActionView::Helpers' do
-      Gon.rabl :template =>'spec/test_data/sample_with_helpers.rabl', :controller => controller
+      Gon.rabl :template => 'spec/test_data/sample_with_helpers.rabl', :controller => controller
       Gon.objects.first['object']['time_ago'].should == 'about 6 hours'
     end
 
     it 'raise exception if rabl is not included' do
       Gon.send :remove_const, 'Rabl'
-      expect { Gon.rabl :template =>'spec/test_data/sample.rabl', :controller => controller}.to raise_error
+      expect { Gon.rabl :template => 'spec/test_data/sample.rabl', :controller => controller }.to raise_error
       load 'rabl.rb'
       load 'gon/rabl.rb'
     end
@@ -67,11 +67,11 @@ describe Gon do
       context 'template is specified' do
 
         it 'add the extension if not included in the template name' do
-          Gon::Base.send(:get_template_path, { :template => 'spec/test_data/sample'}, 'rabl').should eql('spec/test_data/sample.rabl')
+          Gon::Base.send(:get_template_path, { :template => 'spec/test_data/sample' }, 'rabl').should eql('spec/test_data/sample.rabl')
         end
 
         it 'return the specified template' do
-          Gon::Base.send(:get_template_path, { :template => 'spec/test_data/sample.rabl'}, 'rabl').should eql('spec/test_data/sample.rabl')
+          Gon::Base.send(:get_template_path, { :template => 'spec/test_data/sample.rabl' }, 'rabl').should eql('spec/test_data/sample.rabl')
         end
 
       end
@@ -85,11 +85,11 @@ describe Gon do
         end
 
         let(:controller) { ActionController::Base.new }
-        let(:objects) { [1,2] }
+        let(:objects) { [1, 2] }
 
         context 'the action doesn as a template at a different format' do
           it 'return the same template as the action with rabl extension' do
-            Gon::Base.send(:get_template_path, {:controller => controller}, 'rabl').should eql('app/views/action_controller/base/show.json.rabl')
+            Gon::Base.send(:get_template_path, { :controller => controller }, 'rabl').should eql('app/views/action_controller/base/show.json.rabl')
           end
         end
 
