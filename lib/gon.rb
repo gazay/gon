@@ -21,9 +21,9 @@ class Gon
     end
 
     def method_missing(method, *args, &block)
-      if ( method.to_s =~ /=$/ )
-        if public_method_name? method
-          raise "You can't use Gon public methods for storing data"
+      if method.to_s =~ /=$/
+        if public_method_name?(method)
+          raise 'You can\'t use Gon public methods for storing data'
         end
 
         set_variable(method.to_s.delete('='), args[0])
@@ -41,7 +41,7 @@ class Gon
     end
 
     def push(data = {})
-      raise "Object must have each_pair method" unless data.respond_to? :each_pair
+      raise 'Object must have each_pair method' unless data.respond_to? :each_pair
 
       data.each_pair do |name, value|
         set_variable(name.to_s, value)
@@ -77,9 +77,7 @@ class Gon
       if options[:as]
         set_variable(options[:as].to_s, data)
       elsif data.is_a? Hash
-        data.each do |key, value|
-          set_variable(key, value)
-        end
+        data.each { |k, v| set_variable(k, v) }
       else
         set_variable(builder, data)
       end

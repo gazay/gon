@@ -17,7 +17,7 @@ class Gon
           Gon.clear if Gon.all_variables.present?
           Gon::Base.render_data(options)
         else
-          ""
+          ''
         end
       end
 

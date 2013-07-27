@@ -313,7 +313,7 @@ json.partial! 'app/views/posts/_part.json.jbuilder', :comments => @posts[0].comm
 `app/views/posts/_part.json.jbuilder`
 
 ``` jbuilder
-json.comments comments.map{ |it| 'comment#' + it.id }
+json.comments comments.map { |it| 'comment#' + it.id }
 ```
 
 ``` js
