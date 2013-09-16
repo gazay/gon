@@ -37,7 +37,7 @@ class Gon
     end
 
     def set_variable(name, value)
-      Request.gon[name] = value
+      Request.gon[name] = value if Request.gon
     end
 
     def push(data = {})
