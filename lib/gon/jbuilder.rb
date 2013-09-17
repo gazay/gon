@@ -59,7 +59,11 @@ class Gon
         end
         locals ||= {}
         locals.each do |name, value|
-          eval "def #{name}; return #{value}; end"
+          self.class.class_eval do
+            define_method "#{name}" do
+              return value
+            end
+          end
         end
         lines = find_partials File.readlines(jbuilder_path)
         source = lines.join('')
