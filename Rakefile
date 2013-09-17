@@ -5,5 +5,5 @@ Bundler::GemHelper.install_tasks
 
 desc 'Run all tests by default'
 task :default do
-  system("rspec spec")
+  system('rspec spec')
 end

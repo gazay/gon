@@ -13,7 +13,7 @@ class Gon
         include_helpers
 
         data = parse_jbuilder \
-          Gon::Base.get_template_path(options,'jbuilder'),
+          Gon::Base.get_template_path(options, 'jbuilder'),
           controller,
           options[:locals]
 
@@ -100,7 +100,7 @@ class Gon
           tmp_path = construct_path(splitted[0], splitted[1])
           return tmp_path if tmp_path
         elsif splitted.size == 1
-          tmp_path = construct_path @_controller_name, splitted[0]
+          tmp_path = construct_path(@_controller_name, splitted[0])
           return tmp_path if tmp_path
         end
 

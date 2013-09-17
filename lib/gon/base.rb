@@ -3,12 +3,12 @@ class Gon
     class << self
 
       def render_data(options)
-        namespace, tag, cameled, camel_depth, watch = parse_options options
-        script    = "window.#{namespace} = {};"
+        namespace, tag, cameled, camel_depth, watch, type, cdata = parse_options(options)
+        script = "window.#{namespace}={};"
 
         script << formatted_data(namespace, cameled, camel_depth, watch)
         script = Gon::Escaper.escape_unicode(script)
-        script = Gon::Escaper.javascript_tag(script) if tag
+        script = Gon::Escaper.javascript_tag(script, type, cdata) if tag
 
         script.html_safe
       end
@@ -44,8 +44,10 @@ class Gon
         camel_depth = options[:camel_depth] || 1
         watch       = options[:watch]
         tag         = need_tag
+        type        = options[:type].nil? || options[:type]
+        cdata       = options[:cdata].nil? || options[:cdata]
 
-        [namespace, tag, cameled, camel_depth, watch]
+        [namespace, tag, cameled, camel_depth, watch, type, cdata]
       end
 
       def formatted_data(namespace, keys_cameled, camel_depth, watch)

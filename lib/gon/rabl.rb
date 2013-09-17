@@ -1,11 +1,11 @@
 require 'action_view'
 
-begin 
+begin
   require 'rabl' # use rabl gem if it's available
 rescue LoadError
 end
-begin 
-  require 'rabl-rails' # use rabl-rails gem if it's available 
+begin
+  require 'rabl-rails' # use rabl-rails gem if it's available
 rescue LoadError
 end
 

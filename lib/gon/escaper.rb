@@ -9,8 +9,19 @@ class Gon
         if javascript
           result = javascript.gsub(/\342\200\250/u, '&#x2028;').gsub(/(<\/)/u, '\u003C/')
           javascript.html_safe? ? result.html_safe : result
+        end
+      end
+
+      def javascript_tag(content, type, cdata)
+        type = { type: 'text/javascript' } if type
+        content_tag(:script, javascript_cdata_section(content, cdata).html_safe, type)
+      end
+
+      def javascript_cdata_section(content, cdata)
+        if cdata
+          "\n//#{cdata_section("\n#{content}\n//")}\n"
         else
-          ''
+          "\n#{content}\n"
         end
       end
 

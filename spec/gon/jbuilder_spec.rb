@@ -15,7 +15,7 @@ describe Gon do
       end
 
       let(:controller) { ActionController::Base.new }
-      let(:objects) { [1,2] }
+      let(:objects) { [1, 2] }
 
       it 'render json from jbuilder template' do
         Gon.jbuilder 'spec/test_data/sample.json.jbuilder', :controller => controller

@@ -44,8 +44,8 @@ describe Gon::Watch do
   end
 
   it 'should return value of variable if called right request' do
-    env = Gon::Request.instance_variable_get :@request_env
-    env["HTTP_X_REQUESTED_WITH"] = "XMLHttpRequest"
+    env = Gon::Request.instance_variable_get(:@request_env)
+    env['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest'
     request = ActionDispatch::Request.new env
     controller.request = request
     params = {}

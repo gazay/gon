@@ -13,18 +13,18 @@ describe Gon do
       Gon.b = 2
       Gon.c = Gon.a + Gon.b
       Gon.c.should == 3
-      Gon.all_variables.should == {'a' => 1, 'b' => 2, 'c' => 3}
+      Gon.all_variables.should == { 'a' => 1, 'b' => 2, 'c' => 3 }
     end
 
     it 'supports all data types' do
       Gon.clear
-      Gon.int           = 1
-      Gon.float         = 1.1
-      Gon.string        = 'string'
-      Gon.array         = [ 1, 'string' ]
-      Gon.hash_var      = { :a => 1, :b => '2'}
-      Gon.hash_w_array  = { :a => [ 2, 3 ] }
-      Gon.klass         = Hash
+      Gon.int          = 1
+      Gon.float        = 1.1
+      Gon.string       = 'string'
+      Gon.array        = [1, 'string']
+      Gon.hash_var     = { :a => 1, :b => '2' }
+      Gon.hash_w_array = { :a => [2, 3] }
+      Gon.klass        = Hash
     end
 
     it 'can be filled with dynamic named variables' do
@@ -43,7 +43,7 @@ describe Gon do
       Gon.clear
       var_name = "variable#{rand}"
 
-      Gon.set_variable var_name, 1
+      Gon.set_variable(var_name, 1)
       Gon.get_variable(var_name).should == 1
     end
 
@@ -57,8 +57,8 @@ describe Gon do
     it 'push with wrong object' do
       expect {
         Gon.clear
-        Gon.push(String.new("string object"))
-      }.to raise_error("Object must have each_pair method")
+        Gon.push(String.new('string object'))
+      }.to raise_error('Object must have each_pair method')
     end
 
   end
@@ -81,7 +81,7 @@ describe Gon do
       Gon.int = 1
       @base.include_gon.should == '<script type="text/javascript">' +
                                     "\n//<![CDATA[\n" +
-                                    'window.gon = {};' +
+                                    'window.gon={};' +
                                     'gon.int=1;' +
                                     "\n//]]>\n" +
                                   '</script>'
@@ -91,7 +91,7 @@ describe Gon do
       Gon.str = %q(a'b"c)
       @base.include_gon.should == '<script type="text/javascript">' +
                                     "\n//<![CDATA[\n" +
-                                    'window.gon = {};' +
+                                    'window.gon={};' +
                                     %q(gon.str="a'b\"c";) +
                                     "\n//]]>\n" +
                                   '</script>'
@@ -101,7 +101,7 @@ describe Gon do
       Gon.str = %q(</script><script>alert('!')</script>)
       @base.include_gon.should == '<script type="text/javascript">' +
                                     "\n//<![CDATA[\n" +
-                                    'window.gon = {};' +
+                                    'window.gon={};' +
                                     %q(gon.str="\u003C/script><script>alert('!')\u003C/script>";) +
                                     "\n//]]>\n" +
                                   '</script>'
@@ -112,7 +112,7 @@ describe Gon do
       @base.include_gon(camel_case: true, namespace: 'camel_cased').should == \
                                   '<script type="text/javascript">' +
                                     "\n//<![CDATA[\n" +
-                                    'window.camel_cased = {};' +
+                                    'window.camel_cased={};' +
                                     'camel_cased.intCased=1;' +
                                     "\n//]]>\n" +
                                   '</script>'
@@ -123,7 +123,7 @@ describe Gon do
       @base.include_gon(camel_case: true, camel_depth: :recursive).should == \
                                   '<script type="text/javascript">' +
                                     "\n//<![CDATA[\n" +
-                                    'window.gon = {};' +
+                                    'window.gon={};' +
                                     'gon.testHash={"testDepthOne":{"testDepthTwo":1}};' +
                                     "\n//]]>\n" +
                                   '</script>'
@@ -134,7 +134,7 @@ describe Gon do
       @base.include_gon(camel_case: true, camel_depth: 2).should == \
                                   '<script type="text/javascript">' +
                                     "\n//<![CDATA[\n" +
-                                    'window.gon = {};' +
+                                    'window.gon={};' +
                                     'gon.testHash={"testDepthOne":{"test_depth_two":1}};' +
                                     "\n//]]>\n" +
                                   '</script>'
@@ -143,7 +143,7 @@ describe Gon do
     it 'outputs correct js with an integer and without tag' do
       Gon.int = 1
       @base.include_gon(need_tag: false).should == \
-                                  'window.gon = {};' +
+                                  'window.gon={};' +
                                   'gon.int=1;'
     end
 
@@ -152,26 +152,37 @@ describe Gon do
         instance_variable_set(:@request_id, 123)
       Gon::Request.instance_variable_set(:@request_env, { 'gon' => { :a => 1 } })
       @base.include_gon(need_tag: false, init: true).should == \
-                                  'window.gon = {};'
+                                  'window.gon={};'
     end
 
     it 'outputs correct js without variables, without tag and gon init' do
       @base.include_gon(need_tag: false, init: true).should == \
-                                  'window.gon = {};'
+                                  'window.gon={};'
     end
 
     it 'outputs correct js without variables, without tag, gon init and an integer' do
       Gon.int = 1
       @base.include_gon(need_tag: false, init: true).should == \
-                                  'window.gon = {};' +
+                                  'window.gon={};' +
                                   'gon.int=1;'
+    end
+
+    it 'outputs correct js without cdata, without type, gon init and an integer' do
+      Gon.int = 1
+      @base.include_gon(cdata: false, type: false).should == \
+                                  '<script>' +
+                                    "\n" +
+                                    'window.gon={};' +
+                                    'gon.int=1;' +
+                                    "\n" +
+                                  '</script>'
     end
 
     it 'outputs correct js with type text/javascript' do
       @base.include_gon(need_type: true, init: true).should == \
                                   '<script type="text/javascript">' +
                                     "\n//<![CDATA[\n" +
-                                    'window.gon = {};'\
+                                    'window.gon={};'\
                                     "\n//]]>\n" +
                                   '</script>'
     end
@@ -183,7 +194,6 @@ describe Gon do
     lambda { Gon.all_variables = 123 }.should raise_error
     lambda { Gon.rabl = 123 }.should raise_error
   end
-
 
   describe '#check_for_rabl_and_jbuilder' do
 
