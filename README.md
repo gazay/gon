@@ -27,7 +27,7 @@ you might be doing something like this:
   3. Then there can be two ways in js:
     + if you previously wrote data in data
      attributes - you should parse this attributes and write data to some
-  js variable.
+     js variable.
     + if you wrote js right in view (many frontenders would shame you for
   that) - you just use data from this js - OK.
   4. You can use your data in your js
