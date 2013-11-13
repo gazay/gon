@@ -102,7 +102,7 @@ gon.your_array # > [1, 2, 123]
 gon.clear # gon.all_variables now is {}
 ```
 
-Access the varaibles from your JavaScript file:
+Access the variables from your JavaScript file:
 
 ``` js
 alert(gon.your_int)
