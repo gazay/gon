@@ -6,10 +6,6 @@ describe Gon do
     ensure_rabl_is_loaded
   end
 
-  before(:each) do
-    Gon::Request.env = {}
-  end
-
   describe '.rabl' do
 
     before :each do

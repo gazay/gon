@@ -37,3 +37,10 @@ def ensure_rabl_rails_is_loaded
     load 'rabl-rails.rb'
   end
 end
+
+RSpec.configure do |config|
+  config.before(:each) do
+    @request = Thread.current['gon'] = Gon::Request.new({})
+    Gon.stub(:current_gon).and_return(@request)
+  end
+end

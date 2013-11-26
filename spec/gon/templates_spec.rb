@@ -2,10 +2,6 @@ require 'spec_helper'
 
 describe Gon do
 
-  before(:each) do
-    Gon::Request.env = {}
-  end
-
   describe '.get_template_path' do
     context 'template is specified' do
 
