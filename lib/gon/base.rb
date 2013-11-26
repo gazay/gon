@@ -15,8 +15,8 @@ class Gon
 
       def get_controller(options = {})
         options[:controller] ||
-          Gon.send(:current_gon).env['action_controller.instance'] ||
-          Gon.send(:current_gon).env['action_controller.rescue.response'].
+          current_gon.env['action_controller.instance'] ||
+          current_gon.env['action_controller.rescue.response'].
           instance_variable_get('@template').
           instance_variable_get('@controller')
       end
@@ -36,6 +36,10 @@ class Gon
       end
 
       private
+
+      def current_gon
+        Thread.current[:gon]
+      end
 
       def parse_options(options)
         namespace   = options[:namespace] || 'gon'
