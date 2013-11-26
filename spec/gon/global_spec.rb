@@ -54,9 +54,6 @@ describe Gon::Global do
     end
 
     it 'outputs correct js with an integer and integer in Gon' do
-      Gon::Request.
-        instance_variable_set(:@request_id, request.object_id)
-      Gon::Request.env = {}
       Gon.int = 1
       Gon.global.int = 1
       @base.include_gon.should == "<script type=\"text/javascript\">" +

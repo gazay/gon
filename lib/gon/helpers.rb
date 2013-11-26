@@ -24,9 +24,11 @@ class Gon
       private
 
       def variables_for_request_present?
-        Gon::Request.env &&
-        Gon::Request.id == request.object_id &&
-        Gon.all_variables.present?
+        current_gon.gon.present?
+      end
+
+      def current_gon
+        Thread.current['gon']
       end
 
     end
@@ -41,22 +43,10 @@ class Gon
     module InstanceMethods
 
       def gon
-        if wrong_gon_request?
-          Gon::Request.id = request.object_id
-          Gon::Request.env = request.env
-        end
-        Gon
-      end
-
-      private
-
-      def wrong_gon_request?
-        Gon::Request.env.blank? ||
-        Gon::Request.id != request.object_id
+        request.env['gon']
       end
 
     end
-
   end
 end
 

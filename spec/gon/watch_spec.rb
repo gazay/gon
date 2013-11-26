@@ -13,8 +13,8 @@ describe Gon::Watch do
     env['REQUEST_METHOD'] = 'GET'
 
     Gon::Watch.clear
-    Gon::Request.instance_variable_set(:@request_env, env)
-    Gon::Request.env['action_controller.instance'] = controller
+    Gon.send(:current_gon).instance_variable_set(:@request_env, env)
+    Gon.send(:current_gon).env['action_controller.instance'] = controller
     Gon.clear
   end
 
@@ -44,7 +44,7 @@ describe Gon::Watch do
   end
 
   it 'should return value of variable if called right request' do
-    env = Gon::Request.instance_variable_get(:@request_env)
+    env = Gon.send(:current_gon).instance_variable_get(:@request_env)
     env['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest'
     request = ActionDispatch::Request.new env
     controller.request = request
@@ -52,7 +52,7 @@ describe Gon::Watch do
     params[:gon_return_variable] = true
     params[:gon_watched_variable] = 'a'
     controller.params = params
-    Gon::Request.env['action_controller.instance'] = controller
+    Gon.send(:current_gon).env['action_controller.instance'] = controller
 
     controller.should_receive('render').with(:json => 1)
 

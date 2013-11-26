@@ -15,8 +15,8 @@ class Gon
 
       def get_controller(options = {})
         options[:controller] ||
-          Gon::Request.env['action_controller.instance'] ||
-          Gon::Request.env['action_controller.rescue.response'].
+          Gon.send(:current_gon).env['action_controller.instance'] ||
+          Gon.send(:current_gon).env['action_controller.rescue.response'].
           instance_variable_get('@template').
           instance_variable_get('@controller')
       end

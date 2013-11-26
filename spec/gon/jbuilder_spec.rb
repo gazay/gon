@@ -2,10 +2,6 @@ require 'spec_helper'
 
 describe Gon do
 
-  before(:each) do
-    Gon::Request.env = {}
-  end
-
   describe '.jbuilder' do
     context 'render jbuilder templates' do
 

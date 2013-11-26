@@ -33,11 +33,11 @@ class Gon
     end
 
     def get_variable(name)
-      Request.gon[name]
+      current_gon.gon[name]
     end
 
     def set_variable(name, value)
-      Request.gon[name] = value
+      current_gon.gon[name] = value
     end
 
     def push(data = {})
@@ -49,11 +49,11 @@ class Gon
     end
 
     def all_variables
-      Request.gon
+      current_gon.gon
     end
 
     def clear
-      Request.clear
+      current_gon.clear
     end
 
     def rabl(*args)
@@ -72,6 +72,10 @@ class Gon
     end
 
     private
+
+    def current_gon
+      Thread.current['gon']
+    end
 
     def store_builder_data(builder, data, options)
       if options[:as]
