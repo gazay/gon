@@ -43,7 +43,22 @@ class Gon
     module InstanceMethods
 
       def gon
-        request.env['gon']
+        if wrong_gon_request?
+          gon_request = Request.new(env)
+          gon_request.id = request.id
+          Thread.current['gon'] = gon_request
+        end
+        Gon
+      end
+
+      private
+
+      def wrong_gon_request?
+        current_gon.blank? || current_gon.id != request.id
+      end
+
+      def current_gon
+        Thread.current['gon']
       end
 
     end
