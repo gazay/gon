@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## 5.0.0
+
+  * Gon is threadsafe now! (@razum2um)
+  * Camelcasing with depth (@MaxSchmeling)
+  * Optional CDATA and style refactoring (@torbjon)
+  * jBuilder supports not only String and Hash types of locals
+    (@steakchaser)
+  * Using ActionDispatch::Request#uuid instead of
+    ActionDispatch::Request#id (@sharshenov)
+
 ## 4.1.1
 
   * Fixed critical XSS vulnerability https://github.com/gazay/gon/issues/84 (@vadimr & @Hebo)
