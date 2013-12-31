@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 5.0.1
+
+  * Fix issue when there is no gon object for current thread and
+    rendering include_gon (#108 part)
+
 ## 5.0.0
 
   * Gon is threadsafe now! (@razum2um)
