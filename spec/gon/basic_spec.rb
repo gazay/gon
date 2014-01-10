@@ -11,8 +11,8 @@ describe Gon do
       Gon.a = 1
       Gon.b = 2
       Gon.c = Gon.a + Gon.b
-      Gon.c.should == 3
-      Gon.all_variables.should == { 'a' => 1, 'b' => 2, 'c' => 3 }
+      expect(Gon.c).to eq(3)
+      expect(Gon.all_variables).to eq({ 'a' => 1, 'b' => 2, 'c' => 3 })
     end
 
     it 'supports all data types' do
@@ -35,7 +35,7 @@ describe Gon do
         check["variable#{i}"] = i
       end
 
-      Gon.all_variables.should == check
+      expect(Gon.all_variables).to eq(check)
     end
 
     it 'can set and get variable with dynamic name' do
@@ -43,14 +43,14 @@ describe Gon do
       var_name = "variable#{rand}"
 
       Gon.set_variable(var_name, 1)
-      Gon.get_variable(var_name).should == 1
+      expect(Gon.get_variable(var_name)).to eq(1)
     end
 
     it 'can be support new push syntax' do
       Gon.clear
 
       Gon.push({ :int => 1, :string => 'string' })
-      Gon.all_variables.should == { 'int' => 1, 'string' => 'string' }
+      expect(Gon.all_variables).to eq({ 'int' => 1, 'string' => 'string' })
     end
 
     it 'push with wrong object' do
@@ -68,130 +68,139 @@ describe Gon do
       Gon.clear
       Gon::Request.
         instance_variable_set(:@request_id, request.object_id)
-      ActionView::Base.
+      expect(ActionView::Base.
         instance_methods.
         map(&:to_s).
-        include?('include_gon').should == true
+        include?('include_gon')).to eq(true)
       @base = ActionView::Base.new
       @base.request = request
     end
 
     it 'outputs correct js with an integer' do
       Gon.int = 1
-      @base.include_gon.should == '<script type="text/javascript">' +
+      expect(@base.include_gon).to eq('<script type="text/javascript">' +
                                     "\n//<![CDATA[\n" +
                                     'window.gon={};' +
                                     'gon.int=1;' +
                                     "\n//]]>\n" +
-                                  '</script>'
+                                  '</script>')
     end
 
     it 'outputs correct js with a string' do
       Gon.str = %q(a'b"c)
-      @base.include_gon.should == '<script type="text/javascript">' +
+      expect(@base.include_gon).to eq('<script type="text/javascript">' +
                                     "\n//<![CDATA[\n" +
                                     'window.gon={};' +
                                     %q(gon.str="a'b\"c";) +
                                     "\n//]]>\n" +
-                                  '</script>'
+                                  '</script>')
     end
 
     it 'outputs correct js with a script string' do
       Gon.str = %q(</script><script>alert('!')</script>)
-      @base.include_gon.should == '<script type="text/javascript">' +
+      expect(@base.include_gon).to eq('<script type="text/javascript">' +
                                     "\n//<![CDATA[\n" +
                                     'window.gon={};' +
                                     %q(gon.str="\u003C/script><script>alert('!')\u003C/script>";) +
                                     "\n//]]>\n" +
-                                  '</script>'
+                                  '</script>')
     end
 
     it 'outputs correct js with an integer, camel-case and namespace' do
       Gon.int_cased = 1
-      @base.include_gon(camel_case: true, namespace: 'camel_cased').should == \
+      expect(@base.include_gon(camel_case: true, namespace: 'camel_cased')).to eq( \
                                   '<script type="text/javascript">' +
                                     "\n//<![CDATA[\n" +
                                     'window.camel_cased={};' +
                                     'camel_cased.intCased=1;' +
                                     "\n//]]>\n" +
                                   '</script>'
+      )
     end
 
     it 'outputs correct js with camel_depth = :recursive' do
       Gon.test_hash = { test_depth_one: { test_depth_two: 1 } }
-      @base.include_gon(camel_case: true, camel_depth: :recursive).should == \
+      expect(@base.include_gon(camel_case: true, camel_depth: :recursive)).to eq( \
                                   '<script type="text/javascript">' +
                                     "\n//<![CDATA[\n" +
                                     'window.gon={};' +
                                     'gon.testHash={"testDepthOne":{"testDepthTwo":1}};' +
                                     "\n//]]>\n" +
                                   '</script>'
+      )
     end
 
     it 'outputs correct js with camel_depth = 2' do
       Gon.test_hash = { test_depth_one: { test_depth_two: 1 } }
-      @base.include_gon(camel_case: true, camel_depth: 2).should == \
+      expect(@base.include_gon(camel_case: true, camel_depth: 2)).to eq( \
                                   '<script type="text/javascript">' +
                                     "\n//<![CDATA[\n" +
                                     'window.gon={};' +
                                     'gon.testHash={"testDepthOne":{"test_depth_two":1}};' +
                                     "\n//]]>\n" +
                                   '</script>'
+      )
     end
 
     it 'outputs correct js with an integer and without tag' do
       Gon.int = 1
-      @base.include_gon(need_tag: false).should == \
+      expect(@base.include_gon(need_tag: false)).to eq( \
                                   'window.gon={};' +
                                   'gon.int=1;'
+      )
     end
 
     it 'outputs correct js without variables, without tag and gon init if before there was data' do
       Gon::Request.
         instance_variable_set(:@request_id, 123)
       Gon::Request.instance_variable_set(:@request_env, { 'gon' => { :a => 1 } })
-      @base.include_gon(need_tag: false, init: true).should == \
+      expect(@base.include_gon(need_tag: false, init: true)).to eq( \
                                   'window.gon={};'
+      )
     end
 
     it 'outputs correct js without variables, without tag and gon init' do
-      @base.include_gon(need_tag: false, init: true).should == \
+      expect(@base.include_gon(need_tag: false, init: true)).to eq( \
                                   'window.gon={};'
+      )
     end
 
     it 'outputs correct js without variables, without tag, gon init and an integer' do
       Gon.int = 1
-      @base.include_gon(need_tag: false, init: true).should == \
+      expect(@base.include_gon(need_tag: false, init: true)).to eq( \
                                   'window.gon={};' +
                                   'gon.int=1;'
+      )
     end
 
     it 'outputs correct js without cdata, without type, gon init and an integer' do
       Gon.int = 1
-      @base.include_gon(cdata: false, type: false).should == \
+      expect(@base.include_gon(cdata: false, type: false)).to eq( \
                                   '<script>' +
                                     "\n" +
                                     'window.gon={};' +
                                     'gon.int=1;' +
                                     "\n" +
                                   '</script>'
+      )
     end
 
     it 'outputs correct js with type text/javascript' do
-      @base.include_gon(need_type: true, init: true).should == \
+      expect(@base.include_gon(need_type: true, init: true)).to eq( \
                                   '<script type="text/javascript">' +
                                     "\n//<![CDATA[\n" +
                                     'window.gon={};'\
                                     "\n//]]>\n" +
                                   '</script>'
+      )
     end
 
   end
 
   it 'returns exception if try to set public method as variable' do
     Gon.clear
-    lambda { Gon.all_variables = 123 }.should raise_error
-    lambda { Gon.rabl = 123 }.should raise_error
+    expect { Gon.all_variables = 123 }.to raise_error
+    expect { Gon.rabl = 123 }.to raise_error
   end
 
   describe '#check_for_rabl_and_jbuilder' do
@@ -200,16 +209,16 @@ describe Gon do
 
     it 'should be able to handle ruby 1.8.7 style constants array (strings)' do
       constants_as_strings = Gon.constants.map(&:to_s)
-      Gon.stub(:constants) { constants_as_strings }
-      lambda { Gon.rabl 'spec/test_data/sample.rabl', :controller => controller }.should_not raise_error
-      lambda { Gon.jbuilder 'spec/test_data/sample.json.jbuilder', :controller => controller }.should_not raise_error
+      allow(Gon).to receive(:constants) { constants_as_strings }
+      expect { Gon.rabl 'spec/test_data/sample.rabl', :controller => controller }.not_to raise_error
+      expect { Gon.jbuilder 'spec/test_data/sample.json.jbuilder', :controller => controller }.not_to raise_error
     end
 
     it 'should be able to handle ruby 1.9+ style constants array (symbols)' do
       constants_as_symbols = Gon.constants.map(&:to_sym)
-      Gon.stub(:constants) { constants_as_symbols }
-      lambda { Gon.rabl 'spec/test_data/sample.rabl', :controller => controller }.should_not raise_error
-      lambda { Gon.jbuilder 'spec/test_data/sample.json.jbuilder', :controller => controller }.should_not raise_error
+      allow(Gon).to receive(:constants) { constants_as_symbols }
+      expect { Gon.rabl 'spec/test_data/sample.rabl', :controller => controller }.not_to raise_error
+      expect { Gon.jbuilder 'spec/test_data/sample.json.jbuilder', :controller => controller }.not_to raise_error
     end
   end
 

@@ -20,7 +20,7 @@ describe Gon do
     context 'render template with deprecation' do
       it 'still works' do
         Gon.rabl 'spec/test_data/sample_rabl_rails.rabl', :controller => controller
-        Gon.objects.length.should == 2
+        expect(Gon.objects.length).to eq(2)
       end
     end
 
@@ -30,7 +30,7 @@ describe Gon do
           :template =>'spec/test_data/sample_rabl_rails.rabl',
           :controller => controller
         )
-        Gon.objects.map { |it| it['inspect'] }.should == %w(1 2)
+        expect(Gon.objects.map { |it| it['inspect'] }).to eq(%w(1 2))
       end
       
       it 'works with different locals object' do
@@ -39,18 +39,18 @@ describe Gon do
           :controller => controller,
           :locals => { :objects => [3, 4] }
         )
-        Gon.objects.map { |it| it['inspect'] }.should == %w(3 4)
+        expect(Gon.objects.map { |it| it['inspect'] }).to eq(%w(3 4))
       end
     end
 
     it 'works if rabl-rails is included' do
       Gon.rabl :template => 'spec/test_data/sample_rabl_rails.rabl', :controller => controller
-      Gon.objects.length.should == 2
+      expect(Gon.objects.length).to eq(2)
     end
 
     it 'works with ActionView::Helpers' do
       Gon.rabl :template =>'spec/test_data/sample_with_helpers_rabl_rails.rabl', :controller => controller
-      Gon.objects.first['time_ago'].should == 'about 6 hours'
+      expect(Gon.objects.first['time_ago']).to eq('about 6 hours')
     end
 
     it 'raise exception if rabl or rabl-rails is not included' do

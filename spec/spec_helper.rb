@@ -41,6 +41,6 @@ end
 RSpec.configure do |config|
   config.before(:each) do
     @request = Thread.current['gon'] = Gon::Request.new({})
-    Gon.stub(:current_gon).and_return(@request)
+    allow(Gon).to receive(:current_gon).and_return(@request)
   end
 end

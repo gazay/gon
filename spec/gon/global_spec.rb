@@ -13,8 +13,8 @@ describe Gon::Global do
       Gon.global.a = 1
       Gon.global.b = 2
       Gon.global.c = Gon.global.a + Gon.global.b
-      Gon.global.c.should == 3
-      Gon.global.all_variables.should == { 'a' => 1, 'b' => 2, 'c' => 3 }
+      expect(Gon.global.c).to eq(3)
+      expect(Gon.global.all_variables).to eq({ 'a' => 1, 'b' => 2, 'c' => 3 })
     end
 
     it 'supports all data types' do
@@ -35,72 +35,72 @@ describe Gon::Global do
     before(:each) do
       Gon.clear
       Gon.global.clear
-      ActionView::Base.
+      expect(ActionView::Base.
         instance_methods.
         map(&:to_s).
-        include?('include_gon').should == true
+        include?('include_gon')).to eq(true)
       @base = ActionView::Base.new
       @base.request = request
     end
 
     it 'outputs correct js with an integer' do
       Gon.global.int = 1
-      @base.include_gon.should == "<script type=\"text/javascript\">" +
+      expect(@base.include_gon).to eq("<script type=\"text/javascript\">" +
                                     "\n//<![CDATA[\n" +
                                     "window.gon={};" +
                                     "gon.global={\"int\":1};" +
                                     "\n//]]>\n" +
-                                  "</script>"
+                                  "</script>")
     end
 
     it 'outputs correct js with an integer and integer in Gon' do
       Gon.int = 1
       Gon.global.int = 1
-      @base.include_gon.should == "<script type=\"text/javascript\">" +
+      expect(@base.include_gon).to eq("<script type=\"text/javascript\">" +
                                     "\n//<![CDATA[\n" +
                                     "window.gon={};" +
                                     "gon.int=1;" +
                                     "gon.global={\"int\":1};" +
                                     "\n//]]>\n" +
-                                  "</script>"
+                                  "</script>")
     end
 
     it 'outputs correct js with a string' do
       Gon.global.str = %q(a'b"c)
-      @base.include_gon.should == "<script type=\"text/javascript\">" +
+      expect(@base.include_gon).to eq("<script type=\"text/javascript\">" +
                                     "\n//<![CDATA[\n" +
                                     "window.gon={};" +
                                     "gon.global={\"str\":\"a'b\\\"c\"};" +
                                     "\n//]]>\n" +
-                                  "</script>"
+                                  "</script>")
     end
 
     it 'outputs correct js with a script string' do
       Gon.global.str = %q(</script><script>alert('!')</script>)
-      @base.include_gon.should == "<script type=\"text/javascript\">" +
+      expect(@base.include_gon).to eq("<script type=\"text/javascript\">" +
                                     "\n//<![CDATA[\n" +
                                     "window.gon={};" +
                                     "gon.global={\"str\":\"\\u003C/script><script>alert('!')\\u003C/script>\"};" +
                                     "\n//]]>\n" +
-                                  "</script>"
+                                  "</script>")
     end
 
     it 'outputs correct js with a unicode line separator' do
       Gon.global.str = "\u2028"
-      @base.include_gon.should == "<script type=\"text/javascript\">" +
+      expect(@base.include_gon).to eq("<script type=\"text/javascript\">" +
                                     "\n//<![CDATA[\n" +
                                     "window.gon={};" +
                                     "gon.global={\"str\":\"&#x2028;\"};" +
                                     "\n//]]>\n" +
-                                  "</script>"
+                                  "</script>")
     end
 
   end
 
   it 'returns exception if try to set public method as variable' do
     Gon.global.clear
-    lambda { Gon.global.all_variables = 123 }.should raise_error
-    lambda { Gon.global.rabl = 123 }.should raise_error
+    expect { Gon.global.all_variables = 123 }.to raise_error
+    expect { Gon.global.rabl = 123 }.to raise_error
   end
 
   context 'with jbuilder and rabl' do
@@ -115,17 +115,17 @@ describe Gon::Global do
 
     it 'works fine with rabl' do
       Gon.global.rabl :template => 'spec/test_data/sample.rabl', :controller => controller
-      Gon.global.objects.length.should == 2
+      expect(Gon.global.objects.length).to eq(2)
     end
 
     it 'works fine with jbuilder' do
       Gon.global.jbuilder :template => 'spec/test_data/sample.json.jbuilder', :controller => controller
-      Gon.global.objects.length.should == 2
+      expect(Gon.global.objects.length).to eq(2)
     end
 
     it 'should throw exception, if use rabl or jbuilder without :template' do
-      lambda { Gon.global.rabl }.should raise_error
-      lambda { Gon.global.jbuilder }.should raise_error
+      expect { Gon.global.rabl }.to raise_error
+      expect { Gon.global.jbuilder }.to raise_error
     end
 
   end
