@@ -21,14 +21,14 @@ describe Gon::Watch do
   it 'should add variables to Gon#all_variables hash' do
     Gon.a = 1
     Gon.watch.b = 2
-    Gon.all_variables.should == { 'a' => 1, 'b' => 2 }
+    expect(Gon.all_variables).to eq({ 'a' => 1, 'b' => 2 })
   end
 
   describe '#all_variables' do
 
     it 'should generate array with current request url, method type and variable names' do
       Gon.watch.a = 1
-      Gon.watch.all_variables.should == { 'a' => { 'url' => '/foo', 'method' => 'GET', 'name' => 'a' } }
+      expect(Gon.watch.all_variables).to eq({ 'a' => { 'url' => '/foo', 'method' => 'GET', 'name' => 'a' } })
     end
 
   end
@@ -37,8 +37,8 @@ describe Gon::Watch do
 
     it 'should render function with variables in gon namespace' do
       Gon.watch.a = 1
-      Gon.watch.render.should =~ /gon\.watch\s=/
-      Gon.watch.render.should =~ /gon\.watchedVariables/
+      expect(Gon.watch.render).to match(/gon\.watch\s=/)
+      expect(Gon.watch.render).to match(/gon\.watchedVariables/)
     end
 
   end
@@ -54,7 +54,7 @@ describe Gon::Watch do
     controller.params = params
     Gon.send(:current_gon).env['action_controller.instance'] = controller
 
-    controller.should_receive('render').with(:json => 1)
+    expect(controller).to receive('render').with(:json => 1)
 
     Gon.watch.a = 1
   end

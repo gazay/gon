@@ -15,20 +15,20 @@ describe Gon do
 
       it 'render json from jbuilder template' do
         Gon.jbuilder 'spec/test_data/sample.json.jbuilder', :controller => controller
-        Gon.objects.length.should == 2
+        expect(Gon.objects.length).to eq(2)
       end
 
       it 'render json from jbuilder template with locals' do
         Gon.jbuilder 'spec/test_data/sample_with_locals.json.jbuilder',
                      :controller => controller,
                      :locals => { :some_local => 1234, :some_complex_local => OpenStruct.new(:id => 1234) }
-        Gon.some_local.should == 1234
-        Gon.some_complex_local_id.should == 1234
+        expect(Gon.some_local).to eq(1234)
+        expect(Gon.some_complex_local_id).to eq(1234)
       end
 
       it 'render json from jbuilder template with locals' do
         Gon.jbuilder 'spec/test_data/sample_with_helpers.json.jbuilder', :controller => controller
-        Gon.date.should == 'about 6 hours'
+        expect(Gon.date).to eq('about 6 hours')
       end
 
       it 'render json from jbuilder template with controller methods' do
@@ -41,13 +41,13 @@ describe Gon do
         }
 
         Gon.jbuilder 'spec/test_data/sample_with_controller_method.json.jbuilder', :controller => controller
-        Gon.date.should == 'about 6 hours'
+        expect(Gon.date).to eq('about 6 hours')
       end
 
       it 'render json from jbuilder template with a partial' do
         controller.view_paths << 'spec/test_data'
         Gon.jbuilder 'spec/test_data/sample_with_partial.json.jbuilder', :controller => controller
-        Gon.objects.length.should == 2
+        expect(Gon.objects.length).to eq(2)
       end
 
     end

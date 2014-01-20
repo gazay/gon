@@ -19,7 +19,7 @@ describe Gon do
     context 'render template with deprecation' do
       it 'still works' do
         Gon.rabl 'spec/test_data/sample.rabl', :controller => controller
-        Gon.objects.length.should == 2
+        expect(Gon.objects.length).to eq(2)
       end
     end
 
@@ -29,7 +29,7 @@ describe Gon do
           :template   => 'spec/test_data/sample.rabl',
           :controller => controller
         )
-        Gon.objects.map { |it| it['object']['inspect'] }.should == %w(1 2)
+        expect(Gon.objects.map { |it| it['object']['inspect'] }).to eq(%w(1 2))
       end
 
       it 'works with different locals object' do
@@ -38,18 +38,18 @@ describe Gon do
           :controller => controller,
           :locals     => { :objects => [3, 4] }
         )
-        Gon.objects.map { |it| it['object']['inspect'] }.should == %w(3 4)
+        expect(Gon.objects.map { |it| it['object']['inspect'] }).to eq(%w(3 4))
       end
     end
 
     it 'works if rabl is included' do
       Gon.rabl :template => 'spec/test_data/sample.rabl', :controller => controller
-      Gon.objects.length.should == 2
+      expect(Gon.objects.length).to eq(2)
     end
 
     it 'works with ActionView::Helpers' do
       Gon.rabl :template => 'spec/test_data/sample_with_helpers.rabl', :controller => controller
-      Gon.objects.first['object']['time_ago'].should == 'about 6 hours'
+      expect(Gon.objects.first['object']['time_ago']).to eq('about 6 hours')
     end
 
     it 'raise exception if rabl is not included' do
@@ -63,11 +63,11 @@ describe Gon do
       context 'template is specified' do
 
         it 'add the extension if not included in the template name' do
-          Gon::Base.send(:get_template_path, { :template => 'spec/test_data/sample' }, 'rabl').should eql('spec/test_data/sample.rabl')
+          expect(Gon::Base.send(:get_template_path, { :template => 'spec/test_data/sample' }, 'rabl')).to eql('spec/test_data/sample.rabl')
         end
 
         it 'return the specified template' do
-          Gon::Base.send(:get_template_path, { :template => 'spec/test_data/sample.rabl' }, 'rabl').should eql('spec/test_data/sample.rabl')
+          expect(Gon::Base.send(:get_template_path, { :template => 'spec/test_data/sample.rabl' }, 'rabl')).to eql('spec/test_data/sample.rabl')
         end
 
       end
@@ -85,7 +85,7 @@ describe Gon do
 
         context 'the action doesn as a template at a different format' do
           it 'return the same template as the action with rabl extension' do
-            Gon::Base.send(:get_template_path, { :controller => controller }, 'rabl').should eql('app/views/action_controller/base/show.json.rabl')
+            expect(Gon::Base.send(:get_template_path, { :controller => controller }, 'rabl')).to eql('app/views/action_controller/base/show.json.rabl')
           end
         end
 
