@@ -74,7 +74,7 @@ class Gon
     private
 
     def current_gon
-      Thread.current['gon']
+      Thread.current['gon'] || Thread.current['gon'] = Gon::Request.new({})
     end
 
     def store_builder_data(builder, data, options)
