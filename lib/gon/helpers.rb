@@ -11,10 +11,10 @@ class Gon
         if variables_for_request_present?
           Gon::Base.render_data(options)
         elsif Gon.global.all_variables.present?
-          Gon.clear
+          Gon.clear if current_gon
           Gon::Base.render_data(options)
         elsif options[:init].present?
-          Gon.clear if Gon.all_variables.present?
+          Gon.clear if current_gon && Gon.all_variables.present?
           Gon::Base.render_data(options)
         else
           ''

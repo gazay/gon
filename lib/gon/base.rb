@@ -15,10 +15,13 @@ class Gon
 
       def get_controller(options = {})
         options[:controller] ||
-          current_gon.env['action_controller.instance'] ||
-          current_gon.env['action_controller.rescue.response'].
-          instance_variable_get('@template').
-          instance_variable_get('@controller')
+          (
+            current_gon &&
+            current_gon.env['action_controller.instance'] ||
+            current_gon.env['action_controller.rescue.response'].
+              instance_variable_get('@template').
+              instance_variable_get('@controller')
+          )
       end
 
       def get_template_path(options, extension)

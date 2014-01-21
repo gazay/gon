@@ -21,7 +21,7 @@ class Gon
       def set_variable(name, value)
         if return_variable?(name)
           return_variable value
-        else
+        elsif Gon.send(:current_gon)
           variable = {}
           @watch_variables ||= {}
           env = Gon.send(:current_gon).env

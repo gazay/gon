@@ -25,6 +25,9 @@ class Gon
         if public_method_name?(method)
           raise 'You can\'t use Gon public methods for storing data'
         end
+        unless current_gon
+          raise 'Assign request-specific gon variables only through `gon` helper, not through Gon constant'
+        end
 
         set_variable(method.to_s.delete('='), args[0])
       else
@@ -49,11 +52,11 @@ class Gon
     end
 
     def all_variables
-      current_gon.gon
+      current_gon.gon if current_gon
     end
 
     def clear
-      current_gon.clear
+      current_gon.clear if current_gon
     end
 
     def rabl(*args)
