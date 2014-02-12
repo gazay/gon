@@ -19,11 +19,11 @@ Gem::Specification.new do |s|
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.executables   = `git ls-files -- bin/*`.split("\n").map { |f| File.basename(f) }
   s.require_paths = ['lib']
-  s.add_dependency 'actionpack', '>= 2.3.0'
-  s.add_dependency 'json'
-  s.add_development_dependency 'rabl'
-  s.add_development_dependency 'rabl-rails'
-  s.add_development_dependency 'rspec'
-  s.add_development_dependency 'jbuilder'
-  s.add_development_dependency 'rake'
+  s.add_runtime_dependency 'actionpack', '~> 2.3.0', '>= 2.3.0'
+  s.add_runtime_dependency 'json', '~> 0'
+  s.add_development_dependency 'rabl', '~> 0'
+  s.add_development_dependency 'rabl-rails', '~> 0'
+  s.add_development_dependency 'rspec', '~> 0'
+  s.add_development_dependency 'jbuilder', '~> 0'
+  s.add_development_dependency 'rake', '~> 0'
 end
