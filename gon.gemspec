@@ -8,6 +8,7 @@ Gem::Specification.new do |s|
   s.version     = Gon::VERSION
   s.platform    = Gem::Platform::RUBY
   s.authors     = ['gazay']
+  s.licenses    = ['MIT']
   s.email       = ['alex.gaziev@gmail.com']
   s.homepage    = 'https://github.com/gazay/gon'
   s.summary     = %q{Get your Rails variables in your JS}
