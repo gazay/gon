@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 5.0.2
+
+  * Fix issue when there is no gon object for current thread and
+    rendering include_gon (#108 part) (wasn't fixed) (@gregmolnar)
+
 ## 5.0.1
 
   * Fix issue when there is no gon object for current thread and
