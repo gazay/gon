@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 5.0.3
+
+  * Revert changes in gemspec
+
 ## 5.0.2
 
   * Fix issue when there is no gon object for current thread and
