@@ -49,7 +49,7 @@ class Gon
         need_tag    = options[:need_tag].nil? || options[:need_tag]
         cameled     = options[:camel_case]
         camel_depth = options[:camel_depth] || 1
-        watch       = options[:watch]
+        watch       = options[:watch] || !Gon.watch.all_variables.empty?
         tag         = need_tag
         type        = options[:type].nil? || options[:type]
         cdata       = options[:cdata].nil? || options[:cdata]
