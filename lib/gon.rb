@@ -25,7 +25,7 @@ class Gon
         if public_method_name?(method)
           raise 'You can\'t use Gon public methods for storing data'
         end
-        unless current_gon
+        if self == Gon && !current_gon
           raise 'Assign request-specific gon variables only through `gon` helper, not through Gon constant'
         end
 
