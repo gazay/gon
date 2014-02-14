@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 5.0.4
+
+  * Fix check for get and assign variables for Gon.global
+
 ## 5.0.3
 
   * Revert changes in gemspec
