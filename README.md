@@ -59,10 +59,9 @@ gem line to your Gemfile and do the following:
 
   3. profit?
 
-With `gon.watch` feature you can easily renew data in gon variables!
-Just pass option `:watch => true` to `include_gon` method and call
-`gon.watch` from your js file. It's super useful in modern web
-applications!
+With the `gon.watch` feature you can easily renew data in gon variables!
+Simply call `gon.watch` from your js file. It's super useful
+in modern web applications!
 
 ## Usage
 
@@ -114,8 +113,7 @@ alert(gon.your_hash)
 ## gon.watch - renew your data easily!
 
 You can use gon for renewing your data without reloading pages and
-writing long js functions! It's really
-great for some live values.
+writing long js functions! It's really great for some live values.
 
 Supports `gon.watch.rabl` and `gon.watch.jbuilder` usage.
 
