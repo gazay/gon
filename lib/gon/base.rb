@@ -79,11 +79,17 @@ class Gon
 
       def convert_hash_keys(value, current_depth, max_depth)
         return value if current_depth > (max_depth.is_a?(Symbol) ? 1000 : max_depth)
-        return value unless value.is_a? Hash
 
-        Hash[value.map { |k, v|
-          [ k.to_s.camelize(:lower), convert_hash_keys(v, current_depth + 1, max_depth) ]
-        }]
+        case value
+          when Hash
+            Hash[value.map { |k, v|
+              [ k.to_s.camelize(:lower), convert_hash_keys(v, current_depth + 1, max_depth) ]
+            }]
+          when Enumerable
+            value.map { |v| convert_hash_keys(v, current_depth + 1, max_depth) }
+          else
+            value
+        end
       end
 
       def gon_variables
