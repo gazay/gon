@@ -142,6 +142,18 @@ describe Gon do
       )
     end
 
+    it 'outputs correct js for an array with camel_depth = :recursive' do
+      Gon.test_hash = { test_depth_one: [{ test_depth_two: 1 }, { test_depth_two: 2 }] }
+      expect(@base.include_gon(camel_case: true, camel_depth: :recursive)).to eq( \
+                                  '<script type="text/javascript">' +
+                                    "\n//<![CDATA[\n" +
+                                    'window.gon={};' +
+                                    'gon.testHash={"testDepthOne":[{"testDepthTwo":1},{"testDepthTwo":2}]};' +
+                                    "\n//]]>\n" +
+                                  '</script>'
+      )
+    end
+
     it 'outputs correct js with an integer and without tag' do
       Gon.int = 1
       expect(@base.include_gon(need_tag: false)).to eq( \
