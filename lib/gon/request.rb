@@ -6,11 +6,11 @@ class Gon
     end
 
     def env
-      @request_env if defined? @request_env
+      @request_env
     end
 
     def id
-      @request_id if defined? @request_id
+      @request_id
     end
 
     def id=(request_id)
