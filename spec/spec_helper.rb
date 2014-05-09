@@ -40,7 +40,8 @@ end
 
 RSpec.configure do |config|
   config.before(:each) do
-    @request = Thread.current['gon'] = Gon::Request.new({})
+    RequestStore.store[:gon] = Gon::Request.new({})
+    @request = RequestStore.store[:gon]
     allow(Gon).to receive(:current_gon).and_return(@request)
   end
 end

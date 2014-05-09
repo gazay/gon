@@ -21,6 +21,7 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map { |f| File.basename(f) }
   s.require_paths = ['lib']
   s.add_dependency 'actionpack', '>= 2.3.0'
+  s.add_dependency 'request_store', '>= 1.0.5'
   s.add_dependency 'json'
   s.add_development_dependency 'rabl'
   s.add_development_dependency 'rabl-rails'

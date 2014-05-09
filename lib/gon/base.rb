@@ -41,7 +41,7 @@ class Gon
       private
 
       def current_gon
-        Thread.current[:gon]
+        RequestStore.store[:gon]
       end
 
       def parse_options(options)

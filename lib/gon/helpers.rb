@@ -28,7 +28,7 @@ class Gon
       end
 
       def current_gon
-        Thread.current['gon']
+        RequestStore.store[:gon]
       end
 
     end
@@ -46,7 +46,7 @@ class Gon
         if wrong_gon_request?
           gon_request = Request.new(env)
           gon_request.id = request.uuid
-          Thread.current['gon'] = gon_request
+          RequestStore.store[:gon] = gon_request
         end
         Gon
       end
@@ -58,7 +58,7 @@ class Gon
       end
 
       def current_gon
-        Thread.current['gon']
+        RequestStore.store[:gon]
       end
 
     end
