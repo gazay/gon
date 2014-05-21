@@ -1,3 +1,4 @@
+require 'request_store'
 require 'action_view'
 require 'action_controller'
 require 'gon/base'
@@ -77,7 +78,7 @@ class Gon
     private
 
     def current_gon
-      Thread.current['gon']
+      RequestStore.store[:gon]
     end
 
     def store_builder_data(builder, data, options)
