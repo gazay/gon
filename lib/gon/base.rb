@@ -74,7 +74,7 @@ class Gon
 
       def to_json(value, camel_depth)
         # starts at two because 1 is the root key which is converted in the formatted_data method
-        convert_hash_keys(value, 2, camel_depth).to_json
+        Oj.dump(convert_hash_keys(value, 2, camel_depth))
       end
 
       def convert_hash_keys(value, current_depth, max_depth)
