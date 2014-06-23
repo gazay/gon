@@ -43,7 +43,7 @@ class Gon
         locals ||= {}
         source = File.read(rabl_path)
         include_helpers
-        rabl_engine = ::Rabl::Engine.new(source, :format => 'json')
+        rabl_engine = ::Rabl::Engine.new(source, :format => 'json', :template => rabl_path)
         output = rabl_engine.render(controller, locals)
         JSON.parse(output)
       end
