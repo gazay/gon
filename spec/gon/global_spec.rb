@@ -77,10 +77,11 @@ describe Gon::Global do
 
     it 'outputs correct js with a script string' do
       Gon.global.str = %q(</script><script>alert('!')</script>)
+      escaped_str = "\"\\u003c/script\\u003e\\u003cscript\\u003ealert('!')\\u003c/script\\u003e\""
       expect(@base.include_gon).to eq("<script type=\"text/javascript\">" +
                                     "\n//<![CDATA[\n" +
                                     "window.gon={};" +
-                                    "gon.global={\"str\":\"\\u003C/script><script>alert('!')\\u003C/script>\"};" +
+                                    "gon.global={\"str\":#{escaped_str}};" +
                                     "\n//]]>\n" +
                                   "</script>")
     end

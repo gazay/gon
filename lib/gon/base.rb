@@ -73,8 +73,8 @@ class Gon
       end
 
       def to_json(value, camel_depth)
-        # starts at two because 1 is the root key which is converted in the formatted_data method
-        Oj.dump(convert_hash_keys(value, 2, camel_depth), {mode: :compat, time_format: :ruby})
+        # starts at 2 because 1 is the root key which is converted in the formatted_data method
+        Gon::JsonDumper.dump convert_hash_keys(value, 2, camel_depth)
       end
 
       def convert_hash_keys(value, current_depth, max_depth)

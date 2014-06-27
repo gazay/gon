@@ -36,32 +36,29 @@ class Gon
 
   module GonHelpers
 
-    def self.included base
-      base.send(:include, InstanceMethods)
+    def gon
+      if wrong_gon_request?
+        gon_request = Request.new(env)
+        gon_request.id = gon_request_uuid
+        RequestStore.store[:gon] = gon_request
+      end
+      Gon
     end
 
-    module InstanceMethods
+    private
 
-      def gon
-        if wrong_gon_request?
-          gon_request = Request.new(env)
-          gon_request.id = request.uuid
-          RequestStore.store[:gon] = gon_request
-        end
-        Gon
-      end
-
-      private
-
-      def wrong_gon_request?
-        current_gon.blank? || current_gon.id != request.uuid
-      end
-
-      def current_gon
-        RequestStore.store[:gon]
-      end
-
+    def wrong_gon_request?
+      current_gon.blank? || current_gon.id != gon_request_uuid
     end
+
+    def current_gon
+      RequestStore.store[:gon]
+    end
+
+    def gon_request_uuid
+      request.uuid
+    end
+
   end
 end
 

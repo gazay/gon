@@ -5,7 +5,7 @@ class Gon
       JS_FUNCTION = File.read(File.expand_path('../../../js/watch.js', __FILE__))
 
       def render
-        JS_FUNCTION + "window.gon.watchedVariables=#{all_variables.to_json};"
+        JS_FUNCTION + "window.gon.watchedVariables=#{Gon::JsonDumper.dump all_variables};"
       end
 
       def all_variables
