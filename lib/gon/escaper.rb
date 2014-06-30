@@ -7,7 +7,7 @@ class Gon
 
       def escape_unicode(javascript)
         if javascript
-          result = javascript.gsub(/\\u2028/u, '&#x2028;').gsub(/(<\/)/u, '\u003C/')
+          result = escape_line_separator(escape_special_chars javascript)
           javascript.html_safe? ? result.html_safe : result
         end
       end
@@ -23,6 +23,16 @@ class Gon
         else
           "\n#{content}\n"
         end
+      end
+
+      private
+
+      def escape_line_separator(javascript)
+        javascript.gsub(/\\u2028/u, '&#x2028;')
+      end
+
+      def escape_special_chars(javascript)
+        javascript.gsub(/(\<)/u, '\u003c').gsub(/(\>)/u, '\u003e')
       end
 
     end

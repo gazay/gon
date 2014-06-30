@@ -1,6 +1,7 @@
 require 'request_store'
 require 'action_view'
 require 'action_controller'
+
 require 'gon/base'
 require 'gon/global'
 require 'gon/watch'
@@ -9,7 +10,19 @@ require 'gon/helpers'
 require 'gon/escaper'
 require 'gon/rabl'
 require 'gon/jbuilder'
-require 'oj'
+require 'gon/json_dumper'
+
+# NOTE : JRuby greater than 1.7 doesn't support C-extensions
+if RUBY_PLATFORM =~ /java/
+  require 'gon/json_dumper/active_support'
+else
+  require 'gon/json_dumper/oj'
+end
+
+# NOTE : ActionDispatch::Request#uuid appears only in Rails 3.2.1
+unless ActionDispatch::Request.public_instance_methods.include?(:uuid)
+  require 'gon/compatibility/old_rails'
+end
 
 class Gon
   class << self
