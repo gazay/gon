@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 5.1.0
+
+  * Many fixes https://github.com/gazay/gon/compare/91845f3f0debd0cb8fa569aad65f5dc40a7e28e5...8dc7400fbb83ba5a086bd36c76342a393690d53f
+  * Thanks to @Silex, @kilefritz, @irobayna, @kyrylo, @randoum, @jackquack, @tuvistavie, @Strech for awesome commits and help!
+
 ## 5.0.4
 
   * Fix check for get and assign variables for Gon.global

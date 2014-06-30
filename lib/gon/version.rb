@@ -1,3 +1,3 @@
 class Gon
-  VERSION = '5.0.4'
+  VERSION = '5.1.0'
 end
