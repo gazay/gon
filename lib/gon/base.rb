@@ -1,5 +1,7 @@
 class Gon
   module Base
+    ENV_CONTROLLER_KEY = 'action_controller.instance'
+
     class << self
 
       def render_data(options)
@@ -17,7 +19,7 @@ class Gon
         options[:controller] ||
           (
             current_gon &&
-            current_gon.env['action_controller.instance'] ||
+            current_gon.env[Gon::Base::ENV_CONTROLLER_KEY] ||
             current_gon.env['action_controller.rescue.response'].
               instance_variable_get('@template').
               instance_variable_get('@controller')
