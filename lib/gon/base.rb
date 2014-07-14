@@ -5,10 +5,10 @@ class Gon
     class << self
 
       def render_data(options)
-        namespace, tag, cameled, camel_depth, watch, type, cdata = parse_options(options)
+        namespace, tag, cameled, camel_depth, watch, type, cdata, global_root = parse_options(options)
         script = "window.#{namespace}={};"
 
-        script << formatted_data(namespace, cameled, camel_depth, watch)
+        script << formatted_data(namespace, cameled, camel_depth, watch, global_root)
         script = Gon::Escaper.escape_unicode(script)
         script = Gon::Escaper.javascript_tag(script, type, cdata) if tag
 
@@ -55,14 +55,15 @@ class Gon
         tag         = need_tag
         type        = options[:type].nil? || options[:type]
         cdata       = options[:cdata].nil? || options[:cdata]
+        global_root = options.has_key?(:global_root) ? options[:global_root] : 'global'
 
-        [namespace, tag, cameled, camel_depth, watch, type, cdata]
+        [namespace, tag, cameled, camel_depth, watch, type, cdata, global_root]
       end
 
-      def formatted_data(namespace, keys_cameled, camel_depth, watch)
+      def formatted_data(namespace, keys_cameled, camel_depth, watch, global_root)
         script = ''
 
-        gon_variables.each do |key, val|
+        gon_variables(global_root).each do |key, val|
           js_key = keys_cameled ? key.to_s.camelize(:lower) : key.to_s
           script << "#{namespace}.#{js_key}=#{to_json(val, camel_depth)};"
         end
@@ -94,14 +95,18 @@ class Gon
         end
       end
 
-      def gon_variables
-        data = Gon.all_variables || {}
+      def gon_variables(global_root)
+        data = {}
 
         if Gon.global.all_variables.present?
-          data[:global] = Gon.global.all_variables
+          if global_root.blank?
+            data = Gon.global.all_variables
+          else
+            data[global_root.to_sym] = Gon.global.all_variables
+          end
         end
 
-        data
+        data.merge(Gon.all_variables)
       end
 
       def right_extension?(extension, template_path)
