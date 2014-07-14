@@ -59,8 +59,8 @@ describe Gon::Global do
       expect(@base.include_gon).to eq("<script type=\"text/javascript\">" +
                                     "\n//<![CDATA[\n" +
                                     "window.gon={};" +
-                                    "gon.int=1;" +
                                     "gon.global={\"int\":1};" +
+                                    "gon.int=1;" +
                                     "\n//]]>\n" +
                                   "</script>")
     end
@@ -94,6 +94,17 @@ describe Gon::Global do
                                     "gon.global={\"str\":\"&#x2028;\"};" +
                                     "\n//]]>\n" +
                                   "</script>")
+    end
+
+    it 'outputs locally overridden value' do
+      Gon.str = 'local value'
+      Gon.global.str = 'global value'
+      expect(@base.include_gon(global_root: '')).to eq("<script type=\"text/javascript\">" +
+                                     "\n//<![CDATA[\n" +
+                                     "window.gon={};" +
+                                     "gon.str=\"local value\";" +
+                                     "\n//]]>\n" +
+                                     "</script>")
     end
 
   end
