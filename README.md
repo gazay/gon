@@ -175,6 +175,11 @@ great for some init data.
 [Instruction](https://github.com/gazay/gon/wiki/Usage-gon-global) for
 usage gon.global.
 
+## Speed up Gon
+
+You can use any [JSON Engine](https://github.com/intridea/multi_json#supported-json-engines) you want.
+Gon uses `MultiJson` with autodetect mode, so all you need is just require your JSON library.
+
 ## Contributors
 
 * @gazay
