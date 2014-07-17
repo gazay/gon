@@ -1,7 +1,8 @@
 class Gon
   module JsonDumper
     def self.dump(object)
-      raise NotImplementedError
+      MultiJson.dump object,
+        mode: :compat, escape_mode: :xss_safe, time_format: :ruby
     end
   end
 end
