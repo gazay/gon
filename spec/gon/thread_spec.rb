@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 class GonTestWorker
-  include Gon::GonHelpers
+  include Gon::ControllerHelpers
 
   def request
     @request ||= ActionDispatch::TestRequest.new
