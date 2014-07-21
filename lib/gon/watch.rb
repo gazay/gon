@@ -46,7 +46,7 @@ class Gon
 
       def return_variable(value)
         controller = Gon::Base.get_controller
-        controller.render :json => value
+        controller.render json: Gon::Escaper.escape_unicode(Gon::JsonDumper.dump value)
       end
 
     end

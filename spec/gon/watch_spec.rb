@@ -43,20 +43,41 @@ describe Gon::Watch do
 
   end
 
-  it 'should return value of variable if called right request' do
-    env = Gon.send(:current_gon).instance_variable_get(:@request_env)
-    env['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest'
-    request = ActionDispatch::Request.new env
-    controller.request = request
-    params = {}
-    params[:gon_return_variable] = true
-    params[:gon_watched_variable] = 'a'
-    controller.params = params
-    Gon.send(:current_gon).env['action_controller.instance'] = controller
+  describe 'Render concrete variable' do
+    before do
+      env = Gon.send(:current_gon).instance_variable_get(:@request_env)
+      env['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest'
 
-    expect(controller).to receive('render').with(:json => 1)
+      controller.stub(request: ActionDispatch::Request.new(env))
+      Gon.send(:current_gon).env['action_controller.instance'] = controller
+    end
 
-    Gon.watch.a = 1
+    context 'when request variable is json safe content' do
+      before do
+        controller.stub(params: {
+          gon_return_variable: true,
+          gon_watched_variable: 'safety'})
+      end
+
+      it 'should return value of variable if called right request' do
+        expect(controller).to receive(:render).with(json: '12345')
+        Gon.watch.safety = 12345
+      end
+    end
+
+    context 'when request variable is json unsafe content' do
+      let(:expected) { %Q{"\\u003cscript\\u003e'\\"\\u003c/script\\u003e&#x2028;Dangerous"} }
+
+      before do
+        controller.stub(params: {
+          gon_return_variable: true,
+          gon_watched_variable: 'danger'})
+      end
+
+      it 'should return value of variable if called right request' do
+        expect(controller).to receive(:render).with(json: expected)
+        Gon.watch.danger = %Q{<script>'"</script>\u2028Dangerous}
+      end
+    end
   end
-
 end
