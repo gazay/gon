@@ -63,7 +63,7 @@ class Gon
     end
 
     def all_variables
-      current_gon.gon if current_gon
+      current_gon ? current_gon.gon : {}
     end
 
     def clear
