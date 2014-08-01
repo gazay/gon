@@ -208,6 +208,34 @@ describe Gon do
       )
     end
 
+    context "without a current_gon instance" do
+
+      before(:each) do
+        RequestStore.store[:gon] = nil
+        allow(Gon).to receive(:current_gon).and_return(nil)
+      end
+
+      it "does not raise an exception" do
+        expect { @base.include_gon }.to_not raise_error(Exception)
+      end
+
+      it 'outputs correct js' do
+        expect(@base.include_gon).to eq("")
+      end
+
+      it 'outputs correct js with init' do
+        expect(@base.include_gon(init: true)).to eq( \
+                                    '<script type="text/javascript">' +
+                                      "\n//<![CDATA[\n" +
+                                      'window.gon={};'\
+                                      "\n//]]>\n" +
+                                    '</script>'
+        )
+      end
+
+    end
+
+
   end
 
   it 'returns exception if try to set public method as variable' do
