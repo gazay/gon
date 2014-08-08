@@ -6,7 +6,7 @@ class Gon
 
       def render_data(options)
         namespace, tag, cameled, camel_depth, watch, type, cdata, global_root = parse_options(options)
-        script = "window.#{namespace}={};"
+        script = "window.#{namespace}=window.#{namespace}||{};"
 
         script << formatted_data(namespace, cameled, camel_depth, watch, global_root)
         script = Gon::Escaper.escape_unicode(script)
