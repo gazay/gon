@@ -7,8 +7,11 @@ class Gon
         module GonSession
           def process(*)
             # preload threadlocal & store controller instance
-            controller.gon
-            Gon.send(:current_gon).env[Gon::Base::ENV_CONTROLLER_KEY] = controller
+            if controller.is_a? ActionController::Base
+              controller.gon
+              Gon.send(:current_gon).env[Gon::Base::ENV_CONTROLLER_KEY] =
+               controller
+            end
             super
           end
         end
