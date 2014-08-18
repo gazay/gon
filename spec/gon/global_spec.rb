@@ -47,7 +47,7 @@ describe Gon::Global do
       Gon.global.int = 1
       expect(@base.include_gon).to eq("<script type=\"text/javascript\">" +
                                     "\n//<![CDATA[\n" +
-                                    "window.gon=window.gon||{};" +
+                                    "window.gon={};" +
                                     "gon.global={\"int\":1};" +
                                     "\n//]]>\n" +
                                   "</script>")
@@ -58,7 +58,7 @@ describe Gon::Global do
       Gon.global.int = 1
       expect(@base.include_gon).to eq("<script type=\"text/javascript\">" +
                                     "\n//<![CDATA[\n" +
-                                    "window.gon=window.gon||{};" +
+                                    "window.gon={};" +
                                     "gon.global={\"int\":1};" +
                                     "gon.int=1;" +
                                     "\n//]]>\n" +
@@ -69,7 +69,7 @@ describe Gon::Global do
       Gon.global.str = %q(a'b"c)
       expect(@base.include_gon).to eq("<script type=\"text/javascript\">" +
                                     "\n//<![CDATA[\n" +
-                                    "window.gon=window.gon||{};" +
+                                    "window.gon={};" +
                                     "gon.global={\"str\":\"a'b\\\"c\"};" +
                                     "\n//]]>\n" +
                                   "</script>")
@@ -80,7 +80,7 @@ describe Gon::Global do
       escaped_str = "\\u003c/script\\u003e\\u003cscript\\u003ealert('!')\\u003c/script\\u003e"
       expect(@base.include_gon).to eq("<script type=\"text/javascript\">" +
                                     "\n//<![CDATA[\n" +
-                                    "window.gon=window.gon||{};" +
+                                    "window.gon={};" +
                                     "gon.global={\"str\":\"#{escaped_str}\"};" +
                                     "\n//]]>\n" +
                                   "</script>")
@@ -90,7 +90,7 @@ describe Gon::Global do
       Gon.global.str = "\u2028"
       expect(@base.include_gon).to eq("<script type=\"text/javascript\">" +
                                     "\n//<![CDATA[\n" +
-                                    "window.gon=window.gon||{};" +
+                                    "window.gon={};" +
                                     "gon.global={\"str\":\"&#x2028;\"};" +
                                     "\n//]]>\n" +
                                   "</script>")
@@ -101,7 +101,7 @@ describe Gon::Global do
       Gon.global.str = 'global value'
       expect(@base.include_gon(global_root: '')).to eq("<script type=\"text/javascript\">" +
                                      "\n//<![CDATA[\n" +
-                                     "window.gon=window.gon||{};" +
+                                     "window.gon={};" +
                                      "gon.str=\"local value\";" +
                                      "\n//]]>\n" +
                                      "</script>")

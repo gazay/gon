@@ -80,7 +80,7 @@ describe Gon do
       Gon.int = 1
       expect(@base.include_gon).to eq('<script type="text/javascript">' +
                                     "\n//<![CDATA[\n" +
-                                    'window.gon=window.gon||{};' +
+                                    'window.gon={};' +
                                     'gon.int=1;' +
                                     "\n//]]>\n" +
                                   '</script>')
@@ -90,7 +90,7 @@ describe Gon do
       Gon.str = %q(a'b"c)
       expect(@base.include_gon).to eq('<script type="text/javascript">' +
                                     "\n//<![CDATA[\n" +
-                                    'window.gon=window.gon||{};' +
+                                    'window.gon={};' +
                                     %q(gon.str="a'b\"c";) +
                                     "\n//]]>\n" +
                                   '</script>')
@@ -101,7 +101,7 @@ describe Gon do
       escaped_str = "\\u003c/script\\u003e\\u003cscript\\u003ealert('!')\\u003c/script\\u003e"
       expect(@base.include_gon).to eq('<script type="text/javascript">' +
                                     "\n//<![CDATA[\n" +
-                                    'window.gon=window.gon||{};' +
+                                    'window.gon={};' +
                                     %Q(gon.str="#{escaped_str}";) +
                                     "\n//]]>\n" +
                                   '</script>')
@@ -112,7 +112,7 @@ describe Gon do
       expect(@base.include_gon(camel_case: true, namespace: 'camel_cased')).to eq( \
                                   '<script type="text/javascript">' +
                                     "\n//<![CDATA[\n" +
-                                    'window.camel_cased=window.camel_cased||{};' +
+                                    'window.camel_cased={};' +
                                     'camel_cased.intCased=1;' +
                                     "\n//]]>\n" +
                                   '</script>'
@@ -124,7 +124,7 @@ describe Gon do
       expect(@base.include_gon(camel_case: true, camel_depth: :recursive)).to eq( \
                                   '<script type="text/javascript">' +
                                     "\n//<![CDATA[\n" +
-                                    'window.gon=window.gon||{};' +
+                                    'window.gon={};' +
                                     'gon.testHash={"testDepthOne":{"testDepthTwo":1}};' +
                                     "\n//]]>\n" +
                                   '</script>'
@@ -136,7 +136,7 @@ describe Gon do
       expect(@base.include_gon(camel_case: true, camel_depth: 2)).to eq( \
                                   '<script type="text/javascript">' +
                                     "\n//<![CDATA[\n" +
-                                    'window.gon=window.gon||{};' +
+                                    'window.gon={};' +
                                     'gon.testHash={"testDepthOne":{"test_depth_two":1}};' +
                                     "\n//]]>\n" +
                                   '</script>'
@@ -148,7 +148,7 @@ describe Gon do
       expect(@base.include_gon(camel_case: true, camel_depth: :recursive)).to eq( \
                                   '<script type="text/javascript">' +
                                     "\n//<![CDATA[\n" +
-                                    'window.gon=window.gon||{};' +
+                                    'window.gon={};' +
                                     'gon.testHash={"testDepthOne":[{"testDepthTwo":1},{"testDepthTwo":2}]};' +
                                     "\n//]]>\n" +
                                   '</script>'
@@ -158,7 +158,7 @@ describe Gon do
     it 'outputs correct js with an integer and without tag' do
       Gon.int = 1
       expect(@base.include_gon(need_tag: false)).to eq( \
-                                  'window.gon=window.gon||{};' +
+                                  'window.gon={};' +
                                   'gon.int=1;'
       )
     end
@@ -168,20 +168,20 @@ describe Gon do
         instance_variable_set(:@request_id, 123)
       Gon::Request.instance_variable_set(:@request_env, { 'gon' => { :a => 1 } })
       expect(@base.include_gon(need_tag: false, init: true)).to eq( \
-                                  'window.gon=window.gon||{};'
+                                  'window.gon={};'
       )
     end
 
     it 'outputs correct js without variables, without tag and gon init' do
       expect(@base.include_gon(need_tag: false, init: true)).to eq( \
-                                  'window.gon=window.gon||{};'
+                                  'window.gon={};'
       )
     end
 
     it 'outputs correct js without variables, without tag, gon init and an integer' do
       Gon.int = 1
       expect(@base.include_gon(need_tag: false, init: true)).to eq( \
-                                  'window.gon=window.gon||{};' +
+                                  'window.gon={};' +
                                   'gon.int=1;'
       )
     end
@@ -191,7 +191,7 @@ describe Gon do
       expect(@base.include_gon(cdata: false, type: false)).to eq( \
                                   '<script>' +
                                     "\n" +
-                                    'window.gon=window.gon||{};' +
+                                    'window.gon={};' +
                                     'gon.int=1;' +
                                     "\n" +
                                   '</script>'
@@ -202,17 +202,27 @@ describe Gon do
       expect(@base.include_gon(need_type: true, init: true)).to eq( \
                                   '<script type="text/javascript">' +
                                     "\n//<![CDATA[\n" +
+                                    'window.gon={};'\
+                                    "\n//]]>\n" +
+                                  '</script>'
+      )
+    end
+
+    it 'outputs correct js with namespace check' do
+      expect(@base.include_gon(namespace_check: true)).to eq( \
+                                  '<script type="text/javascript">' +
+                                    "\n//<![CDATA[\n" +
                                     'window.gon=window.gon||{};'\
                                     "\n//]]>\n" +
                                   '</script>'
       )
     end
 
-    it 'outputs correct js which uses the existing variable if it is defined' do
-      expect(@base.include_gon(need_type: true, init: true)).to eq( \
+    it 'outputs correct js without namespace check' do
+      expect(@base.include_gon(namespace_check: false)).to eq( \
                                   '<script type="text/javascript">' +
                                     "\n//<![CDATA[\n" +
-                                    'window.gon=window.gon||{};'\
+                                    'window.gon={};'\
                                     "\n//]]>\n" +
                                   '</script>'
       )
@@ -237,7 +247,7 @@ describe Gon do
         expect(@base.include_gon(init: true)).to eq( \
                                     '<script type="text/javascript">' +
                                       "\n//<![CDATA[\n" +
-                                      'window.gon=window.gon||{};'\
+                                      'window.gon={};'\
                                       "\n//]]>\n" +
                                     '</script>'
         )
