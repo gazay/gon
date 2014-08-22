@@ -208,6 +208,26 @@ describe Gon do
       )
     end
 
+    it 'outputs correct js with namespace check' do
+      expect(@base.include_gon(namespace_check: true)).to eq( \
+                                  '<script type="text/javascript">' +
+                                    "\n//<![CDATA[\n" +
+                                    'window.gon=window.gon||{};'\
+                                    "\n//]]>\n" +
+                                  '</script>'
+      )
+    end
+
+    it 'outputs correct js without namespace check' do
+      expect(@base.include_gon(namespace_check: false)).to eq( \
+                                  '<script type="text/javascript">' +
+                                    "\n//<![CDATA[\n" +
+                                    'window.gon={};'\
+                                    "\n//]]>\n" +
+                                  '</script>'
+      )
+    end
+
     context "without a current_gon instance" do
 
       before(:each) do
