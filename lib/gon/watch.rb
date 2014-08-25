@@ -8,6 +8,10 @@ class Gon
         JS_FUNCTION + "window.gon.watchedVariables=#{Gon::JsonDumper.dump all_variables};"
       end
 
+      def render_amd
+        JS_FUNCTION + "gon.watchedVariables=#{Gon::JsonDumper.dump all_variables};"
+      end
+
       def all_variables
         @watch_variables || {}
       end

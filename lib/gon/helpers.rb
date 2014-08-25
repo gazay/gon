@@ -14,6 +14,10 @@ class Gon
       end
     end
 
+    def include_gon_amd(options={})
+      Gon::Base.render_data_amd(options)
+    end
+
     private
 
     def variables_for_request_present?

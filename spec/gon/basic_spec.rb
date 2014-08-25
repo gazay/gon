@@ -258,6 +258,50 @@ describe Gon do
 
   end
 
+  describe '#include_gon_amd' do
+
+    before(:each) do
+      Gon.clear
+      Gon::Request.
+        instance_variable_set(:@request_id, request.object_id)
+      @base = ActionView::Base.new
+      @base.request = request
+    end
+
+    it 'is included in ActionView::Base as a helper' do
+      expect(ActionView::Base.
+        instance_methods.
+        map(&:to_s).
+        include?('include_gon_amd')).to eq(true)
+    end
+
+    it 'outputs correct js without variables' do
+      expect(@base.include_gon_amd).to eq( wrap_script( \
+                                    'define(\'gon\',[],function(){'+
+                                    'var gon={};return gon;'+
+                                    '});')
+      )
+    end
+
+    it 'outputs correct js with an integer' do
+      Gon.int = 1
+
+      expect(@base.include_gon_amd).to eq( wrap_script( 
+                                    'define(\'gon\',[],function(){'+
+                                    'var gon={};gon[\'int\']=1;return gon;'+
+                                    '});')
+      )
+    end
+
+    it 'outputs correct module name when given a namespace' do
+      expect(@base.include_gon_amd(namespace: 'data')).to eq(wrap_script( 
+                                    'define(\'data\',[],function(){'+
+                                    'var gon={};return gon;'+
+                                    '});')
+      )
+    end
+  end
+
   it 'returns exception if try to set public method as variable' do
     Gon.clear
     expect { Gon.all_variables = 123 }.to raise_error
@@ -285,6 +329,14 @@ describe Gon do
 
   def request
     @request ||= double 'request', :env => {}
+  end
+
+  def wrap_script(content, type='text/javascript', cdata=true)
+    script = "<script type=\"#{type}\">"
+    script << "\n//<![CDATA[\n" if cdata
+    script << content
+    script << "\n//]]>\n" if cdata
+    script << '</script>'
   end
 
 end
