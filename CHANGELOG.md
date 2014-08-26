@@ -1,5 +1,21 @@
 # CHANGELOG
 
+## 5.2.0
+
+  * fix issue where include_gon would raise exception if the controller did not assign any gon variables. Thanks to @asalme
+  * namespace_check option. Thanks to @tommyh
+  * Only inject gon into ActionController::Base-like object in spec_helper. Thanks to @kevinoconnor7
+  * AMD compatible version of including gon. Thanks to @vijoc
+
+## 5.1.2
+
+  * Clarifying helpers, dump gon#watch content to safe json before render. Thanks to @Strech
+
+## 5.1.1
+
+  * global_root option. Thanks to @rafaelliu
+  * MultiJson support. Thanks to @Strech
+
 ## 5.1.0
 
   * Many fixes https://github.com/gazay/gon/compare/91845f3f0debd0cb8fa569aad65f5dc40a7e28e5...8dc7400fbb83ba5a086bd36c76342a393690d53f
