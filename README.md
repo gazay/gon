@@ -110,6 +110,40 @@ alert(gon.your_array)
 alert(gon.your_hash)
 ```
 
+### AMD compatible version: `include_gon_amd`
+
+If your site uses AMD modules you can use the `include_gon_amd` helper to 
+include the variables and watch function as a module. Options are mostly 
+the same as for `include_gon`, except for `namespace_check`, which does 
+nothing and `namespace`, which is used as the name of the defined module. 
+The end result will look somewhat like the following:
+
+```js
+define('yourNameSpace', [], function() {
+  var gon = {};
+  gon.yourVariable = yourValue;
+  // etc...
+
+  return gon;
+});
+```
+
+A (very) simplified usage example:
+
+`app/views/layouts/application.html.erb`
+
+```ruby
+include_gon_amd namespace: 'data'
+```
+
+`Some JavaScript module`
+
+```js
+define(['data'], function(data) {
+  alert(data.myVariable);
+});
+```
+
 ## gon.watch - renew your data easily!
 
 You can use gon for renewing your data without reloading pages and

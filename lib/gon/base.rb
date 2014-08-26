@@ -15,6 +15,19 @@ class Gon
         script.html_safe
       end
 
+      def render_data_amd(options)
+        namespace, tag, cameled, camel_depth, watch, type, cdata, global_root = parse_options(options)
+
+        script = "define('#{namespace}',[],function(){" 
+        script << amd_formatted_data(namespace, cameled, camel_depth, watch, global_root)
+        script << 'return gon;});'
+
+        script = Gon::Escaper.escape_unicode(script)
+        script = Gon::Escaper.javascript_tag(script, type, cdata) if tag
+
+        script.html_safe
+      end
+
       def get_controller(options = {})
         options[:controller] ||
           (
@@ -71,6 +84,21 @@ class Gon
 
         if watch and Gon::Watch.all_variables.present?
           script << Gon.watch.render
+        end
+
+        script
+      end
+
+      def amd_formatted_data(namespace, keys_cameled, camel_depth, watch, global_root)
+        script = 'var gon={};'
+
+        gon_variables(global_root).each do |key, val|
+          js_key = keys_cameled ? key.to_s.camelize(:lower) : key.to_s
+          script << "gon['#{js_key}']=#{to_json(val, camel_depth)};"
+        end
+
+        if watch and Gon::Watch.all_variables.present?
+          script << Gon.watch.render_amd
         end
 
         script
