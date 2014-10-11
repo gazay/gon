@@ -66,7 +66,11 @@ describe Gon::Watch do
     end
 
     context 'when request variable is json unsafe content' do
-      let(:expected) { %Q{"\\u003cscript\\u003e'\\"\\u003c/script\\u003e&#x2028;Dangerous"} }
+      if MultiJson.current_adapter.instance.class.name == 'MultiJson::Adapters::Oj'
+        let(:expected) { %Q{"\\u003cscript\\u003e'\\"\\u003c\\/script\\u003e&#x2028;Dangerous"} }
+      else
+        let(:expected) { %Q{"\\u003cscript\\u003e'\\"\\u003c/script\\u003e&#x2028;Dangerous"} }
+      end
 
       before do
         controller.stub(params: {
