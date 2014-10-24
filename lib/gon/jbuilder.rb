@@ -97,27 +97,20 @@ class Gon
       end
 
       def parse_path(path)
-        return path if File.exists?(path)
-
-        splitted = path.split('/')
-        if splitted.size == 2
-          tmp_path = construct_path(splitted[0], splitted[1])
-          return tmp_path if tmp_path
-        elsif splitted.size == 1
-          tmp_path = construct_path(@_controller_name, splitted[0])
-          return tmp_path if tmp_path
-        end
-
-        raise 'Something wrong with partial path in your jbuilder templates'
+        return path if File.exists?(path)                                     
+        if (splitted = path.split('/')).blank?                                
+            raise 'Something wrong with partial path in your jbuilder templates'
+        elsif splitted.size == 1                                              
+            splitted.shift(@_controller_name)                                   
+        end                                                                   
+        construct_path(splitted)                                              
       end
 
-      def construct_path(part1, part2)
-        tmp_path = "app/views/#{part1}/_#{part2}"
-        tmp_path = path_with_ext(tmp_path)
-        return tmp_path if tmp_path
-        tmp_path = "app/views/#{part1}/#{part2}"
-        tmp_path = path_with_ext(tmp_path)
-        return tmp_path if tmp_path
+      def construct_path(args)
+        last_arg = args.pop                             
+        tmp_path = 'app/views/' + args.join('/')        
+        path = path_with_ext(tmp_path + "/_#{last_arg}")
+        path || path_with_ext(tmp_path + "/#{last_arg}")        
       end
 
       def path_with_ext(path)
