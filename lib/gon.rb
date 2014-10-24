@@ -54,11 +54,25 @@ class Gon
       current_gon.gon[name] = value
     end
 
-    def push(data = {})
+    def merge_variable(name, value)
+      old_value = all_variables[name]
+      if value.is_a?(Hash) && old_value.is_a?(Hash)
+        value = old_value.deep_merge(value)
+      end
+      set_variable(name, value)
+    end
+
+    def push(data = {}, merge = false)
       raise 'Object must have each_pair method' unless data.respond_to? :each_pair
 
-      data.each_pair do |name, value|
-        set_variable(name.to_s, value)
+      if merge
+        data.each_pair do |name, value|
+          merge_variable(name.to_s, value)
+        end
+      else
+        data.each_pair do |name, value|
+          set_variable(name.to_s, value)
+        end
       end
     end
 
