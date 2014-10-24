@@ -3,6 +3,7 @@ require 'spec_helper'
 describe Gon do
 
   before(:each) do
+    Gon.clear
   end
 
   describe '#all_variables' do
@@ -16,7 +17,6 @@ describe Gon do
     end
 
     it 'supports all data types' do
-      Gon.clear
       Gon.int          = 1
       Gon.float        = 1.1
       Gon.string       = 'string'
@@ -27,8 +27,6 @@ describe Gon do
     end
 
     it 'can be filled with dynamic named variables' do
-      Gon.clear
-
       check = {}
       3.times do |i|
         Gon.set_variable("variable#{i}", i)
@@ -39,7 +37,6 @@ describe Gon do
     end
 
     it 'can set and get variable with dynamic name' do
-      Gon.clear
       var_name = "variable#{rand}"
 
       Gon.set_variable(var_name, 1)
@@ -47,17 +44,42 @@ describe Gon do
     end
 
     it 'can be support new push syntax' do
-      Gon.clear
-
       Gon.push({ :int => 1, :string => 'string' })
       expect(Gon.all_variables).to eq({ 'int' => 1, 'string' => 'string' })
     end
 
     it 'push with wrong object' do
       expect {
-        Gon.clear
         Gon.push(String.new('string object'))
       }.to raise_error('Object must have each_pair method')
+    end
+
+    describe "#merge_variable" do
+      it 'deep merges the same key' do
+        Gon.merge_variable(:foo, { bar: { tar: 12 }, car: 23 })
+        Gon.merge_variable(:foo, { bar: { dar: 21 }, car: 12 })
+        expect(Gon.get_variable(:foo)).to  eq(bar: { tar: 12, dar: 21 }, car: 12)
+      end
+
+      it 'merges on push with a flag' do
+        Gon.push(foo: { bar: 1 })
+        Gon.push({ foo: { tar: 1 } }, :merge)
+        expect(Gon.get_variable("foo")).to eq(bar: 1, tar: 1)
+      end
+
+      context 'overrides key' do
+        specify "the previous value wasn't hash" do
+          Gon.merge_variable(:foo, 2)
+          Gon.merge_variable(:foo, { a: 1 })
+          expect(Gon.get_variable(:foo)).to eq(a: 1)
+        end
+
+        specify "the new value isn't a hash" do
+          Gon.merge_variable(:foo, { a: 1 })
+          Gon.merge_variable(:foo, 2)
+          expect(Gon.get_variable(:foo)).to eq(2)
+        end
+      end
     end
 
   end
@@ -65,7 +87,6 @@ describe Gon do
   describe '#include_gon' do
 
     before(:each) do
-      Gon.clear
       Gon::Request.
         instance_variable_set(:@request_id, request.object_id)
       expect(ActionView::Base.
@@ -261,7 +282,6 @@ describe Gon do
   describe '#include_gon_amd' do
 
     before(:each) do
-      Gon.clear
       Gon::Request.
         instance_variable_set(:@request_id, request.object_id)
       @base = ActionView::Base.new
@@ -286,7 +306,7 @@ describe Gon do
     it 'outputs correct js with an integer' do
       Gon.int = 1
 
-      expect(@base.include_gon_amd).to eq( wrap_script( 
+      expect(@base.include_gon_amd).to eq( wrap_script(
                                     'define(\'gon\',[],function(){'+
                                     'var gon={};gon[\'int\']=1;return gon;'+
                                     '});')
@@ -294,7 +314,7 @@ describe Gon do
     end
 
     it 'outputs correct module name when given a namespace' do
-      expect(@base.include_gon_amd(namespace: 'data')).to eq(wrap_script( 
+      expect(@base.include_gon_amd(namespace: 'data')).to eq(wrap_script(
                                     'define(\'data\',[],function(){'+
                                     'var gon={};return gon;'+
                                     '});')
@@ -303,7 +323,6 @@ describe Gon do
   end
 
   it 'returns exception if try to set public method as variable' do
-    Gon.clear
     expect { Gon.all_variables = 123 }.to raise_error
     expect { Gon.rabl = 123 }.to raise_error
   end
