@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 5.2.1
+
+  * fix for jbuilder module. Thanks to @jankovy
+  * merge variable feature (for merge hash-like variables instead of overriding them). Thanks to @jalkoby
+
 ## 5.2.0
 
   * fix issue where include_gon would raise exception if the controller did not assign any gon variables. Thanks to @asalme
