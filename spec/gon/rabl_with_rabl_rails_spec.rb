@@ -4,6 +4,7 @@ describe Gon do
 
   before(:all) do
     ensure_rabl_rails_is_loaded
+    RablRails.configuration.cache_templates = false
   end
 
   describe '.rabl with rabl-rails gem' do
@@ -16,7 +17,7 @@ describe Gon do
 
     let(:controller) { ActionController::Base.new }
     let(:objects) { [1, 2] }
-  
+
     context 'render template with deprecation' do
       it 'still works' do
         Gon.rabl 'spec/test_data/sample_rabl_rails.rabl', :controller => controller
@@ -32,7 +33,7 @@ describe Gon do
         )
         expect(Gon.objects.map { |it| it['inspect'] }).to eq(%w(1 2))
       end
-      
+
       it 'works with different locals object' do
         Gon.rabl(
           :template => 'spec/test_data/sample_rabl_rails.rabl',
