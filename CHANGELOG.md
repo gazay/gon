@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 5.2.2
+
+  * add support for controller helper methods in jbuilder
+
 ## 5.2.1
 
   * fix for jbuilder module. Thanks to @jankovy
