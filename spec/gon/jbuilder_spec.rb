@@ -32,16 +32,16 @@ describe Gon do
       end
 
       it 'render json from jbuilder template with controller methods' do
-        pending
-        controller.instance_eval {
+        class << controller
           def private_controller_method
-            puts 'gon test helper works'
+            'gon test helper works'
           end
+          helper_method :private_controller_method
           private :private_controller_method
-        }
+        end
 
         Gon.jbuilder 'spec/test_data/sample_with_controller_method.json.jbuilder', :controller => controller
-        expect(Gon.date).to eq('about 6 hours')
+        expect(Gon.data_from_method).to eq('gon test helper works')
       end
 
       it 'render json from jbuilder template with a partial' do

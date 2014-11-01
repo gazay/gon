@@ -57,7 +57,15 @@ class Gon
             name,
             controller.instance_variable_get(name)
         end
+        controller._helper_methods.each do |meth|
+          self.class.class_eval <<-ruby_eval, __FILE__, __LINE__ + 1
+              def #{meth}(*args, &blk)                               # def current_user(*args, &blk)
+                __controller.send(%(#{meth}), *args, &blk)             #   controller.send(:current_user, *args, &blk)
+              end                                                    # end
+            ruby_eval
+        end
         locals ||= {}
+        locals['__controller'] = controller
         locals.each do |name, value|
           self.class.class_eval do
             define_method "#{name}" do
@@ -97,20 +105,20 @@ class Gon
       end
 
       def parse_path(path)
-        return path if File.exists?(path)                                     
-        if (splitted = path.split('/')).blank?                                
+        return path if File.exists?(path)
+        if (splitted = path.split('/')).blank?
             raise 'Something wrong with partial path in your jbuilder templates'
-        elsif splitted.size == 1                                              
-            splitted.shift(@_controller_name)                                   
-        end                                                                   
-        construct_path(splitted)                                              
+        elsif splitted.size == 1
+            splitted.shift(@_controller_name)
+        end
+        construct_path(splitted)
       end
 
       def construct_path(args)
-        last_arg = args.pop                             
-        tmp_path = 'app/views/' + args.join('/')        
+        last_arg = args.pop
+        tmp_path = 'app/views/' + args.join('/')
         path = path_with_ext(tmp_path + "/_#{last_arg}")
-        path || path_with_ext(tmp_path + "/#{last_arg}")        
+        path || path_with_ext(tmp_path + "/#{last_arg}")
       end
 
       def path_with_ext(path)
