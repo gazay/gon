@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 5.2.3
+
+  * Coffescript implementation of watch.js. Thanks to @willcosgrove
+  * unwatchAll function in watch.js. Thanks to @willcosgrove
+
 ## 5.2.2
 
   * add support for controller helper methods in jbuilder
