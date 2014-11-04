@@ -62,3 +62,16 @@ gon.unwatch = function(name, fn) {
     return;
   }
 };
+
+gon.unwatchAll = function() {
+  var timer, timers, variable, _i, _len, _ref;
+  _ref = gon._timers;
+  for (variable in _ref) {
+    timers = _ref[variable];
+    for (_i = 0, _len = timers.length; _i < _len; _i++) {
+      timer = timers[_i];
+      clearInterval(timer.timer);
+    }
+  }
+  return gon._timers = {};
+};

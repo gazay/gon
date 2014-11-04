@@ -37,3 +37,9 @@ gon.unwatch = (name, fn) ->
     clearInterval(timer.timer)
     gon._timers[name].splice(index, 1)
     return
+
+gon.unwatchAll = ->
+  for variable, timers of gon._timers
+    for timer in timers
+      clearInterval(timer.timer)
+  gon._timers = {}
