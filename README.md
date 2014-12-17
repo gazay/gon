@@ -15,6 +15,10 @@ For Sinatra available [gon-sinatra](https://github.com/gazay/gon-sinatra).
 
 For .Net MVC available port [NGon](https://github.com/brooklynDev/NGon).
 
+<a href="https://evilmartians.com/?utm_source=gon">
+<img src="https://evilmartians.com/badges/sponsored-by-evil-martians.svg" alt="Sponsored by Evil Martians" width="236" height="54">
+</a>
+
 ## An example of typical use
 
 ### Very good and detailed example and reasons to use is considered in [railscast](http://railscasts.com/episodes/324-passing-data-to-javascript) by Ryan Bates
@@ -113,10 +117,10 @@ alert(gon.your_hash)
 
 ### AMD compatible version: `include_gon_amd`
 
-If your site uses AMD modules you can use the `include_gon_amd` helper to 
-include the variables and watch function as a module. Options are mostly 
-the same as for `include_gon`, except for `namespace_check`, which does 
-nothing and `namespace`, which is used as the name of the defined module. 
+If your site uses AMD modules you can use the `include_gon_amd` helper to
+include the variables and watch function as a module. Options are mostly
+the same as for `include_gon`, except for `namespace_check`, which does
+nothing and `namespace`, which is used as the name of the defined module.
 The end result will look somewhat like the following:
 
 ```js
