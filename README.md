@@ -85,6 +85,14 @@ Old readme available in [./README_old.md](https://github.com/gazay/gon/blob/mast
   ...
 ```
 
+For rails 4:
+``` erb
+  <%= Gon::Base.render_data({}) %>
+  ...
+```
+
+
+
 You can pass some [options](https://github.com/gazay/gon/wiki/Options)
 to `include_gon` method.
 
