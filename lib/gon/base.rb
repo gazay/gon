@@ -12,36 +12,16 @@ class Gon
         type: true,
         cdata: true,
         global_root: 'global',
-        namespace_check: false
+        namespace_check: false,
+        amd: false
     }
 
     class << self
 
       def render_data(options)
         _o = define_options(options)
-        _o.amd = false
-        script = \
-          if _o.namespace_check
-            "window.#{_o.namespace}=window.#{_o.namespace}||{};"
-          else
-            "window.#{_o.namespace}={};"
-          end
 
-        script << formatted_data(_o)
-        script = Gon::Escaper.escape_unicode(script)
-        script = Gon::Escaper.javascript_tag(script, _o.type, _o.cdata) if _o.tag
-
-        script.html_safe
-      end
-
-      def render_data_amd(options)
-        _o = define_options(options)
-        _o.amd = true
-
-        script = "define('#{_o.namespace}',[],function(){"
-        script << formatted_data(_o)
-        script << 'return gon;});'
-
+        script = formatted_data(_o)
         script = Gon::Escaper.escape_unicode(script)
         script = Gon::Escaper.javascript_tag(script, _o.type, _o.cdata) if _o.tag
 
@@ -93,13 +73,30 @@ class Gon
       end
 
       def formatted_data(_o)
-        script = _o.amd ? 'var gon={};' : ''
+        script = ''
+        before, after = render_wrap(_o)
+        script << before
 
         script << gon_variables(_o.global_root).
                     map { |key, val| render_variable(_o, key, val) }.join
         script << (render_watch(_o) || '')
 
+        script << after
         script
+      end
+
+      def render_wrap(_o)
+        if _o.amd
+          ["define('#{_o.namespace}',[],function(){var gon={};", 'return gon;});']
+        else
+          before = \
+            if _o.namespace_check
+              "window.#{_o.namespace}=window.#{_o.namespace}||{};"
+            else
+              "window.#{_o.namespace}={};"
+            end
+          [before, '']
+        end
       end
 
       def render_variable(_o, key, value)
@@ -130,14 +127,14 @@ class Gon
         return value if current_depth > (max_depth.is_a?(Symbol) ? 1000 : max_depth)
 
         case value
-          when Hash
-            Hash[value.map { |k, v|
-              [ k.to_s.camelize(:lower), convert_hash_keys(v, current_depth + 1, max_depth) ]
-            }]
-          when Enumerable
-            value.map { |v| convert_hash_keys(v, current_depth + 1, max_depth) }
-          else
-            value
+        when Hash
+          Hash[value.map { |k, v|
+            [ k.to_s.camelize(:lower), convert_hash_keys(v, current_depth + 1, max_depth) ]
+          }]
+        when Enumerable
+          value.map { |v| convert_hash_keys(v, current_depth + 1, max_depth) }
+        else
+          value
         end
       end
 

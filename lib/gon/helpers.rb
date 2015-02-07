@@ -3,10 +3,7 @@ class Gon
     def include_gon(options = {})
       if variables_for_request_present?
         Gon::Base.render_data(options)
-      elsif Gon.global.all_variables.present?
-        Gon.clear
-        Gon::Base.render_data(options)
-      elsif options[:init].present?
+      elsif Gon.global.all_variables.present? || options[:init].present?
         Gon.clear
         Gon::Base.render_data(options)
       else
@@ -15,7 +12,7 @@ class Gon
     end
 
     def include_gon_amd(options={})
-      Gon::Base.render_data_amd(options)
+      Gon::Base.render_data(options.merge({amd: true}))
     end
 
     private
