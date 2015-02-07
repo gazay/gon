@@ -51,12 +51,27 @@ class Gon
         args.first.is_a? Hash
       end
 
-      def parse_jbuilder(jbuilder_path, controller, locals)
+      def parse_jbuilder(jbuilder_path, controller, locals={})
+        self.assign_controller_variables(controller)
+        self.eval_controller_helpers(controller)
+        locals['__controller'] = controller
+        self.wrap_locals_in_methods(locals)
+
+        lines = find_partials File.readlines(jbuilder_path)
+        source = lines.join('')
+
+        output = parse_source source, controller
+      end
+
+      def assign_controller_variables(controller)
         controller.instance_variables.each do |name|
           self.instance_variable_set \
             name,
             controller.instance_variable_get(name)
         end
+      end
+
+      def eval_controller_helpers(controller)
         controller._helper_methods.each do |meth|
           self.class.class_eval <<-ruby_eval, __FILE__, __LINE__ + 1
               def #{meth}(*args, &blk)                               # def current_user(*args, &blk)
@@ -64,8 +79,9 @@ class Gon
               end                                                    # end
             ruby_eval
         end
-        locals ||= {}
-        locals['__controller'] = controller
+      end
+
+      def wrap_locals_in_methods(locals)
         locals.each do |name, value|
           self.class.class_eval do
             define_method "#{name}" do
@@ -73,10 +89,6 @@ class Gon
             end
           end
         end
-        lines = find_partials File.readlines(jbuilder_path)
-        source = lines.join('')
-
-        output = parse_source source, controller
       end
 
       def parse_source(source, controller)
