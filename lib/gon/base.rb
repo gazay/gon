@@ -1,3 +1,5 @@
+require 'ostruct'
+
 class Gon
   module Base
     ENV_CONTROLLER_KEY = 'action_controller.instance'
@@ -5,25 +7,30 @@ class Gon
     class << self
 
       def render_data(options)
-        namespace, tag, cameled, camel_depth, watch, type, cdata, global_root, namespace_check = parse_options(options)
-        script = namespace_check ? "window.#{namespace}=window.#{namespace}||{};" : "window.#{namespace}={};"
+        _o = define_options(options)
+        script = \
+          if _o.namespace_check
+            "window.#{_o.namespace}=window.#{_o.namespace}||{};"
+          else
+            "window.#{_o.namespace}={};"
+          end
 
-        script << formatted_data(namespace, cameled, camel_depth, watch, global_root)
+        script << formatted_data(_o, false)
         script = Gon::Escaper.escape_unicode(script)
-        script = Gon::Escaper.javascript_tag(script, type, cdata) if tag
+        script = Gon::Escaper.javascript_tag(script, _o.type, _o.cdata) if _o.tag
 
         script.html_safe
       end
 
       def render_data_amd(options)
-        namespace, tag, cameled, camel_depth, watch, type, cdata, global_root = parse_options(options)
+        _o = define_options(options)
 
-        script = "define('#{namespace}',[],function(){" 
-        script << amd_formatted_data(namespace, cameled, camel_depth, watch, global_root)
+        script = "define('#{_o.namespace}',[],function(){"
+        script << formatted_data(_o, true)
         script << 'return gon;});'
 
         script = Gon::Escaper.escape_unicode(script)
-        script = Gon::Escaper.javascript_tag(script, type, cdata) if tag
+        script = Gon::Escaper.javascript_tag(script, _o.type, _o.cdata) if _o.tag
 
         script.html_safe
       end
@@ -59,46 +66,40 @@ class Gon
         RequestStore.store[:gon]
       end
 
-      def parse_options(options)
-        namespace   = options[:namespace] || 'gon'
-        need_tag    = options[:need_tag].nil? || options[:need_tag]
-        cameled     = options[:camel_case]
-        camel_depth = options[:camel_depth] || 1
-        watch       = options[:watch] || !Gon.watch.all_variables.empty?
-        tag         = need_tag
-        type        = options[:type].nil? || options[:type]
-        cdata       = options[:cdata].nil? || options[:cdata]
-        global_root = options.has_key?(:global_root) ? options[:global_root] : 'global'
-        namespace_check = options.has_key?(:namespace_check) ? options[:namespace_check] : false
+      def define_options(options)
+        _o = OpenStruct.new
 
-        [namespace, tag, cameled, camel_depth, watch, type, cdata, global_root, namespace_check]
+        _o.namespace       = options[:namespace] || 'gon'
+        _o.cameled         = options[:camel_case]
+        _o.camel_depth     = options[:camel_depth] || 1
+        _o.watch           = options[:watch] || !Gon.watch.all_variables.empty?
+        _o.tag             = options[:need_tag]
+        _o.type            = options[:type]
+        _o.cdata           = options[:cdata]
+        _o.global_root     = options[:global_root] || 'global'
+        _o.namespace_check = options[:namespace_check]
+
+        _o
       end
 
-      def formatted_data(namespace, keys_cameled, camel_depth, watch, global_root)
-        script = ''
+      def formatted_data(_o, amd=false)
+        script = amd ? 'var gon={}' : ''
 
-        gon_variables(global_root).each do |key, val|
-          js_key = keys_cameled ? key.to_s.camelize(:lower) : key.to_s
-          script << "#{namespace}.#{js_key}=#{to_json(val, camel_depth)};"
+        gon_variables(_o.global_root).each do |key, val|
+          js_key = _o.keys_cameled ? key.to_s.camelize(:lower) : key.to_s
+          if amd
+            script << "gon['#{js_key}']=#{to_json(val, _o.camel_depth)};"
+          else
+            script << "#{_o.namespace}.#{js_key}=#{to_json(val, _o.camel_depth)};"
+          end
         end
 
-        if watch and Gon::Watch.all_variables.present?
-          script << Gon.watch.render
-        end
-
-        script
-      end
-
-      def amd_formatted_data(namespace, keys_cameled, camel_depth, watch, global_root)
-        script = 'var gon={};'
-
-        gon_variables(global_root).each do |key, val|
-          js_key = keys_cameled ? key.to_s.camelize(:lower) : key.to_s
-          script << "gon['#{js_key}']=#{to_json(val, camel_depth)};"
-        end
-
-        if watch and Gon::Watch.all_variables.present?
-          script << Gon.watch.render_amd
+        if _o.watch and Gon::Watch.all_variables.present?
+          if amd
+            script << Gon.watch.render_amd
+          else
+            script << Gon.watch.render
+          end
         end
 
         script
