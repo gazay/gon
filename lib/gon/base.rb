@@ -3,11 +3,23 @@ require 'ostruct'
 class Gon
   module Base
     ENV_CONTROLLER_KEY = 'action_controller.instance'
+    VALID_OPTION_DEFAULTS = {
+        namespace: 'gon',
+        camel_case: false,
+        camel_depth: 1,
+        watch: false,
+        need_tag: false,
+        type: false,
+        cdata: false,
+        global_root: 'global',
+        namespace_check: false
+    }
 
     class << self
 
       def render_data(options)
         _o = define_options(options)
+        _o.amd = false
         script = \
           if _o.namespace_check
             "window.#{_o.namespace}=window.#{_o.namespace}||{};"
@@ -15,7 +27,7 @@ class Gon
             "window.#{_o.namespace}={};"
           end
 
-        script << formatted_data(_o, false)
+        script << formatted_data(_o)
         script = Gon::Escaper.escape_unicode(script)
         script = Gon::Escaper.javascript_tag(script, _o.type, _o.cdata) if _o.tag
 
@@ -24,9 +36,10 @@ class Gon
 
       def render_data_amd(options)
         _o = define_options(options)
+        _o.amd = true
 
         script = "define('#{_o.namespace}',[],function(){"
-        script << formatted_data(_o, true)
+        script << formatted_data(_o)
         script << 'return gon;});'
 
         script = Gon::Escaper.escape_unicode(script)
@@ -69,40 +82,42 @@ class Gon
       def define_options(options)
         _o = OpenStruct.new
 
-        _o.namespace       = options[:namespace] || 'gon'
-        _o.cameled         = options[:camel_case]
-        _o.camel_depth     = options[:camel_depth] || 1
-        _o.watch           = options[:watch] || !Gon.watch.all_variables.empty?
-        _o.tag             = options[:need_tag]
-        _o.type            = options[:type]
-        _o.cdata           = options[:cdata]
-        _o.global_root     = options[:global_root] || 'global'
-        _o.namespace_check = options[:namespace_check]
+        VALID_OPTION_DEFAULTS.each do |opt_name, default|
+          _o.send("#{opt_name}=", options.fetch(opt_name, default))
+        end
+        _o.watch = options[:watch] || !Gon.watch.all_variables.empty?
+        _o.tag   = options[:need_tag]
 
         _o
       end
 
-      def formatted_data(_o, amd=false)
-        script = amd ? 'var gon={}' : ''
+      def formatted_data(_o)
+        script = _o.amd ? 'var gon={}' : ''
 
-        gon_variables(_o.global_root).each do |key, val|
-          js_key = _o.keys_cameled ? key.to_s.camelize(:lower) : key.to_s
-          if amd
-            script << "gon['#{js_key}']=#{to_json(val, _o.camel_depth)};"
-          else
-            script << "#{_o.namespace}.#{js_key}=#{to_json(val, _o.camel_depth)};"
-          end
-        end
-
-        if _o.watch and Gon::Watch.all_variables.present?
-          if amd
-            script << Gon.watch.render_amd
-          else
-            script << Gon.watch.render
-          end
-        end
+        script << gon_variables(_o.global_root).
+                    map { |key, val| render_variable(_o, key, val) }.join
+        script << render_watch(_o)
 
         script
+      end
+
+      def render_variable(_o, key, value)
+        js_key = _o.keys_cameled ? key.to_s.camelize(:lower) : key.to_s
+        if _o.amd
+          "gon['#{js_key}']=#{to_json(value, _o.camel_depth)};"
+        else
+          "#{_o.namespace}.#{js_key}=#{to_json(value, _o.camel_depth)};"
+        end
+      end
+
+      def render_watch(_o)
+        if _o.watch and Gon::Watch.all_variables.present?
+          if _o.amd
+            Gon.watch.render_amd
+          else
+            Gon.watch.render
+          end
+        end
       end
 
       def to_json(value, camel_depth)
