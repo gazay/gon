@@ -59,15 +59,15 @@ describe Gon do
       load 'gon/rabl.rb'
     end
 
-    context '.get_template_path' do
+    context '.template_path' do
       context 'template is specified' do
 
         it 'add the extension if not included in the template name' do
-          expect(Gon::Base.send(:get_template_path, { :template => 'spec/test_data/sample' }, 'rabl')).to eql('spec/test_data/sample.rabl')
+          expect(Gon::EnvFinder.send(:template_path, { :template => 'spec/test_data/sample' }, 'rabl')).to eql('spec/test_data/sample.rabl')
         end
 
         it 'return the specified template' do
-          expect(Gon::Base.send(:get_template_path, { :template => 'spec/test_data/sample.rabl' }, 'rabl')).to eql('spec/test_data/sample.rabl')
+          expect(Gon::EnvFinder.send(:template_path, { :template => 'spec/test_data/sample.rabl' }, 'rabl')).to eql('spec/test_data/sample.rabl')
         end
 
       end
@@ -85,7 +85,7 @@ describe Gon do
 
         context 'the action doesn as a template at a different format' do
           it 'return the same template as the action with rabl extension' do
-            expect(Gon::Base.send(:get_template_path, { :controller => controller }, 'rabl')).to eql('app/views/action_controller/base/show.json.rabl')
+            expect(Gon::EnvFinder.send(:template_path, { :controller => controller }, 'rabl')).to eql('app/views/action_controller/base/show.json.rabl')
           end
         end
 

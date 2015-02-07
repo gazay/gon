@@ -4,6 +4,7 @@ require 'action_controller'
 require 'multi_json'
 
 require 'gon/base'
+require 'gon/env_finder'
 require 'gon/global'
 require 'gon/watch'
 require 'gon/request'

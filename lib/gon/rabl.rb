@@ -20,8 +20,8 @@ class Gon
         end
 
         data = parse_rabl \
-          Gon::Base.get_template_path(options, 'rabl'),
-          Gon::Base.get_controller(options),
+          Gon::EnvFinder.template_path(options, 'rabl'),
+          Gon::EnvFinder.controller_env(options),
           options[:locals]
 
         [data, options]

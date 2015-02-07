@@ -39,7 +39,7 @@ class Gon
       end
 
       def return_variable?(variable)
-        controller = Gon::Base.get_controller
+        controller = Gon::EnvFinder.controller_env
         params = controller.params
         variable = variable.to_s.gsub('=', '')
 
@@ -49,7 +49,7 @@ class Gon
       end
 
       def return_variable(value)
-        controller = Gon::Base.get_controller
+        controller = Gon::EnvFinder.controller_env
         controller.render json: Gon::Escaper.escape_unicode(Gon::JsonDumper.dump value)
       end
 

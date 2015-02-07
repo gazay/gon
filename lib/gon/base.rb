@@ -2,7 +2,6 @@ require 'ostruct'
 
 class Gon
   module Base
-    ENV_CONTROLLER_KEY = 'action_controller.instance'
     VALID_OPTION_DEFAULTS = {
         namespace: 'gon',
         camel_case: false,
@@ -28,36 +27,7 @@ class Gon
         script.html_safe
       end
 
-      def get_controller(options = {})
-        options[:controller] ||
-          (
-            current_gon &&
-            current_gon.env[Gon::Base::ENV_CONTROLLER_KEY] ||
-            current_gon.env['action_controller.rescue.response'].
-              instance_variable_get('@template').
-              instance_variable_get('@controller')
-          )
-      end
-
-      def get_template_path(options, extension)
-        if options[:template]
-          if right_extension?(extension, options[:template])
-            options[:template]
-          else
-            [options[:template], extension].join('.')
-          end
-        else
-          controller = get_controller(options).controller_path
-          action = get_controller(options).action_name
-          "app/views/#{controller}/#{action}.json.#{extension}"
-        end
-      end
-
       private
-
-      def current_gon
-        RequestStore.store[:gon]
-      end
 
       def define_options(options)
         _o = OpenStruct.new
@@ -150,10 +120,6 @@ class Gon
         end
 
         data.merge(Gon.all_variables)
-      end
-
-      def right_extension?(extension, template_path)
-        File.extname(template_path) == ".#{extension}"
       end
 
     end

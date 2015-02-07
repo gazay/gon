@@ -7,13 +7,13 @@ class Gon
         if global && !options[:template]
           raise 'You should provide :template when use rabl with global variables'
         end
-        controller = Gon::Base.get_controller(options)
+        controller = Gon::EnvFinder.controller_env(options)
         @_controller_name = global ? '' : controller.controller_path
 
         include_helpers
 
         data = parse_jbuilder \
-          Gon::Base.get_template_path(options, 'jbuilder'),
+          Gon::EnvFinder.template_path(options, 'jbuilder'),
           controller,
           options[:locals]
 
