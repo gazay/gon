@@ -8,9 +8,9 @@ class Gon
         camel_case: false,
         camel_depth: 1,
         watch: false,
-        need_tag: false,
-        type: false,
-        cdata: false,
+        need_tag: true,
+        type: true,
+        cdata: true,
         global_root: 'global',
         namespace_check: false
     }
@@ -85,24 +85,25 @@ class Gon
         VALID_OPTION_DEFAULTS.each do |opt_name, default|
           _o.send("#{opt_name}=", options.fetch(opt_name, default))
         end
-        _o.watch = options[:watch] || !Gon.watch.all_variables.empty?
-        _o.tag   = options[:need_tag]
+        _o.watch     = options[:watch] || !Gon.watch.all_variables.empty?
+        _o.tag       = _o.need_tag
+        _o.cameled   = _o.camel_case
 
         _o
       end
 
       def formatted_data(_o)
-        script = _o.amd ? 'var gon={}' : ''
+        script = _o.amd ? 'var gon={};' : ''
 
         script << gon_variables(_o.global_root).
                     map { |key, val| render_variable(_o, key, val) }.join
-        script << render_watch(_o)
+        script << (render_watch(_o) || '')
 
         script
       end
 
       def render_variable(_o, key, value)
-        js_key = _o.keys_cameled ? key.to_s.camelize(:lower) : key.to_s
+        js_key = _o.cameled ? key.to_s.camelize(:lower) : key.to_s
         if _o.amd
           "gon['#{js_key}']=#{to_json(value, _o.camel_depth)};"
         else
