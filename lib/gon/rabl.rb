@@ -1,5 +1,4 @@
 require 'action_view'
-require 'active_support'
 
 begin
   require 'rabl' # use rabl gem if it's available
