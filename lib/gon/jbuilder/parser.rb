@@ -9,7 +9,7 @@ class Gon
         @template_path    = parse_params[:template_path]
         @controller       = parse_params[:controller]
         @_controller_name = parse_params[:controller_name]
-        @locals           = parse_params[:locals]
+        @locals           = parse_params[:locals] || {}
       end
 
       def parse!

@@ -9,7 +9,7 @@ class Gon
         controller = Gon::EnvFinder.controller_env(options)
         controller_name = global ? '' : controller.controller_path
 
-        parser = Parser.new(
+        parser = Gon::Jbuilder::Parser.new(
           template_path: Gon::EnvFinder.template_path(options, 'jbuilder'),
           controller: controller,
           controller_name: controller_name,

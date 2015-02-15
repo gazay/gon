@@ -12,6 +12,7 @@ require 'gon/helpers'
 require 'gon/escaper'
 require 'gon/rabl'
 require 'gon/jbuilder'
+require 'gon/jbuilder/parser'
 require 'gon/json_dumper'
 
 # NOTE : ActionDispatch::Request#uuid appears only in Rails 3.2.1
