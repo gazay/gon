@@ -52,14 +52,6 @@ describe Gon do
 
     end
 
-    it 'should raise error if you use gon.jbuilder without requiring jbuilder gem' do
-      Gon.send(:remove_const, :Jbuilder)
-
-      expect { Gon.jbuilder 'some_path' }.to raise_error
-      load 'jbuilder.rb'
-      load 'gon/jbuilder.rb'
-    end
-
   end
 
 
