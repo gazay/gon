@@ -46,6 +46,8 @@ def ensure_rabl_rails_is_loaded
     load 'rabl-rails/compiler.rb'
     load 'rabl-rails/renderers/hash.rb'
     load 'rabl-rails/renderers/json.rb'
+    load 'rabl-rails/renderers/xml.rb'
+    load 'rabl-rails/renderers/plist.rb'
     load 'rabl-rails.rb'
     load 'rabl-rails/template.rb'
     load 'rabl-rails/library.rb'
