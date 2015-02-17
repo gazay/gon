@@ -6,6 +6,10 @@ module Rails
   module VERSION
     MAJOR = 4
   end
+
+  def self.version
+    '4.2.0'
+  end
 end
 
 require 'jbuilder'
