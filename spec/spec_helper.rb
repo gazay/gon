@@ -1,5 +1,4 @@
-require 'gon'
-
+require 'rails/railtie'
 # We don't require rails for specs, but jbuilder works only in rails.
 # And it checks version of rails. I've decided to configure jbuilder for rails v4
 module Rails
@@ -11,6 +10,8 @@ module Rails
     '4.2.0'
   end
 end
+
+require 'gon'
 
 require 'jbuilder'
 require 'rabl'
