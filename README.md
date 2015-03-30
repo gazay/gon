@@ -1,5 +1,7 @@
 # Gon gem — get your Rails variables in your js
 
+[![Join the chat at https://gitter.im/gazay/gon](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/gazay/gon?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 ![Gon. You should try this. If you look closer - you will see an elephant.](https://github.com/gazay/gon/raw/master/doc/logo_small.png)
 
 [![Build Status](https://secure.travis-ci.org/gazay/gon.png)](http://travis-ci.org/gazay/gon) [![CodeClimate](https://codeclimate.com/github/gazay/gon/badges/gpa.svg)](https://codeclimate.com/github/gazay/gon)
