@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 6.0.1
+
+  * Free dependencies
+
 ## 6.0.0
 
   * Refactoring
