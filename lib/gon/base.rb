@@ -12,7 +12,8 @@ class Gon
         cdata: true,
         global_root: 'global',
         namespace_check: false,
-        amd: false
+        amd: false,
+        nonce: nil
     }
 
     class << self
@@ -22,7 +23,7 @@ class Gon
 
         script = formatted_data(_o)
         script = Gon::Escaper.escape_unicode(script)
-        script = Gon::Escaper.javascript_tag(script, _o.type, _o.cdata) if _o.tag
+        script = Gon::Escaper.javascript_tag(script, _o.type, _o.cdata, _o.nonce) if _o.tag
 
         script.html_safe
       end

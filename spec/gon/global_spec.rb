@@ -107,6 +107,16 @@ describe Gon::Global do
                                      "</script>")
     end
 
+    it "includes the tag attributes in the script tag" do
+      Gon.global.int = 1
+      expect(@base.include_gon(nonce: 'test')).to eq("<script type=\"text/javascript\" nonce=\"test\">" +
+                                    "\n//<![CDATA[\n" +
+                                    "window.gon={};" +
+                                    "gon.global={\"int\":1};" +
+                                    "\n//]]>\n" +
+                                  "</script>")
+    end
+
   end
 
   it 'returns exception if try to set public method as variable' do
