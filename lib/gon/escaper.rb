@@ -12,9 +12,12 @@ class Gon
         end
       end
 
-      def javascript_tag(content, type, cdata)
-        type = { type: 'text/javascript' } if type
-        content_tag(:script, javascript_cdata_section(content, cdata).html_safe, type)
+      def javascript_tag(content, type, cdata, nonce)
+        options = {}
+        options.merge!( { type: 'text/javascript' } ) if type
+        options.merge!( { nonce: nonce } ) if nonce
+        
+        content_tag(:script, javascript_cdata_section(content, cdata).html_safe, options)
       end
 
       def javascript_cdata_section(content, cdata)
