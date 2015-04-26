@@ -9,7 +9,7 @@ class Gon
             # preload threadlocal & store controller instance
             if controller.is_a? ActionController::Base
               controller.gon
-              Gon.send(:current_gon).env[Gon::Base::ENV_CONTROLLER_KEY] =
+              Gon.send(:current_gon).env[Gon::EnvFinder::ENV_CONTROLLER_KEY] =
                controller
             end
             super
