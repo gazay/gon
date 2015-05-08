@@ -73,9 +73,6 @@ in modern web applications!
 
 ### More details about configuration and usage you can find in [gon wiki](https://github.com/gazay/gon/wiki)
 
-Old readme available in [./README_old.md](https://github.com/gazay/gon/blob/master/README_old.md)
-
-
 `app/views/layouts/application.html.erb`
 
 ``` erb
