@@ -85,7 +85,7 @@ in modern web applications!
 
 For rails 4:
 ``` erb
-  <%= Gon::Base.render_data({}) %>
+  <%= Gon::Base.render_data %>
   ...
 ```
 

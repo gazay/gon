@@ -18,7 +18,7 @@ class Gon
 
     class << self
 
-      def render_data(options)
+      def render_data(options = {})
         _o = define_options(options)
 
         script = formatted_data(_o)
