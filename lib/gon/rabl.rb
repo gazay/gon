@@ -53,7 +53,7 @@ class Gon
         source = File.read(rabl_path)
         original_formats = controller.formats
         controller.formats = [:json]
-        view_context = controller.view_context
+        view_context = controller.send(:view_context)
         locals.each { |k, v| view_context.assigns[k.to_s] = v }
         output = RablRails::Library.instance.get_rendered_template(source, view_context)
         controller.formats = original_formats
