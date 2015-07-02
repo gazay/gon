@@ -50,6 +50,26 @@ describe Gon do
         expect(Gon.objects.length).to eq(2)
       end
 
+      context 'within Rails' do
+        before do
+          module ::Rails
+          end
+
+          allow(Rails).to receive_message_chain("application.routes.url_helpers.instance_methods") { [:user_path] }
+          controller.instance_variable_set('@user_id', 1)
+        end
+
+        after do
+          Object.send(:remove_const, :Rails)
+        end
+
+        it 'includes url_helpers' do
+          expect(controller).to receive(:user_path) { |id| "/users/#{id}" }
+          Gon.jbuilder 'spec/test_data/sample_url_helpers.json.jbuilder', :controller => controller
+          expect(Gon.url).to eq '/users/1'
+        end
+      end
+
     end
 
   end
