@@ -24,7 +24,7 @@ end
 
 describe 'threading behaviour' do
   before do
-    Gon.unstub(:current_gon)
+    allow(Gon).to receive(:current_gon).and_call_original
   end
 
   it 'is threadsafe' do
