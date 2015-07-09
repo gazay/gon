@@ -323,8 +323,8 @@ describe Gon do
   end
 
   it 'returns exception if try to set public method as variable' do
-    expect { Gon.all_variables = 123 }.to raise_error
-    expect { Gon.rabl = 123 }.to raise_error
+    expect { Gon.all_variables = 123 }.to raise_error(RuntimeError)
+    expect { Gon.rabl = 123 }.to raise_error(RuntimeError)
   end
 
   describe '#check_for_rabl_and_jbuilder' do

@@ -56,7 +56,7 @@ describe Gon do
 
     it 'raise exception if rabl or rabl-rails is not included' do
       Object.send :remove_const, :RablRails # ensure_rabl_rails_is_loaded method already removed Rabl
-      expect { Gon.rabl :template => 'spec/test_data/sample.rabl', :controller => controller}.to raise_error
+      expect { Gon.rabl :template => 'spec/test_data/sample.rabl', :controller => controller}.to raise_error(RuntimeError)
       ensure_rabl_rails_is_loaded # load up rabl-rails again, we're not done testing
     end
 

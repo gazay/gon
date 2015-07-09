@@ -121,8 +121,8 @@ describe Gon::Global do
 
   it 'returns exception if try to set public method as variable' do
     Gon.global.clear
-    expect { Gon.global.all_variables = 123 }.to raise_error
-    expect { Gon.global.rabl = 123 }.to raise_error
+    expect { Gon.global.all_variables = 123 }.to raise_error(RuntimeError)
+    expect { Gon.global.rabl = 123 }.to raise_error(RuntimeError)
   end
 
   context 'with jbuilder and rabl' do
@@ -146,8 +146,8 @@ describe Gon::Global do
     end
 
     it 'should throw exception, if use rabl or jbuilder without :template' do
-      expect { Gon.global.rabl }.to raise_error
-      expect { Gon.global.jbuilder }.to raise_error
+      expect { Gon.global.rabl }.to raise_error(RuntimeError)
+      expect { Gon.global.jbuilder }.to raise_error(RuntimeError)
     end
 
   end
