@@ -21,7 +21,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'multi_json'
   s.add_development_dependency 'rabl', '0.11.3'
   s.add_development_dependency 'rabl-rails'
-  s.add_development_dependency 'rspec'
+  s.add_development_dependency 'rspec', '~> 3.0'
   s.add_development_dependency 'jbuilder'
   s.add_development_dependency 'railties', '>= 2.3.0'
   s.add_development_dependency 'rake'
