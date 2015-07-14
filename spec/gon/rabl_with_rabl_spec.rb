@@ -94,8 +94,4 @@ describe Gon do
 
   end
 
-  def request
-    @request ||= double 'request', :env => {}
-  end
-
 end

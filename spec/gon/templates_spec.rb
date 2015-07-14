@@ -35,8 +35,4 @@ describe Gon do
     end
   end
 
-  def request
-    @request ||= double 'request', :env => {}
-  end
-
 end
