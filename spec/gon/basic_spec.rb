@@ -89,10 +89,7 @@ describe Gon do
     before(:each) do
       Gon::Request.
         instance_variable_set(:@request_id, request.object_id)
-      expect(ActionView::Base.
-        instance_methods.
-        map(&:to_s).
-        include?('include_gon')).to eq(true)
+      expect(ActionView::Base.instance_methods).to include(:include_gon)
       @base = ActionView::Base.new
       @base.request = request
     end
@@ -289,10 +286,7 @@ describe Gon do
     end
 
     it 'is included in ActionView::Base as a helper' do
-      expect(ActionView::Base.
-        instance_methods.
-        map(&:to_s).
-        include?('include_gon_amd')).to eq(true)
+      expect(ActionView::Base.instance_methods).to include(:include_gon_amd)
     end
 
     it 'outputs correct js without variables' do

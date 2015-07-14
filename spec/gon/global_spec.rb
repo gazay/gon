@@ -35,10 +35,7 @@ describe Gon::Global do
     before(:each) do
       Gon.clear
       Gon.global.clear
-      expect(ActionView::Base.
-        instance_methods.
-        map(&:to_s).
-        include?('include_gon')).to eq(true)
+      expect(ActionView::Base.instance_methods).to include(:include_gon)
       @base = ActionView::Base.new
       @base.request = request
     end
