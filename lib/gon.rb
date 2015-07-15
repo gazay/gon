@@ -118,13 +118,7 @@ class Gon
     end
 
     def public_method_name?(method)
-      public_methods.include?(
-        if RUBY_VERSION > '1.9'
-          method.to_s[0..-2].to_sym
-        else
-          method.to_s[0..-2]
-        end
-      )
+      public_methods.include?(method.to_s[0..-2].to_sym)
     end
 
     # JbuilderTemplate will not be defined if jbuilder is required
