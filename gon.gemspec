@@ -15,6 +15,7 @@ Gem::Specification.new do |s|
 
   s.files         = `git ls-files`.split("\n")
   s.require_paths = ['lib']
+  s.required_ruby_version = '> 1.8.7'
   s.add_dependency 'actionpack', '>= 2.3.0'
   s.add_dependency 'request_store', '>= 1.0.5'
   s.add_dependency 'json'
