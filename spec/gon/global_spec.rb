@@ -22,6 +22,7 @@ describe Gon::Global do
       Gon.global.int          = 1
       Gon.global.float        = 1.1
       Gon.global.string       = 'string'
+      Gon.global.symbol       = :symbol
       Gon.global.array        = [1, 'string']
       Gon.global.hash_var     = { :a => 1, :b => '2' }
       Gon.global.hash_w_array = { :a => [2, 3] }

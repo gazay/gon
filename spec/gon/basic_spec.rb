@@ -20,6 +20,7 @@ describe Gon do
       Gon.int          = 1
       Gon.float        = 1.1
       Gon.string       = 'string'
+      Gon.symbol       = :symbol
       Gon.array        = [1, 'string']
       Gon.hash_var     = { :a => 1, :b => '2' }
       Gon.hash_w_array = { :a => [2, 3] }
