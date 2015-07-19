@@ -48,13 +48,13 @@ describe Gon::Watch do
       env = Gon.send(:current_gon).instance_variable_get(:@request_env)
       env['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest'
 
-      controller.stub(request: ActionDispatch::Request.new(env))
+      allow(controller).to receive_messages(request: ActionDispatch::Request.new(env))
       Gon.send(:current_gon).env['action_controller.instance'] = controller
     end
 
     context 'when request variable is json safe content' do
       before do
-        controller.stub(params: {
+        allow(controller).to receive_messages(params: {
           gon_return_variable: true,
           gon_watched_variable: 'safety'})
       end
@@ -69,7 +69,7 @@ describe Gon::Watch do
       let(:expected) { %Q{"\\u003cscript\\u003e'\\"\\u003c/script\\u003e&#x2028;Dangerous"} }
 
       before do
-        controller.stub(params: {
+        allow(controller).to receive_messages(params: {
           gon_return_variable: true,
           gon_watched_variable: 'danger'})
       end

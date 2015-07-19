@@ -255,7 +255,7 @@ describe Gon do
       end
 
       it "does not raise an exception" do
-        expect { @base.include_gon }.to_not raise_error(Exception)
+        expect { @base.include_gon }.to_not raise_error
       end
 
       it 'outputs correct js' do
