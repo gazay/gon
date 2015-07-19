@@ -329,15 +329,15 @@ describe Gon do
     it 'should be able to handle ruby 1.8.7 style constants array (strings)' do
       constants_as_strings = Gon.constants.map(&:to_s)
       allow(Gon).to receive(:constants) { constants_as_strings }
-      expect { Gon.rabl 'spec/test_data/sample.rabl', :controller => controller }.not_to raise_error
-      expect { Gon.jbuilder 'spec/test_data/sample.json.jbuilder', :controller => controller }.not_to raise_error
+      expect { Gon.rabl :template => 'spec/test_data/sample.rabl', :controller => controller }.not_to raise_error
+      expect { Gon.jbuilder :template => 'spec/test_data/sample.json.jbuilder', :controller => controller }.not_to raise_error
     end
 
     it 'should be able to handle ruby 1.9+ style constants array (symbols)' do
       constants_as_symbols = Gon.constants.map(&:to_sym)
       allow(Gon).to receive(:constants) { constants_as_symbols }
-      expect { Gon.rabl 'spec/test_data/sample.rabl', :controller => controller }.not_to raise_error
-      expect { Gon.jbuilder 'spec/test_data/sample.json.jbuilder', :controller => controller }.not_to raise_error
+      expect { Gon.rabl :template => 'spec/test_data/sample.rabl', :controller => controller }.not_to raise_error
+      expect { Gon.jbuilder :template => 'spec/test_data/sample.json.jbuilder', :controller => controller }.not_to raise_error
     end
   end
 

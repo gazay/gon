@@ -14,12 +14,12 @@ describe Gon do
       let(:objects) { [1, 2] }
 
       it 'render json from jbuilder template' do
-        Gon.jbuilder 'spec/test_data/sample.json.jbuilder', :controller => controller
+        Gon.jbuilder :template => 'spec/test_data/sample.json.jbuilder', :controller => controller
         expect(Gon.objects.length).to eq(2)
       end
 
       it 'render json from jbuilder template with locals' do
-        Gon.jbuilder 'spec/test_data/sample_with_locals.json.jbuilder',
+        Gon.jbuilder :template => 'spec/test_data/sample_with_locals.json.jbuilder',
                      :controller => controller,
                      :locals => { :some_local => 1234, :some_complex_local => OpenStruct.new(:id => 1234) }
         expect(Gon.some_local).to eq(1234)
@@ -27,7 +27,7 @@ describe Gon do
       end
 
       it 'render json from jbuilder template with locals' do
-        Gon.jbuilder 'spec/test_data/sample_with_helpers.json.jbuilder', :controller => controller
+        Gon.jbuilder :template => 'spec/test_data/sample_with_helpers.json.jbuilder', :controller => controller
         expect(Gon.date).to eq('about 6 hours')
       end
 
@@ -40,13 +40,13 @@ describe Gon do
           private :private_controller_method
         end
 
-        Gon.jbuilder 'spec/test_data/sample_with_controller_method.json.jbuilder', :controller => controller
+        Gon.jbuilder :template => 'spec/test_data/sample_with_controller_method.json.jbuilder', :controller => controller
         expect(Gon.data_from_method).to eq('gon test helper works')
       end
 
       it 'render json from jbuilder template with a partial' do
         controller.view_paths << 'spec/test_data'
-        Gon.jbuilder 'spec/test_data/sample_with_partial.json.jbuilder', :controller => controller
+        Gon.jbuilder :template => 'spec/test_data/sample_with_partial.json.jbuilder', :controller => controller
         expect(Gon.objects.length).to eq(2)
       end
 
@@ -65,7 +65,7 @@ describe Gon do
 
         it 'includes url_helpers' do
           expect(controller).to receive(:user_path) { |id| "/users/#{id}" }
-          Gon.jbuilder 'spec/test_data/sample_url_helpers.json.jbuilder', :controller => controller
+          Gon.jbuilder :template => 'spec/test_data/sample_url_helpers.json.jbuilder', :controller => controller
           expect(Gon.url).to eq '/users/1'
         end
       end
