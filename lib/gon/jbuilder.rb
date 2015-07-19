@@ -32,7 +32,7 @@ class Gon
         if old_api? args
           text =  "[DEPRECATION] view_path argument is now optional. "
           text << "If you need to specify it, "
-          text << "please use gon.rabl(:template => 'path')"
+          text << "please use gon.jbuilder(:template => 'path')"
           warn text
 
           args.extract_options!.merge(:template => args[0])
