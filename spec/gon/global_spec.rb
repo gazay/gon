@@ -18,7 +18,6 @@ describe Gon::Global do
     end
 
     it 'supports all data types' do
-      Gon.global.clear
       Gon.global.int          = 1
       Gon.global.float        = 1.1
       Gon.global.string       = 'string'
@@ -35,7 +34,6 @@ describe Gon::Global do
 
     before(:each) do
       Gon.clear
-      Gon.global.clear
       expect(ActionView::Base.instance_methods).to include(:include_gon)
       @base = ActionView::Base.new
       @base.request = request
@@ -118,7 +116,6 @@ describe Gon::Global do
   end
 
   it 'returns exception if try to set public method as variable' do
-    Gon.global.clear
     expect { Gon.global.all_variables = 123 }.to raise_error(RuntimeError)
     expect { Gon.global.rabl = 123 }.to raise_error(RuntimeError)
   end
@@ -126,7 +123,6 @@ describe Gon::Global do
   context 'with jbuilder and rabl' do
 
     before :each do
-      Gon.global.clear
       controller.instance_variable_set('@objects', objects)
     end
 
