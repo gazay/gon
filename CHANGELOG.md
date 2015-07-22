@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 6.0.0
+
+  * Refactoring
+  * nonce option. Thanks to @joeljackson
+  * Included rails url_helpers into jbuilder. Thanks to @razum2um
+  * Welcome @takiy33 as contributor!
+
 ## 5.2.3
 
   * Coffescript implementation of watch.js. Thanks to @willcosgrove
