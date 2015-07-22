@@ -228,6 +228,7 @@ Gon uses `MultiJson` with autodetect mode, so all you need is just require your 
 ## Contributors
 
 * @gazay
+* @takiy33
 
 Special thanks to @brainopia, @kossnocorp and @ai.
 
