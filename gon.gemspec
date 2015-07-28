@@ -24,6 +24,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rabl-rails', '~> 0'
   s.add_development_dependency 'rspec', '~> 3.0'
   s.add_development_dependency 'jbuilder', '~> 0'
-  s.add_development_dependency 'railties', '~> 2.3'
+  s.add_development_dependency 'railties', '~> 3.0'
   s.add_development_dependency 'rake', '~> 0'
 end
