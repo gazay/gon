@@ -97,7 +97,7 @@ describe Gon do
 
     it 'outputs correct js with an integer' do
       Gon.int = 1
-      expect(@base.include_gon).to eq('<script type="text/javascript">' +
+      expect(@base.include_gon).to eq('<script>' +
                                     "\n//<![CDATA[\n" +
                                     'window.gon={};' +
                                     'gon.int=1;' +
@@ -107,7 +107,7 @@ describe Gon do
 
     it 'outputs correct js with a string' do
       Gon.str = %q(a'b"c)
-      expect(@base.include_gon).to eq('<script type="text/javascript">' +
+      expect(@base.include_gon).to eq('<script>' +
                                     "\n//<![CDATA[\n" +
                                     'window.gon={};' +
                                     %q(gon.str="a'b\"c";) +
@@ -118,7 +118,7 @@ describe Gon do
     it 'outputs correct js with a script string' do
       Gon.str = %q(</script><script>alert('!')</script>)
       escaped_str = "\\u003c/script\\u003e\\u003cscript\\u003ealert('!')\\u003c/script\\u003e"
-      expect(@base.include_gon).to eq('<script type="text/javascript">' +
+      expect(@base.include_gon).to eq('<script>' +
                                     "\n//<![CDATA[\n" +
                                     'window.gon={};' +
                                     %Q(gon.str="#{escaped_str}";) +
@@ -126,10 +126,20 @@ describe Gon do
                                   '</script>')
     end
 
+    it 'outputs correct js with an integer and type' do
+      Gon.int = 1
+      expect(@base.include_gon(type: true)).to eq('<script type="text/javascript">' +
+                                    "\n//<![CDATA[\n" +
+                                    'window.gon={};' +
+                                    'gon.int=1;' +
+                                    "\n//]]>\n" +
+                                  '</script>')
+    end
+
     it 'outputs correct js with an integer, camel-case and namespace' do
       Gon.int_cased = 1
       expect(@base.include_gon(camel_case: true, namespace: 'camel_cased')).to eq( \
-                                  '<script type="text/javascript">' +
+                                  '<script>' +
                                     "\n//<![CDATA[\n" +
                                     'window.camel_cased={};' +
                                     'camel_cased.intCased=1;' +
@@ -141,7 +151,7 @@ describe Gon do
     it 'outputs correct js with camel_depth = :recursive' do
       Gon.test_hash = { test_depth_one: { test_depth_two: 1 } }
       expect(@base.include_gon(camel_case: true, camel_depth: :recursive)).to eq( \
-                                  '<script type="text/javascript">' +
+                                  '<script>' +
                                     "\n//<![CDATA[\n" +
                                     'window.gon={};' +
                                     'gon.testHash={"testDepthOne":{"testDepthTwo":1}};' +
@@ -153,7 +163,7 @@ describe Gon do
     it 'outputs correct js with camel_depth = 2' do
       Gon.test_hash = { test_depth_one: { test_depth_two: 1 } }
       expect(@base.include_gon(camel_case: true, camel_depth: 2)).to eq( \
-                                  '<script type="text/javascript">' +
+                                  '<script>' +
                                     "\n//<![CDATA[\n" +
                                     'window.gon={};' +
                                     'gon.testHash={"testDepthOne":{"test_depth_two":1}};' +
@@ -165,7 +175,7 @@ describe Gon do
     it 'outputs correct js for an array with camel_depth = :recursive' do
       Gon.test_hash = { test_depth_one: [{ test_depth_two: 1 }, { test_depth_two: 2 }] }
       expect(@base.include_gon(camel_case: true, camel_depth: :recursive)).to eq( \
-                                  '<script type="text/javascript">' +
+                                  '<script>' +
                                     "\n//<![CDATA[\n" +
                                     'window.gon={};' +
                                     'gon.testHash={"testDepthOne":[{"testDepthTwo":1},{"testDepthTwo":2}]};' +
@@ -219,7 +229,7 @@ describe Gon do
 
     it 'outputs correct js with type text/javascript' do
       expect(@base.include_gon(need_type: true, init: true)).to eq( \
-                                  '<script type="text/javascript">' +
+                                  '<script>' +
                                     "\n//<![CDATA[\n" +
                                     'window.gon={};'\
                                     "\n//]]>\n" +
@@ -229,7 +239,7 @@ describe Gon do
 
     it 'outputs correct js with namespace check' do
       expect(@base.include_gon(namespace_check: true)).to eq( \
-                                  '<script type="text/javascript">' +
+                                  '<script>' +
                                     "\n//<![CDATA[\n" +
                                     'window.gon=window.gon||{};'\
                                     "\n//]]>\n" +
@@ -239,7 +249,7 @@ describe Gon do
 
     it 'outputs correct js without namespace check' do
       expect(@base.include_gon(namespace_check: false)).to eq( \
-                                  '<script type="text/javascript">' +
+                                  '<script>' +
                                     "\n//<![CDATA[\n" +
                                     'window.gon={};'\
                                     "\n//]]>\n" +
@@ -264,7 +274,7 @@ describe Gon do
 
       it 'outputs correct js with init' do
         expect(@base.include_gon(init: true)).to eq( \
-                                    '<script type="text/javascript">' +
+                                    '<script>' +
                                       "\n//<![CDATA[\n" +
                                       'window.gon={};'\
                                       "\n//]]>\n" +
@@ -345,8 +355,8 @@ describe Gon do
     @request ||= double 'request', :env => {}
   end
 
-  def wrap_script(content, type='text/javascript', cdata=true)
-    script = "<script type=\"#{type}\">"
+  def wrap_script(content, cdata=true)
+    script = "<script>"
     script << "\n//<![CDATA[\n" if cdata
     script << content
     script << "\n//]]>\n" if cdata

@@ -8,7 +8,7 @@ class Gon
         camel_depth: 1,
         watch: false,
         need_tag: true,
-        type: true,
+        type: false,
         cdata: true,
         global_root: 'global',
         namespace_check: false,

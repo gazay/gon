@@ -16,7 +16,7 @@ class Gon
         options = {}
         options.merge!( { type: 'text/javascript' } ) if type
         options.merge!( { nonce: nonce } ) if nonce
-        
+
         content_tag(:script, javascript_cdata_section(content, cdata).html_safe, options)
       end
 
