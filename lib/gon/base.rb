@@ -23,7 +23,7 @@ class Gon
 
         script = formatted_data(_o)
         script = Gon::Escaper.escape_unicode(script)
-        script = Gon::Escaper.javascript_tag(script, _o.type, _o.cdata, _o.nonce) if _o.tag
+        script = Gon::Escaper.javascript_tag(script, _o.type, _o.cdata, _o.nonce) if _o.need_tag
 
         script.html_safe
       end
@@ -36,9 +36,8 @@ class Gon
         VALID_OPTION_DEFAULTS.each do |opt_name, default|
           _o.send("#{opt_name}=", options.fetch(opt_name, default))
         end
-        _o.watch     = options[:watch] || !Gon.watch.all_variables.empty?
-        _o.tag       = _o.need_tag
-        _o.cameled   = _o.camel_case
+        _o.watch   = options[:watch] || !Gon.watch.all_variables.empty?
+        _o.cameled = _o.camel_case
 
         _o
       end
