@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 class GonTestWorker
   include Gon::ControllerHelpers
 

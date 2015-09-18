@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Gon::Global do
 
   before(:each) do

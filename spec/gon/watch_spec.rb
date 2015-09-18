@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Gon::Watch do
 
   let(:controller) { ActionController::Base.new }
