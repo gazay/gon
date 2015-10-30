@@ -60,7 +60,7 @@ gem line to your Gemfile and do the following:
   2. In your js you get this by
 
     ``` js
-    gon.variable_name
+    gon.variableName
     ```
 
   3. profit?
