@@ -282,7 +282,6 @@ describe Gon do
 
     end
 
-
   end
 
   describe '#include_gon_amd' do
