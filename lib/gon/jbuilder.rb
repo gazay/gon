@@ -24,7 +24,7 @@ class Gon
 
       def valid_options?(options, global)
         if global && !options[:template]
-          raise 'You should provide :template when use rabl with global variables'
+          raise 'You should provide :template when use jbuilder with global variables'
         end
       end
 
