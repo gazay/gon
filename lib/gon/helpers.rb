@@ -29,7 +29,7 @@ class Gon
   module ControllerHelpers
     def gon
       if wrong_gon_request?
-        gon_request = Request.new(env)
+        gon_request = Request.new(request.env)
         gon_request.id = gon_request_uuid
         RequestStore.store[:gon] = gon_request
       end
