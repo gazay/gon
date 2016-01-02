@@ -1,18 +1,11 @@
 class Gon
   class Request
     attr_reader :env
+    attr_accessor :id
 
     def initialize(environment)
       @env = environment
       @gon = {}
-    end
-
-    def id
-      @request_id
-    end
-
-    def id=(request_id)
-      @request_id = request_id
     end
 
     def gon
