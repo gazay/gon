@@ -11,7 +11,7 @@ describe Gon::Watch do
     env['REQUEST_METHOD'] = 'GET'
 
     Gon::Watch.clear
-    Gon.send(:current_gon).instance_variable_set(:@request_env, env)
+    Gon.send(:current_gon).instance_variable_set(:@env, env)
     Gon.send(:current_gon).env['action_controller.instance'] = controller
     Gon.clear
   end
@@ -43,7 +43,7 @@ describe Gon::Watch do
 
   describe 'Render concrete variable' do
     before do
-      env = Gon.send(:current_gon).instance_variable_get(:@request_env)
+      env = Gon.send(:current_gon).env
       env['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest'
 
       allow(controller).to receive_messages(request: ActionDispatch::Request.new(env))

@@ -1,12 +1,10 @@
 class Gon
   class Request
-    def initialize(environment)
-      @request_env = environment
-      @gon = {}
-    end
+    attr_reader :env
 
-    def env
-      @request_env
+    def initialize(environment)
+      @env = environment
+      @gon = {}
     end
 
     def id
