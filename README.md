@@ -78,21 +78,21 @@ in modern web applications!
 ``` erb
 <head>
   <title>some title</title>
-  <%= include_gon %>
+  <%= Gon::Base.render_data %>
   <!-- include your action js code -->
   ...
 ```
 
-For rails 4:
+For rails 3:
 ``` erb
-  <%= Gon::Base.render_data %>
+  <%= include_gon %>
   ...
 ```
 
 
 
 You can pass some [options](https://github.com/gazay/gon/wiki/Options)
-to `include_gon` method.
+to `render_data` method.
 
 You put something like this in the action of your controller:
 
