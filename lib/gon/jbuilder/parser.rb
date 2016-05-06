@@ -3,13 +3,13 @@ class Gon
     class Parser
       include ::ActionView::Helpers
 
-      attr_accessor :template_path, :controller, :_controller_name, :locals
+      attr_accessor :template_location, :controller, :_controller_name, :locals
 
       def initialize(parse_params)
-        @template_path    = parse_params[:template_path]
-        @controller       = parse_params[:controller]
-        @_controller_name = parse_params[:controller_name]
-        @locals           = parse_params[:locals] || {}
+        @template_location = parse_params[:template_path]
+        @controller        = parse_params[:controller]
+        @_controller_name  = parse_params[:controller_name]
+        @locals            = parse_params[:locals] || {}
       end
 
       def parse!
@@ -19,7 +19,7 @@ class Gon
         locals['__controller'] = controller
         wrap_locals_in_methods locals
 
-        partials = find_partials(File.readlines(template_path))
+        partials = find_partials(File.readlines(template_location))
         source = partials.join('')
 
         parse_source source, controller
