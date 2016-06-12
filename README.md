@@ -109,7 +109,7 @@ gon.your_hash = @your_hash
 gon.all_variables # > {:your_int => 123, :your_other_int => 468, :your_array => [1, 2, 123], :your_hash => {'a' => 1, 'b' => 2}}
 gon.your_array # > [1, 2, 123]
 
-gon.clear # gon.all_variables now is {}
+# gon.clear # gon.all_variables now is {}
 ```
 
 Access the variables from your JavaScript file:
