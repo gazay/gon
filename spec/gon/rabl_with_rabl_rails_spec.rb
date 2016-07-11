@@ -10,7 +10,7 @@ describe Gon do
     before :each do
       Gon.clear
       controller.instance_variable_set('@objects', objects)
-      controller.request = ActionDispatch::TestRequest.new
+      controller.request = ActionDispatch::TestRequest.create
     end
 
     let(:controller) { ActionController::Base.new }

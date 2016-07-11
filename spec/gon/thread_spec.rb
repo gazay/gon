@@ -2,7 +2,7 @@ class GonTestWorker
   include Gon::ControllerHelpers
 
   def request
-    @request ||= ActionDispatch::TestRequest.new
+    @request ||= ActionDispatch::TestRequest.create
   end
 
   def env
