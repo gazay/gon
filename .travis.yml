@@ -1,7 +1,7 @@
 language: ruby
 sudo: false
 rvm:
-  - 2.3.0
+  - 2.3.1
   - ruby-head
 # uncomment this line if your project needs to run something other than `rake`:
 # script: bundle exec rspec spec
