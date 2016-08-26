@@ -66,3 +66,7 @@ RSpec.configure do |config|
     allow(Gon).to receive(:current_gon).and_return(@request)
   end
 end
+
+def request
+  @request ||= double 'request', :env => {}
+end
