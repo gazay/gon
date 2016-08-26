@@ -144,10 +144,6 @@ describe Gon::Global do
 
   end
 
-  after(:all) do
-    Gon.global.clear
-  end
-
   def request
     @request ||= double 'request', :env => {}
   end
