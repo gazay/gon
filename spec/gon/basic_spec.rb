@@ -291,13 +291,4 @@ describe Gon do
       expect { Gon.jbuilder :template => 'spec/test_data/sample.json.jbuilder', :controller => controller }.not_to raise_error
     end
   end
-
-  def wrap_script(content, cdata=true)
-    script = "<script>"
-    script << "\n//<![CDATA[\n" if cdata
-    script << content
-    script << "\n//]]>\n" if cdata
-    script << '</script>'
-  end
-
 end
