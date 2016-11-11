@@ -1,6 +1,6 @@
 gon._timers = {}
 
-gon.watch = (name, possibleOptions, possibleCallback) ->
+gon.watch = (name, possibleOptions, possibleCallback, possibleErrorCallback) ->
   return unless $?
 
   if typeof possibleOptions == 'object'
@@ -10,9 +10,12 @@ gon.watch = (name, possibleOptions, possibleCallback) ->
     for key, value of possibleOptions
       options[key] = value
     callback = possibleCallback
+    errorCallback = possibleErrorCallback
   else
     options = gon.watchedVariables[name]
     callback = possibleOptions
+    errorCallback = possibleCallback
+
   performAjax = ->
     xhr = $.ajax
       type: options.type || 'GET'
@@ -21,7 +24,11 @@ gon.watch = (name, possibleOptions, possibleCallback) ->
         _method: options.method
         gon_return_variable: true
         gon_watched_variable: name
-    xhr.done(callback)
+
+    if errorCallback
+      xhr.done(callback).fail(errorCallback);
+    else
+      xhr.done(callback)
 
   if options.interval
     timer = setInterval(performAjax, options.interval)
