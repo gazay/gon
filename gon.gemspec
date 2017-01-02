@@ -18,7 +18,6 @@ Gem::Specification.new do |s|
   s.required_ruby_version = '> 1.8.7'
   s.add_dependency 'actionpack', '>= 3.0'
   s.add_dependency 'request_store', '>= 1.0'
-  s.add_dependency 'json'
   s.add_dependency 'multi_json'
   s.add_development_dependency 'rabl', '0.11.3'
   s.add_development_dependency 'rabl-rails'
