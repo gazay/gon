@@ -45,7 +45,7 @@ gem line to your Gemfile and do the following:
 
   1. Write variables by
 
-    ``` ruby
+   ``` ruby
     gon.variable_name = variable_value
 
     # or new syntax
@@ -55,13 +55,13 @@ gem line to your Gemfile and do the following:
     })
 
     gon.push(any_object) # any_object with respond_to? :each_pair
-    ```
+   ```
 
   2. In your js you get this by
 
-    ``` js
+   ``` js
     gon.variable_name
-    ```
+   ```
 
   3. profit?
 
