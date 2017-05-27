@@ -70,7 +70,7 @@ class Gon
       end
 
       def render_variable(_o, key, value)
-        js_key = _o.cameled ? key.to_s.camelize(:lower) : key.to_s
+        js_key = convert_key(key, _o.cameled)
         if _o.amd
           "gon['#{js_key}']=#{to_json(value, _o.camel_depth)};"
         else
@@ -99,7 +99,7 @@ class Gon
         case value
         when Hash
           Hash[value.map { |k, v|
-            [ k.to_s.camelize(:lower), convert_hash_keys(v, current_depth + 1, max_depth) ]
+            [ convert_key(k, true), convert_hash_keys(v, current_depth + 1, max_depth) ]
           }]
         when Enumerable
           value.map { |v| convert_hash_keys(v, current_depth + 1, max_depth) }
@@ -120,6 +120,11 @@ class Gon
         end
 
         data.merge(Gon.all_variables)
+      end
+
+      def convert_key(key, camelize)
+        cache = RequestStore.store[:gon_keys_cache] ||= {}
+        cache[key] ||= camelize ? key.to_s.camelize(:lower) : key.to_s
       end
 
     end
