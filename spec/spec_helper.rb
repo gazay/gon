@@ -43,11 +43,11 @@ end
 def ensure_rabl_rails_is_loaded
   Object.send(:remove_const, :Rabl) if defined? Rabl
   unless defined? RablRails
-    load 'rabl-rails/renderer.rb'
     load 'rabl-rails/helpers.rb'
     load 'rabl-rails/configuration.rb'
-    load 'rabl-rails/nodes/node.rb'
+    load 'rabl-rails/exceptions.rb'
     load 'rabl-rails/nodes/attribute.rb'
+    load 'rabl-rails/nodes/extend.rb'
     load 'rabl-rails/compiler.rb'
     load 'rabl-rails/renderers/hash.rb'
     load 'rabl-rails/renderers/json.rb'
