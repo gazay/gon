@@ -124,7 +124,7 @@ class Gon
 
       def convert_key(key, camelize)
         cache = RequestStore.store[:gon_keys_cache] ||= {}
-        cache[key] ||= camelize ? key.to_s.camelize(:lower) : key.to_s
+        cache["#{key}_#{camelize}"] ||= camelize ? key.to_s.camelize(:lower) : key.to_s
       end
 
     end
