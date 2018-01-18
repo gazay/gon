@@ -159,6 +159,16 @@ describe Gon do
       )
     end
 
+    it 'outputs correct key with camel_case option set alternately ' do
+      Gon.test_hash = 1
+      @base.include_gon(camel_case: true)
+
+      expect(@base.include_gon(camel_case: false)).to eq(
+                                 wrap_script('window.gon={};' +
+                                   'gon.test_hash=1;')
+      )
+    end
+
     it 'outputs correct js with an integer and without tag' do
       Gon.int = 1
       expect(@base.include_gon(need_tag: false)).to eq( \
