@@ -40,7 +40,7 @@ you might be doing something like this:
   that) - you just use data from this js - OK.
   4. You can use your data in your js
 
-And everytime when you need to send some data from action to js you do this.
+And every time when you need to send some data from action to js you do this.
 
 With gon you configure it firstly - just put in layout one tag, and add
 gem line to your Gemfile and do the following:
