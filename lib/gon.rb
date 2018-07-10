@@ -20,7 +20,7 @@ unless ActionDispatch::Request.public_instance_methods.include?(:uuid)
   require 'gon/compatibility/old_rails'
 end
 
-require 'gon/spec_helpers'
+require 'gon/spec_helpers' if 'test' == ENV['RAILS_ENV']
 
 class Gon
   class << self
