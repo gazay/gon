@@ -1,9 +1,4 @@
 describe Gon do
-
-  before(:all) do
-    ensure_rabl_is_loaded
-  end
-
   describe '.rabl' do
 
     before :each do
