@@ -52,5 +52,9 @@ class Gon
   end
 end
 
-ActionView::Base.send :include, Gon::ViewHelpers
-ActionController::Base.send :include, Gon::ControllerHelpers
+ActiveSupport.on_load :action_view do
+  ActionView::Base.send :include, Gon::ViewHelpers
+end
+ActiveSupport.on_load :action_controller do
+  ActionController::Base.send :include, Gon::ControllerHelpers
+end
