@@ -5,3 +5,4 @@ pkg/*
 tmp/*
 .rvmrc
 *.idea
+coverage/
