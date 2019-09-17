@@ -1,3 +1,5 @@
+require "spec_helper"
+
 describe Gon do
 
   before(:each) do
