@@ -1,5 +1,45 @@
 # CHANGELOG
 
+## 6.3.1
+
+  * ActionView::Base and ActionController::Base should be loaded inside ActiveSupport.on_load hook. Thanks to @amatsuda
+  * Require Ruby >= 2.2.2 (activesupport). Thanks to @nicolasleger
+  * Update old_rails.rb to reflect GonHelpers -> ControllerHelpers name change. Thanks to @etipton
+
+## 6.2.1
+
+  * Fix keys cache. Thanks to @ertrzyiks
+  * Update README
+    * correct spelling mistake. Thanks to @EdwardBetts
+  * Update tests
+    * Autoload test classes only in test env. Thanks to @wilddima
+    * fix: fixing tests by running with rabl and rabl-rails separately. Thanks to @dsalahutdinov
+
+## 6.2.0
+
+  * Introduce keys cache. Thanks to @vlazar
+  * Remove unnecessary json dependency.
+  * Add possibleErrorCallback to watch params. Thanks to @etagwerker
+  * Remove rubysl and rubinius-developer_tools gem.
+  * Update README
+    * Update readme with PhoenixGon hex link. Thanks to @khusnetdinov
+    * Fix code highlighting in README. Thanks to @ojab
+  * Refactoring
+    * Use attr_reader
+
+## 6.1.0
+
+  * fix merging routes bug. Thanks to @strikyflo
+  * DEPRECATION WARNING: env is deprecated and will be removed from Rails 5.0. Thanks to @dlupu
+  * Show what method was used in public methods error.
+  * Use 'need_tag' as option name to prevent calling 'tag' method. Thanks to @june29
+  * Update README
+    * comment out gon.clear from sample code. Thanks to @speee-nakajima
+    * Replace the include_gon method with render_data method.
+  * Refactoring
+    * Use attr_accessor method.
+    * Use attr_reader method.
+
 ## 6.0.1
 
   * Free dependencies
