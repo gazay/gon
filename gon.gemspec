@@ -16,14 +16,14 @@ Gem::Specification.new do |s|
   s.files         = `git ls-files`.split("\n")
   s.require_paths = ['lib']
   s.required_ruby_version = '>= 2.2.0'
-  s.add_dependency 'actionpack', '>= 3.0'
+  s.add_dependency 'actionpack', '>= 3.0.20'
   s.add_dependency 'request_store', '>= 1.0'
   s.add_dependency 'multi_json'
   s.add_development_dependency 'rabl', '0.11.3'
   s.add_development_dependency 'rabl-rails'
   s.add_development_dependency 'rspec', '>= 3.0'
   s.add_development_dependency 'jbuilder'
-  s.add_development_dependency 'railties', '>= 3.0'
+  s.add_development_dependency 'railties', '>= 3.0.20'
   s.add_development_dependency 'rake'
   s.add_development_dependency 'pry'
   s.add_development_dependency 'rubocop'
