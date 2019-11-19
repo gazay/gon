@@ -25,5 +25,5 @@ class Gon
 end
 
 if ENV['RAILS_ENV'] == 'test' && defined?(ActionController::TestCase::Behavior)
-  ActionController::TestCase::Behavior.send :include, Gon::SpecHelper::Rails
+  ActionController::TestCase::Behavior.include Gon::SpecHelper::Rails
 end

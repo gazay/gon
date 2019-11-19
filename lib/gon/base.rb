@@ -18,11 +18,11 @@ class Gon
 
     class << self
       def render_data(options = {})
-        _o = define_options(options)
+        opts = define_options(options)
 
-        script = formatted_data(_o)
+        script = formatted_data(opts)
         script = Gon::Escaper.escape_unicode(script)
-        script = Gon::Escaper.javascript_tag(script, _o.type, _o.cdata, _o.nonce) if _o.need_tag
+        script = Gon::Escaper.javascript_tag(script, opts.type, opts.cdata, opts.nonce) if opts.need_tag
 
         script.html_safe
       end
@@ -30,56 +30,56 @@ class Gon
       private
 
       def define_options(options)
-        _o = OpenStruct.new
+        opts = OpenStruct.new
 
         VALID_OPTION_DEFAULTS.each do |opt_name, default|
-          _o.send("#{opt_name}=", options.fetch(opt_name, default))
+          opts.send("#{opt_name}=", options.fetch(opt_name, default))
         end
-        _o.watch   = options[:watch] || !Gon.watch.all_variables.empty?
-        _o.cameled = _o.camel_case
+        opts.watch   = options[:watch] || !Gon.watch.all_variables.empty?
+        opts.cameled = opts.camel_case
 
-        _o
+        opts
       end
 
-      def formatted_data(_o)
+      def formatted_data(opts)
         script = ''
-        before, after = render_wrap(_o)
+        before, after = render_wrap(opts)
         script << before
 
-        script << gon_variables(_o.global_root)
-                  .map { |key, val| render_variable(_o, key, val) }.join
-        script << (render_watch(_o) || '')
+        script << gon_variables(opts.global_root)
+                  .map { |key, val| render_variable(opts, key, val) }.join
+        script << (render_watch(opts) || '')
 
         script << after
         script
       end
 
-      def render_wrap(_o)
-        if _o.amd
-          ["define('#{_o.namespace}',[],function(){var gon={};", 'return gon;});']
+      def render_wrap(opts)
+        if opts.amd
+          ["define('#{opts.namespace}',[],function(){var gon={};", 'return gon;});']
         else
           before = \
-            if _o.namespace_check
-              "window.#{_o.namespace}=window.#{_o.namespace}||{};"
+            if opts.namespace_check
+              "window.#{opts.namespace}=window.#{opts.namespace}||{};"
             else
-              "window.#{_o.namespace}={};"
+              "window.#{opts.namespace}={};"
             end
           [before, '']
         end
       end
 
-      def render_variable(_o, key, value)
-        js_key = convert_key(key, _o.cameled)
-        if _o.amd
-          "gon['#{js_key}']=#{to_json(value, _o.camel_depth)};"
+      def render_variable(opts, key, value)
+        js_key = convert_key(key, opts.cameled)
+        if opts.amd
+          "gon['#{js_key}']=#{to_json(value, opts.camel_depth)};"
         else
-          "#{_o.namespace}.#{js_key}=#{to_json(value, _o.camel_depth)};"
+          "#{opts.namespace}.#{js_key}=#{to_json(value, opts.camel_depth)};"
         end
       end
 
-      def render_watch(_o)
-        if _o.watch and Gon::Watch.all_variables.present?
-          if _o.amd
+      def render_watch(opts)
+        if opts.watch and Gon::Watch.all_variables.present?
+          if opts.amd
             Gon.watch.render_amd
           else
             Gon.watch.render

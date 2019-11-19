@@ -85,8 +85,8 @@ class Gon
       def set_options_from_hash(options_hash)
         options = eval "{#{options_hash}}"
         options.each do |name, val|
-          self.instance_variable_set("@#{name.to_s}", val)
-          eval "def #{name}; self.instance_variable_get('@' + '#{name.to_s}'); end"
+          self.instance_variable_set("@#{name}", val)
+          eval "def #{name}; self.instance_variable_get('@' + '#{name}'); end"
         end
       end
 

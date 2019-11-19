@@ -80,7 +80,7 @@ class Gon
 
       def include_helpers
         unless ::Rabl::Engine.include? ::ActionView::Helpers
-          ::Rabl::Engine.send(:include, ::ActionView::Helpers)
+          ::Rabl::Engine.include ::ActionView::Helpers
         end
       end
 
