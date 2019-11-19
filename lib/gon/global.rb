@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Gon
   class Global < Gon
     class << self

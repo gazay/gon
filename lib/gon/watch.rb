@@ -1,14 +1,18 @@
+# frozen_string_literal: true
+
 class Gon
   class Watch < Gon
     class << self
-      JS_FUNCTION = File.read(File.expand_path('../../../js/watch.js', __FILE__))
+      JS_FUNCTION = File.read(File.expand_path('../../js/watch.js', __dir__))
 
       def render
-        JS_FUNCTION + "window.gon.watchedVariables=#{Gon::JsonDumper.dump all_variables};"
+        JS_FUNCTION +
+          "window.gon.watchedVariables=#{Gon::JsonDumper.dump all_variables};"
       end
 
       def render_amd
-        JS_FUNCTION + "gon.watchedVariables=#{Gon::JsonDumper.dump all_variables};"
+        JS_FUNCTION +
+          "gon.watchedVariables=#{Gon::JsonDumper.dump all_variables};"
       end
 
       def all_variables
@@ -49,7 +53,8 @@ class Gon
 
       def return_variable(value)
         controller = Gon::EnvFinder.controller_env
-        controller.render json: Gon::Escaper.escape_unicode(Gon::JsonDumper.dump value)
+        controller.render \
+          json: Gon::Escaper.escape_unicode(Gon::JsonDumper.dump(value))
       end
     end
   end

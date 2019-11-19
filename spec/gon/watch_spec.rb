@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe Gon::Watch do
   let(:controller) { ActionController::Base.new }
   let(:request) { ActionDispatch::Request.new({}) }
@@ -22,9 +24,13 @@ describe Gon::Watch do
   end
 
   describe '#all_variables' do
-    it 'should generate array with current request url, method type and variable names' do
+    let(:res) do
+      { 'a' => { 'url' => '/foo', 'method' => 'GET', 'name' => 'a' } }
+    end
+
+    it 'generates hash with request url, method type and variable names' do
       Gon.watch.a = 1
-      expect(Gon.watch.all_variables).to eq('a' => { 'url' => '/foo', 'method' => 'GET', 'name' => 'a' })
+      expect(Gon.watch.all_variables).to eq(res)
     end
   end
 
@@ -41,7 +47,8 @@ describe Gon::Watch do
       env = Gon.send(:current_gon).env
       env['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest'
 
-      allow(controller).to receive_messages(request: ActionDispatch::Request.new(env))
+      allow(controller).to \
+        receive_messages(request: ActionDispatch::Request.new(env))
       Gon.send(:current_gon).env['action_controller.instance'] = controller
     end
 
@@ -55,12 +62,14 @@ describe Gon::Watch do
 
       it 'should return value of variable if called right request' do
         expect(controller).to receive(:render).with(json: '12345')
-        Gon.watch.safety = 12345
+        Gon.watch.safety = 12_345
       end
     end
 
     context 'when request variable is json unsafe content' do
-      let(:expected) { %{"\\u003cscript\\u003e'\\"\\u003c/script\\u003e&#x2028;Dangerous"} }
+      let(:expected) do
+        %("\\u003cscript\\u003e'\\"\\u003c/script\\u003e&#x2028;Dangerous")
+      end
 
       before do
         allow(controller).to receive_messages(params: {
@@ -71,7 +80,7 @@ describe Gon::Watch do
 
       it 'should return value of variable if called right request' do
         expect(controller).to receive(:render).with(json: expected)
-        Gon.watch.danger = %{<script>'"</script>\u2028Dangerous}
+        Gon.watch.danger = %(<script>'"</script>\u2028Dangerous)
       end
     end
   end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Gon
   module Jbuilder
     class << self
@@ -23,18 +25,19 @@ class Gon
 
       def valid_options?(options, global)
         if global && !options[:template]
-          raise 'You should provide :template when use jbuilder with global variables'
+          raise 'You should provide :template when use jbuilder with global ' \
+                'variables'
         end
       end
 
       def parse_options_from(args)
         if old_api? args
-          text =  "[DEPRECATION] view_path argument is now optional. "
-          text << "If you need to specify it, "
-          text << "please use gon.jbuilder(:template => 'path')"
+          text =  '[DEPRECATION] view_path argument is now optional. ' \
+                  'If you need to specify it, ' \
+                  "please use gon.jbuilder(:template => 'path')"
           warn text
 
-          args.extract_options!.merge(:template => args[0])
+          args.extract_options!.merge(template: args[0])
         elsif new_api? args
           args.first
         else

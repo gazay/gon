@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Gon
   module ViewHelpers
     def include_gon(options = {})
@@ -18,7 +20,7 @@ class Gon
     private
 
     def variables_for_request_present?
-      current_gon && current_gon.gon
+      current_gon&.gon
     end
 
     def current_gon

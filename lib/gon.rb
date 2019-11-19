@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'request_store'
 require 'action_view'
 require 'action_controller'
@@ -38,7 +40,8 @@ class Gon
           raise "You can't use Gon public methods for storing data: #{method}"
         end
         if self == Gon && !current_gon
-          raise 'Assign request-specific gon variables only through `gon` helper, not through Gon constant'
+          raise 'Assign request-specific gon variables only through `gon` ' \
+                'helper, not through Gon constant'
         end
 
         set_variable(method.to_s.delete('='), args[0])
@@ -64,7 +67,9 @@ class Gon
     end
 
     def push(data = {}, merge = false)
-      raise 'Object must have each_pair method' unless data.respond_to? :each_pair
+      unless data.respond_to? :each_pair
+        raise 'Object must have each_pair method'
+      end
 
       if merge
         data.each_pair do |name, value|
@@ -82,7 +87,7 @@ class Gon
     end
 
     def clear
-      current_gon.clear if current_gon
+      current_gon&.clear
     end
 
     def rabl(*args)

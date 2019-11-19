@@ -1,6 +1,9 @@
+# frozen_string_literal: true
+
 require 'ostruct'
 
 class Gon
+  # rubocop:disable Metrics/ModuleLength
   module Base
     VALID_OPTION_DEFAULTS = {
       namespace: 'gon',
@@ -14,7 +17,7 @@ class Gon
       namespace_check: false,
       amd: false,
       nonce: nil
-    }
+    }.freeze
 
     class << self
       def render_data(options = {})
@@ -22,7 +25,12 @@ class Gon
 
         script = formatted_data(opts)
         script = Gon::Escaper.escape_unicode(script)
-        script = Gon::Escaper.javascript_tag(script, opts.type, opts.cdata, opts.nonce) if opts.need_tag
+        if opts.need_tag
+          script = Gon::Escaper.javascript_tag(script,
+                                               opts.type,
+                                               opts.cdata,
+                                               opts.nonce)
+        end
 
         script.html_safe
       end
@@ -44,19 +52,20 @@ class Gon
       def formatted_data(opts)
         script = ''
         before, after = render_wrap(opts)
-        script << before
+        script += before
 
-        script << gon_variables(opts.global_root)
+        script += gon_variables(opts.global_root)
                   .map { |key, val| render_variable(opts, key, val) }.join
-        script << (render_watch(opts) || '')
+        script += (render_watch(opts) || '')
 
-        script << after
+        script += after
         script
       end
 
       def render_wrap(opts)
         if opts.amd
-          ["define('#{opts.namespace}',[],function(){var gon={};", 'return gon;});']
+          ["define('#{opts.namespace}',[],function(){var gon={};",
+           'return gon;});']
         else
           before = \
             if opts.namespace_check
@@ -88,17 +97,22 @@ class Gon
       end
 
       def to_json(value, camel_depth)
-        # starts at 2 because 1 is the root key which is converted in the formatted_data method
+        # starts at 2 because 1 is the root key which is converted in the
+        # formatted_data method
         Gon::JsonDumper.dump convert_hash_keys(value, 2, camel_depth)
       end
 
+      # rubocop:disable Metrics/MethodLength
       def convert_hash_keys(value, current_depth, max_depth)
-        return value if current_depth > (max_depth.is_a?(Symbol) ? 1000 : max_depth)
+        if current_depth > (max_depth.is_a?(Symbol) ? 1000 : max_depth)
+          return value
+        end
 
         case value
         when Hash
           Hash[value.map do |k, v|
-            [convert_key(k, true), convert_hash_keys(v, current_depth + 1, max_depth)]
+            [convert_key(k, true),
+             convert_hash_keys(v, current_depth + 1, max_depth)]
           end]
         when Enumerable
           value.map { |v| convert_hash_keys(v, current_depth + 1, max_depth) }
@@ -106,6 +120,7 @@ class Gon
           value
         end
       end
+      # rubocop:enable Metrics/MethodLength
 
       def gon_variables(global_root)
         data = {}
@@ -123,8 +138,10 @@ class Gon
 
       def convert_key(key, camelize)
         cache = RequestStore.store[:gon_keys_cache] ||= {}
-        cache["#{key}_#{camelize}"] ||= camelize ? key.to_s.camelize(:lower) : key.to_s
+        cache["#{key}_#{camelize}"] ||= \
+          camelize ? key.to_s.camelize(:lower) : key.to_s
       end
     end
   end
+  # rubocop:enable Metrics/ModuleLength
 end

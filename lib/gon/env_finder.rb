@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Gon
   module EnvFinder
     ENV_CONTROLLER_KEY = 'action_controller.instance'

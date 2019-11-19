@@ -1,4 +1,6 @@
-require "spec_helper"
+# frozen_string_literal: true
+
+require 'spec_helper'
 
 # rubocop:disable Metrics/BlockLength
 describe Gon do
@@ -21,8 +23,8 @@ describe Gon do
       Gon.string       = 'string'
       Gon.symbol       = :symbol
       Gon.array        = [1, 'string']
-      Gon.hash_var     = { :a => 1, :b => '2' }
-      Gon.hash_w_array = { :a => [2, 3] }
+      Gon.hash_var     = { a: 1, b: '2' }
+      Gon.hash_w_array = { a: [2, 3] }
       Gon.klass        = Hash
     end
 
@@ -44,7 +46,7 @@ describe Gon do
     end
 
     it 'can be support new push syntax' do
-      Gon.push(:int => 1, :string => 'string')
+      Gon.push(int: 1, string: 'string')
       expect(Gon.all_variables).to eq('int' => 1, 'string' => 'string')
     end
 
@@ -54,7 +56,7 @@ describe Gon do
       end.to raise_error('Object must have each_pair method')
     end
 
-    describe "#merge_variable" do
+    describe '#merge_variable' do
       it 'deep merges the same key' do
         Gon.merge_variable(:foo, bar: { tar: 12 }, car: 23)
         Gon.merge_variable(:foo, bar: { dar: 21 }, car: 12)
@@ -64,7 +66,7 @@ describe Gon do
       it 'merges on push with a flag' do
         Gon.push(foo: { bar: 1 })
         Gon.push({ foo: { tar: 1 } }, :merge)
-        expect(Gon.get_variable("foo")).to eq(bar: 1, tar: 1)
+        expect(Gon.get_variable('foo')).to eq(bar: 1, tar: 1)
       end
 
       context 'overrides key' do
@@ -95,7 +97,7 @@ describe Gon do
     it 'outputs correct js with an integer' do
       Gon.int = 1
       expect(@base.include_gon).to eq(wrap_script(
-                                        'window.gon={};' +
+                                        'window.gon={};' \
                                         'gon.int=1;'
                                       ))
     end
@@ -109,8 +111,9 @@ describe Gon do
     end
 
     it 'outputs correct js with a script string' do
-      Gon.str = %q(</script><script>alert('!')</script>)
-      escaped_str = "\\u003c/script\\u003e\\u003cscript\\u003ealert('!')\\u003c/script\\u003e"
+      Gon.str = "</script><script>alert('!')</script>"
+      escaped_str = "\\u003c/script\\u003e\\u003cscript\\u003ealert('!')" \
+                    '\\u003c/script\\u003e'
       expect(@base.include_gon).to eq(wrap_script(
                                         'window.gon={};' +
                                         %(gon.str="#{escaped_str}";)
@@ -119,44 +122,45 @@ describe Gon do
 
     it 'outputs correct js with an integer and type' do
       Gon.int = 1
-      expect(@base.include_gon(type: true)).to eq('<script type="text/javascript">' +
-                                    "\n//<![CDATA[\n" +
-                                    'window.gon={};' +
-                                    'gon.int=1;' +
-                                    "\n//]]>\n" +
-                                  '</script>')
+      expect(@base.include_gon(type: true)).to \
+        eq('<script type="text/javascript">' \
+           "\n//<![CDATA[\n" \
+           'window.gon={};' \
+           'gon.int=1;' \
+           "\n//]]>\n" \
+           '</script>')
     end
 
     it 'outputs correct js with an integer, camel-case and namespace' do
       Gon.int_cased = 1
-      expect(@base.include_gon(camel_case: true, namespace: 'camel_cased')).to eq(
-        wrap_script('window.camel_cased={};' +
-          'camel_cased.intCased=1;')
-      )
+      expect(@base.include_gon(camel_case: true, namespace: 'camel_cased')).to \
+        eq(wrap_script('window.camel_cased={};camel_cased.intCased=1;'))
     end
 
     it 'outputs correct js with camel_depth = :recursive' do
       Gon.test_hash = { test_depth_one: { test_depth_two: 1 } }
-      expect(@base.include_gon(camel_case: true, camel_depth: :recursive)).to eq(
-        wrap_script('window.gon={};' +
-          'gon.testHash={"testDepthOne":{"testDepthTwo":1}};')
-      )
+      expect(@base.include_gon(camel_case: true, camel_depth: :recursive)).to \
+        eq(wrap_script('window.gon={};' \
+           'gon.testHash={"testDepthOne":{"testDepthTwo":1}};'))
     end
 
     it 'outputs correct js with camel_depth = 2' do
       Gon.test_hash = { test_depth_one: { test_depth_two: 1 } }
       expect(@base.include_gon(camel_case: true, camel_depth: 2)).to eq(
-        wrap_script('window.gon={};' +
+        wrap_script('window.gon={};' \
           'gon.testHash={"testDepthOne":{"test_depth_two":1}};')
       )
     end
 
     it 'outputs correct js for an array with camel_depth = :recursive' do
-      Gon.test_hash = { test_depth_one: [{ test_depth_two: 1 }, { test_depth_two: 2 }] }
-      expect(@base.include_gon(camel_case: true, camel_depth: :recursive)).to eq( \
-        wrap_script('window.gon={};' +
-          'gon.testHash={"testDepthOne":[{"testDepthTwo":1},{"testDepthTwo":2}]};')
-      )
+      Gon.test_hash = {
+        test_depth_one: [{ test_depth_two: 1 },
+                         { test_depth_two: 2 }]
+      }
+      expect(@base.include_gon(camel_case: true, camel_depth: :recursive)).to \
+        eq(wrap_script('window.gon={};' \
+           'gon.testHash={"testDepthOne":' \
+           '[{"testDepthTwo":1},{"testDepthTwo":2}]};'))
     end
 
     it 'outputs correct key with camel_case option set alternately ' do
@@ -164,7 +168,7 @@ describe Gon do
       @base.include_gon(camel_case: true)
 
       expect(@base.include_gon(camel_case: false)).to eq(
-        wrap_script('window.gon={};' +
+        wrap_script('window.gon={};' \
           'gon.test_hash=1;')
       )
     end
@@ -172,74 +176,82 @@ describe Gon do
     it 'outputs correct js with an integer and without tag' do
       Gon.int = 1
       expect(@base.include_gon(need_tag: false)).to eq( \
-        'window.gon={};' +
+        'window.gon={};' \
         'gon.int=1;'
       )
     end
 
-    it 'outputs correct js without variables, without tag and gon init if before there was data' do
-      Gon::Request
-        .instance_variable_set(:@request_id, 123)
-      Gon::Request.instance_variable_set(:@request_env, 'gon' => { :a => 1 })
-      expect(@base.include_gon(need_tag: false, init: true)).to eq( \
-        'window.gon={};'
-      )
-    end
-
-    it 'outputs correct js without variables, without tag and gon init' do
-      expect(@base.include_gon(need_tag: false, init: true)).to eq( \
-        'window.gon={};'
-      )
-    end
-
-    it 'outputs correct js without variables, without tag, gon init and an integer' do
-      Gon.int = 1
-      expect(@base.include_gon(need_tag: false, init: true)).to eq( \
-        'window.gon={};' +
-        'gon.int=1;'
-      )
-    end
-
-    it 'outputs correct js without cdata, without type, gon init and an integer' do
-      Gon.int = 1
-      expect(@base.include_gon(cdata: false, type: false)).to eq(
-        wrap_script(
-          "\n" +
-          'window.gon={};' +
-          'gon.int=1;' +
-          "\n", false
+    context 'without variables, tag and gon init' do
+      it 'outputs correct js' do
+        expect(@base.include_gon(need_tag: false, init: true)).to eq( \
+          'window.gon={};'
         )
-      )
+      end
+
+      it 'outputs correct js if before there was data' do
+        Gon::Request
+          .instance_variable_set(:@request_id, 123)
+        Gon::Request.instance_variable_set(:@request_env, 'gon' => { a: 1 })
+        expect(@base.include_gon(need_tag: false, init: true)).to eq( \
+          'window.gon={};'
+        )
+      end
+
+      it 'outputs correct js with integer' do
+        Gon.int = 1
+        expect(@base.include_gon(need_tag: false, init: true)).to eq( \
+          'window.gon={};' \
+          'gon.int=1;'
+        )
+      end
+    end
+
+    context 'without cdata, without type, gon init' do
+      it 'outputs correct js with integer' do
+        Gon.int = 1
+        expect(@base.include_gon(cdata: false, type: false)).to eq(
+          wrap_script(
+            "\n" \
+            'window.gon={};' \
+            'gon.int=1;' \
+            "\n", false
+          )
+        )
+      end
     end
 
     it 'outputs correct js with type text/javascript' do
-      expect(@base.include_gon(need_type: true, init: true)).to eq(wrap_script('window.gon={};'))
+      expect(@base.include_gon(need_type: true, init: true)).to \
+        eq(wrap_script('window.gon={};'))
     end
 
     it 'outputs correct js with namespace check' do
-      expect(@base.include_gon(namespace_check: true)).to eq(wrap_script('window.gon=window.gon||{};'))
+      expect(@base.include_gon(namespace_check: true)).to \
+        eq(wrap_script('window.gon=window.gon||{};'))
     end
 
     it 'outputs correct js without namespace check' do
-      expect(@base.include_gon(namespace_check: false)).to eq(wrap_script('window.gon={};'))
+      expect(@base.include_gon(namespace_check: false)).to \
+        eq(wrap_script('window.gon={};'))
     end
 
-    context "without a current_gon instance" do
+    context 'without a current_gon instance' do
       before(:each) do
         RequestStore.store[:gon] = nil
         allow(Gon).to receive(:current_gon).and_return(nil)
       end
 
-      it "does not raise an exception" do
+      it 'does not raise an exception' do
         expect { @base.include_gon }.to_not raise_error
       end
 
       it 'outputs correct js' do
-        expect(@base.include_gon).to eq("")
+        expect(@base.include_gon).to eq('')
       end
 
       it 'outputs correct js with init' do
-        expect(@base.include_gon(init: true)).to eq(wrap_script('window.gon={};'))
+        expect(@base.include_gon(init: true)).to \
+          eq(wrap_script('window.gon={};'))
       end
     end
   end
@@ -258,8 +270,8 @@ describe Gon do
 
     it 'outputs correct js without variables' do
       expect(@base.include_gon_amd).to eq(wrap_script( \
-                                            'define(\'gon\',[],function(){' +
-                                            'var gon={};return gon;' +
+                                            'define(\'gon\',[],function(){' \
+                                            'var gon={};return gon;' \
                                             '});'
                                           ))
     end
@@ -267,19 +279,21 @@ describe Gon do
     it 'outputs correct js with an integer' do
       Gon.int = 1
 
-      expect(@base.include_gon_amd).to eq(wrap_script(
-                                            'define(\'gon\',[],function(){' +
-                                            'var gon={};gon[\'int\']=1;return gon;' +
-                                            '});'
-                                          ))
+      expect(@base.include_gon_amd).to \
+        eq(wrap_script(
+             'define(\'gon\',[],function(){' \
+             'var gon={};gon[\'int\']=1;return gon;' \
+             '});'
+           ))
     end
 
     it 'outputs correct module name when given a namespace' do
-      expect(@base.include_gon_amd(namespace: 'data')).to eq(wrap_script(
-                                                               'define(\'data\',[],function(){' +
-                                                               'var gon={};return gon;' +
-                                                               '});'
-                                                             ))
+      expect(@base.include_gon_amd(namespace: 'data')).to \
+        eq(wrap_script(
+             'define(\'data\',[],function(){' \
+             'var gon={};return gon;' \
+             '});'
+           ))
     end
   end
 
@@ -289,12 +303,28 @@ describe Gon do
   end
 
   describe '#check_for_rabl_and_jbuilder' do
+    before do
+      allow(Gon).to receive(:constants) { Gon.constants }
+    end
+
     let(:controller) { ActionController::Base.new }
 
-    it 'should be able to handle constants array (symbols)' do
-      allow(Gon).to receive(:constants) { Gon.constants }
-      expect { Gon.rabl :template => 'spec/test_data/sample.rabl', :controller => controller }.not_to raise_error
-      expect { Gon.jbuilder :template => 'spec/test_data/sample.json.jbuilder', :controller => controller }.not_to raise_error
+    context 'with rabl' do
+      let(:template) { 'spec/test_data/sample.rabl' }
+
+      it 'should be able to handle constants array (symbols)' do
+        expect { Gon.rabl template: template, controller: controller }.not_to \
+          raise_error
+      end
+    end
+
+    context 'with jbuilder' do
+      let(:template) { 'spec/test_data/sample.json.jbuilder' }
+
+      it 'should be able to handle constants array (symbols)' do
+        expect { Gon.jbuilder template: template, controller: controller }
+          .not_to raise_error
+      end
     end
   end
 end

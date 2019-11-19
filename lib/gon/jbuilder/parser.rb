@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Gon
   module Jbuilder
     class Parser
@@ -27,7 +29,7 @@ class Gon
 
       def assign_controller_variables(controller)
         controller.instance_variables.each do |name|
-          self.instance_variable_set \
+          instance_variable_set \
             name,
             controller.instance_variable_get(name)
         end
@@ -58,7 +60,7 @@ class Gon
       def wrap_locals_in_methods(locals)
         locals.each do |name, value|
           self.class.class_eval do
-            define_method "#{name}" do
+            define_method name.to_s do
               return value
             end
           end
@@ -66,7 +68,9 @@ class Gon
       end
 
       def parse_source(source, controller)
-        # We can't remove this argument here as it is used in eval for jbuilder structure
+        # We can't remove this argument here as it is used in eval for jbuilder
+        # structure
+        #
         # rubocop:disable Lint/UnusedBlockArgument
         output = ::JbuilderTemplate.encode(controller) do |json|
           eval source
@@ -88,7 +92,7 @@ class Gon
       def set_options_from_hash(options_hash)
         options = eval "{#{options_hash}}"
         options.each do |name, val|
-          self.instance_variable_set("@#{name}", val)
+          instance_variable_set("@#{name}", val)
           eval "def #{name}; self.instance_variable_get('@' + '#{name}'); end"
         end
       end

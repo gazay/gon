@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails/railtie'
-# We don't require rails for specs, but jbuilder works only in rails.
-# And it checks version of rails. I've decided to configure jbuilder for rails v4
+# We don't require rails for specs, but jbuilder works only in rails.  And it
+# checks version of rails. I've decided to configure jbuilder for rails v4
 module Rails
   module VERSION
     MAJOR = 4
@@ -15,10 +17,10 @@ require 'gon'
 
 require 'jbuilder'
 
-if ENV["COVER"]
-  require "simplecov"
-  SimpleCov.root File.join(File.dirname(__FILE__), "..")
-  SimpleCov.add_filter "/spec/"
+if ENV['COVER']
+  require 'simplecov'
+  SimpleCov.root File.join(File.dirname(__FILE__), '..')
+  SimpleCov.add_filter '/spec/'
   SimpleCov.start
 end
 
@@ -31,13 +33,13 @@ RSpec.configure do |config|
 end
 
 def request
-  @request ||= double 'request', :env => {}
+  @request ||= double 'request', env: {}
 end
 
 def wrap_script(content, cdata = true)
-  script = "<script>"
-  script << "\n//<![CDATA[\n" if cdata
-  script << content
-  script << "\n//]]>\n" if cdata
-  script << '</script>'
+  script = '<script>'
+  script += "\n//<![CDATA[\n" if cdata
+  script += content
+  script += "\n//]]>\n" if cdata
+  script + '</script>'
 end

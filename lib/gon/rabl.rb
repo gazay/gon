@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'action_view'
 
 begin
@@ -17,7 +19,8 @@ class Gon
       def handler(args, global = false)
         options = parse_options_from args, global
         if global && !options[:template]
-          raise 'You should provide :template when use rabl with global variables'
+          raise 'You should provide :template when use rabl with global ' \
+                'variables'
         end
 
         data = parse_rabl \
@@ -44,7 +47,9 @@ class Gon
         locals ||= {}
         source = File.read(rabl_path)
         include_helpers
-        rabl_engine = ::Rabl::Engine.new(source, :format => 'json', :template => rabl_path)
+        rabl_engine = ::Rabl::Engine.new(source,
+                                         format: 'json',
+                                         template: rabl_path)
         output = rabl_engine.render(controller, locals)
         JSON.parse(output)
       end
@@ -56,7 +61,9 @@ class Gon
         controller.formats = [:json]
         view_context = controller.send(:view_context)
         locals.each { |k, v| view_context.assigns[k.to_s] = v }
-        output = RablRails::Library.instance.get_rendered_template(source, view_context)
+        output = RablRails::Library
+                 .instance
+                 .get_rendered_template(source, view_context)
         controller.formats = original_formats
         JSON.parse(output)
       end
@@ -64,13 +71,13 @@ class Gon
       def parse_options_from(args, global)
         if old_api? args
           unless global
-            text =  "[DEPRECATION] view_path argument is now optional. "
-            text << "If you need to specify it, "
-            text << "please use gon.rabl(:template => 'path')"
+            text =  '[DEPRECATION] view_path argument is now optional. ' \
+                    'If you need to specify it, ' \
+                    "please use gon.rabl(:template => 'path')"
             warn text
           end
 
-          args.extract_options!.merge(:template => args[0])
+          args.extract_options!.merge(template: args[0])
         elsif new_api? args
           args.first
         else

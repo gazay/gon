@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Gon
   module JsonDumper
     def self.dump(object)

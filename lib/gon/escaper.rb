@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Gon
   module Escaper
     extend ActionView::Helpers::JavaScriptHelper
@@ -16,7 +18,9 @@ class Gon
         options.merge!(type: 'text/javascript') if type
         options.merge!(nonce: nonce) if nonce
 
-        content_tag(:script, javascript_cdata_section(content, cdata).html_safe, options)
+        content_tag(:script,
+                    javascript_cdata_section(content, cdata).html_safe,
+                    options)
       end
 
       def javascript_cdata_section(content, cdata)
