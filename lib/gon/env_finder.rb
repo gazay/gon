@@ -10,9 +10,9 @@ class Gon
           (
             current_gon &&
             current_gon.env[ENV_CONTROLLER_KEY] ||
-            current_gon.env[ENV_RESPONSE_KEY].
-              instance_variable_get('@template').
-              instance_variable_get('@controller')
+            current_gon.env[ENV_RESPONSE_KEY]
+              .instance_variable_get('@template')
+              .instance_variable_get('@controller')
           )
       end
 

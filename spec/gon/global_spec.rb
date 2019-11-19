@@ -1,12 +1,10 @@
 describe Gon::Global do
-
   before(:each) do
     Gon::Global.clear
     Gon::Request.instance_variable_set(:@request_env, nil)
   end
 
   describe '#all_variables' do
-
     it 'returns all variables in hash' do
       Gon.global.a = 1
       Gon.global.b = 2
@@ -25,11 +23,9 @@ describe Gon::Global do
       Gon.global.hash_w_array = { :a => [2, 3] }
       Gon.global.klass        = Hash
     end
-
   end
 
   describe '#include_gon' do
-
     before(:each) do
       Gon.clear
       expect(ActionView::Base.instance_methods).to include(:include_gon)
@@ -110,7 +106,6 @@ describe Gon::Global do
                                     "\n//]]>\n" +
                                   "</script>")
     end
-
   end
 
   it 'returns exception if try to set public method as variable' do
@@ -119,7 +114,6 @@ describe Gon::Global do
   end
 
   context 'with jbuilder and rabl' do
-
     before :each do
       controller.instance_variable_set('@objects', objects)
     end
@@ -141,6 +135,5 @@ describe Gon::Global do
       expect { Gon.global.rabl }.to raise_error(RuntimeError)
       expect { Gon.global.jbuilder }.to raise_error(RuntimeError)
     end
-
   end
 end

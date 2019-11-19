@@ -1,5 +1,4 @@
 describe Gon::Watch do
-
   let(:controller) { ActionController::Base.new }
   let(:request) { ActionDispatch::Request.new({}) }
 
@@ -23,22 +22,18 @@ describe Gon::Watch do
   end
 
   describe '#all_variables' do
-
     it 'should generate array with current request url, method type and variable names' do
       Gon.watch.a = 1
       expect(Gon.watch.all_variables).to eq({ 'a' => { 'url' => '/foo', 'method' => 'GET', 'name' => 'a' } })
     end
-
   end
 
   describe '#render' do
-
     it 'should render function with variables in gon namespace' do
       Gon.watch.a = 1
       expect(Gon.watch.render).to match(/gon\.watch\s=/)
       expect(Gon.watch.render).to match(/gon\.watchedVariables/)
     end
-
   end
 
   describe 'Render concrete variable' do

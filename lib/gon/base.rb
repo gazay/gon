@@ -47,8 +47,8 @@ class Gon
         before, after = render_wrap(_o)
         script << before
 
-        script << gon_variables(_o.global_root).
-                    map { |key, val| render_variable(_o, key, val) }.join
+        script << gon_variables(_o.global_root)
+                    .map { |key, val| render_variable(_o, key, val) }.join
         script << (render_watch(_o) || '')
 
         script << after

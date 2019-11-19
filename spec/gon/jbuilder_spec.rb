@@ -1,8 +1,6 @@
 describe Gon do
-
   describe '.jbuilder' do
     context 'render jbuilder templates' do
-
       before do
         Gon.clear
         controller.instance_variable_set('@objects', objects)
@@ -67,9 +65,6 @@ describe Gon do
           expect(Gon.url).to eq '/users/1'
         end
       end
-
     end
-
   end
-
 end

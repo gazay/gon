@@ -39,7 +39,7 @@ class Gon
               def #{meth}(*args, &blk)                               # def current_user(*args, &blk)
                 __controller.send(%(#{meth}), *args, &blk)             #   controller.send(:current_user, *args, &blk)
               end                                                    # end
-            ruby_eval
+          ruby_eval
         end
       end
 
@@ -97,6 +97,7 @@ class Gon
         elsif splitted.size == 1
             splitted.shift(@_controller_name)
         end
+
         construct_path(splitted)
       end
 
