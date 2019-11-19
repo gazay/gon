@@ -4,7 +4,6 @@ class Gon
     ENV_RESPONSE_KEY = 'action_controller.rescue.response'
 
     class << self
-
       def controller_env(options = {})
         options[:controller] ||
           (
@@ -39,8 +38,6 @@ class Gon
       def current_gon
         RequestStore.store[:gon]
       end
-
     end
-
   end
 end

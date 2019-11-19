@@ -3,21 +3,20 @@ require 'ostruct'
 class Gon
   module Base
     VALID_OPTION_DEFAULTS = {
-        namespace: 'gon',
-        camel_case: false,
-        camel_depth: 1,
-        watch: false,
-        need_tag: true,
-        type: false,
-        cdata: true,
-        global_root: 'global',
-        namespace_check: false,
-        amd: false,
-        nonce: nil
+      namespace: 'gon',
+      camel_case: false,
+      camel_depth: 1,
+      watch: false,
+      need_tag: true,
+      type: false,
+      cdata: true,
+      global_root: 'global',
+      namespace_check: false,
+      amd: false,
+      nonce: nil
     }
 
     class << self
-
       def render_data(options = {})
         _o = define_options(options)
 
@@ -126,7 +125,6 @@ class Gon
         cache = RequestStore.store[:gon_keys_cache] ||= {}
         cache["#{key}_#{camelize}"] ||= camelize ? key.to_s.camelize(:lower) : key.to_s
       end
-
     end
   end
 end

@@ -12,7 +12,6 @@ end
 class Gon
   module Rabl
     class << self
-
       def handler(args, global = false)
         options = parse_options_from args, global
         if global && !options[:template]
@@ -90,7 +89,6 @@ class Gon
       def new_api?(args)
         args.first.is_a? Hash
       end
-
     end
   end
 end

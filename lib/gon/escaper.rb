@@ -4,7 +4,6 @@ class Gon
     extend ActionView::Helpers::TagHelper
 
     class << self
-
       def escape_unicode(javascript)
         if javascript
           result = escape_line_separator(javascript)
@@ -33,7 +32,6 @@ class Gon
       def escape_line_separator(javascript)
         javascript.gsub(/\\u2028/u, '&#x2028;')
       end
-
     end
   end
 end

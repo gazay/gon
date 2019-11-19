@@ -10,7 +10,7 @@ class Gon
             if controller.is_a? ActionController::Base
               controller.gon
               Gon.send(:current_gon).env[Gon::EnvFinder::ENV_CONTROLLER_KEY] =
-               controller
+                controller
             end
             super
           end

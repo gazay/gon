@@ -24,7 +24,6 @@ require 'gon/spec_helpers'
 
 class Gon
   class << self
-
     def global
       Gon::Global
     end
@@ -127,6 +126,5 @@ class Gon
     def ensure_template_handler_is_defined
       load 'jbuilder.rb' unless defined?(JbuilderTemplate)
     end
-
   end
 end

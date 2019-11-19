@@ -11,6 +11,5 @@ class Gon
     def clear
       @gon = {}
     end
-
   end
 end

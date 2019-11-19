@@ -93,9 +93,9 @@ class Gon
       def parse_path(path)
         return path if File.exists?(path)
         if (splitted = path.split('/')).blank?
-            raise 'Something wrong with partial path in your jbuilder templates'
+          raise 'Something wrong with partial path in your jbuilder templates'
         elsif splitted.size == 1
-            splitted.shift(@_controller_name)
+          splitted.shift(@_controller_name)
         end
 
         construct_path(splitted)
@@ -123,7 +123,6 @@ class Gon
           end
         end.flatten
       end
-
     end
   end
 end

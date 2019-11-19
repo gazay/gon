@@ -1,7 +1,6 @@
 class Gon
   class Watch < Gon
     class << self
-
       JS_FUNCTION = File.read(File.expand_path('../../../js/watch.js', __FILE__))
 
       def render
@@ -52,7 +51,6 @@ class Gon
         controller = Gon::EnvFinder.controller_env
         controller.render json: Gon::Escaper.escape_unicode(Gon::JsonDumper.dump value)
       end
-
     end
   end
 end

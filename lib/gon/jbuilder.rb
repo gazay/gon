@@ -1,7 +1,6 @@
 class Gon
   module Jbuilder
     class << self
-
       def handler(args, global = false)
         options = parse_options_from args
         valid_options? options, global
@@ -50,7 +49,6 @@ class Gon
       def new_api?(args)
         args.first.is_a? Hash
       end
-
     end
   end
 end
