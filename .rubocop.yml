@@ -1,0 +1,6 @@
+inherit_from: .rubocop_todo.yml
+
+AllCops:
+  Exclude:
+    - 'spec/test_data/*'
+    - 'gon.gemspec'
