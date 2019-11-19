@@ -10,7 +10,7 @@ describe Gon::Global do
       Gon.global.b = 2
       Gon.global.c = Gon.global.a + Gon.global.b
       expect(Gon.global.c).to eq(3)
-      expect(Gon.global.all_variables).to eq({ 'a' => 1, 'b' => 2, 'c' => 3 })
+      expect(Gon.global.all_variables).to eq('a' => 1, 'b' => 2, 'c' => 3)
     end
 
     it 'supports all data types' do

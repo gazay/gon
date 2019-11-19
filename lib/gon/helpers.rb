@@ -12,7 +12,7 @@ class Gon
     end
 
     def include_gon_amd(options = {})
-      Gon::Base.render_data(options.merge({ amd: true }))
+      Gon::Base.render_data(options.merge(amd: true))
     end
 
     private

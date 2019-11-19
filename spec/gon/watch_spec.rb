@@ -18,13 +18,13 @@ describe Gon::Watch do
   it 'should add variables to Gon#all_variables hash' do
     Gon.a = 1
     Gon.watch.b = 2
-    expect(Gon.all_variables).to eq({ 'a' => 1, 'b' => 2 })
+    expect(Gon.all_variables).to eq('a' => 1, 'b' => 2)
   end
 
   describe '#all_variables' do
     it 'should generate array with current request url, method type and variable names' do
       Gon.watch.a = 1
-      expect(Gon.watch.all_variables).to eq({ 'a' => { 'url' => '/foo', 'method' => 'GET', 'name' => 'a' } })
+      expect(Gon.watch.all_variables).to eq('a' => { 'url' => '/foo', 'method' => 'GET', 'name' => 'a' })
     end
   end
 
@@ -60,7 +60,7 @@ describe Gon::Watch do
     end
 
     context 'when request variable is json unsafe content' do
-      let(:expected) { %Q{"\\u003cscript\\u003e'\\"\\u003c/script\\u003e&#x2028;Dangerous"} }
+      let(:expected) { %{"\\u003cscript\\u003e'\\"\\u003c/script\\u003e&#x2028;Dangerous"} }
 
       before do
         allow(controller).to receive_messages(params: {
@@ -71,7 +71,7 @@ describe Gon::Watch do
 
       it 'should return value of variable if called right request' do
         expect(controller).to receive(:render).with(json: expected)
-        Gon.watch.danger = %Q{<script>'"</script>\u2028Dangerous}
+        Gon.watch.danger = %{<script>'"</script>\u2028Dangerous}
       end
     end
   end

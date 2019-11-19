@@ -6,3 +6,6 @@ AllCops:
     - 'gon.gemspec'
 Lint/HandleExceptions:
   AllowComments: true
+Naming/AccessorMethodName:
+  Exclude:
+    - 'lib/gon/jbuilder/parser.rb'

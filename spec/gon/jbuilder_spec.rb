@@ -48,8 +48,9 @@ describe Gon do
 
       context 'within Rails' do
         before do
-          module ::Rails
-          end
+          # rubocop:disable Style/ClassAndModuleChildren
+          module ::Rails; end
+          # rubocop:enable Style/ClassAndModuleChildren
 
           allow(Rails).to receive_message_chain("application.routes.url_helpers.instance_methods") { [:user_path] }
           controller.instance_variable_set('@user_id', 1)

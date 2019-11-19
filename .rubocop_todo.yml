@@ -6,14 +6,6 @@
 # Note that changes in the inspected code, or installation of new
 # versions of RuboCop, may require this file to be generated again.
 
-# Offense count: 2
-# Cop supports --auto-correct.
-# Configuration parameters: AllowUnusedKeywordArguments, IgnoreEmptyMethods.
-Lint/UnusedMethodArgument:
-  Exclude:
-    - 'lib/gon.rb'
-    - 'lib/gon/jbuilder/parser.rb'
-
 # Offense count: 1
 Metrics/AbcSize:
   Max: 17
@@ -39,11 +31,6 @@ Metrics/MethodLength:
 Metrics/ModuleLength:
   Max: 103
 
-# Offense count: 1
-Naming/AccessorMethodName:
-  Exclude:
-    - 'lib/gon/jbuilder/parser.rb'
-
 # Offense count: 2
 # Configuration parameters: EnforcedStyle.
 # SupportedStyles: lowercase, uppercase
@@ -67,55 +54,6 @@ Security/Eval:
 # Configuration parameters: EnforcedStyle.
 # SupportedStyles: inline, group
 Style/AccessModifierDeclarations:
-  Exclude:
-    - 'spec/gon/jbuilder_spec.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: always, conditionals
-Style/AndOr:
-  Exclude:
-    - 'lib/gon/base.rb'
-
-# Offense count: 3
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: percent_q, bare_percent
-Style/BarePercentLiterals:
-  Exclude:
-    - 'spec/gon/basic_spec.rb'
-    - 'spec/gon/watch_spec.rb'
-
-# Offense count: 2
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, ProceduralMethods, FunctionalMethods, IgnoredMethods, AllowBracesOnProceduralOneLiners.
-# SupportedStyles: line_count_based, semantic, braces_for_chaining, always_braces
-# ProceduralMethods: benchmark, bm, bmbm, create, each_with_object, measure, new, realtime, tap, with_object
-# FunctionalMethods: let, let!, subject, watch
-# IgnoredMethods: lambda, proc, it
-Style/BlockDelimiters:
-  Exclude:
-    - 'lib/gon/base.rb'
-    - 'spec/gon/basic_spec.rb'
-
-# Offense count: 14
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: braces, no_braces, context_dependent
-Style/BracesAroundHashParameters:
-  Exclude:
-    - 'lib/gon/escaper.rb'
-    - 'lib/gon/helpers.rb'
-    - 'spec/gon/basic_spec.rb'
-    - 'spec/gon/global_spec.rb'
-    - 'spec/gon/watch_spec.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: AutoCorrect, EnforcedStyle.
-# SupportedStyles: nested, compact
-Style/ClassAndModuleChildren:
   Exclude:
     - 'spec/gon/jbuilder_spec.rb'
 

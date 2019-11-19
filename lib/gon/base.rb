@@ -78,7 +78,7 @@ class Gon
       end
 
       def render_watch(opts)
-        if opts.watch and Gon::Watch.all_variables.present?
+        if opts.watch && Gon::Watch.all_variables.present?
           if opts.amd
             Gon.watch.render_amd
           else
@@ -97,9 +97,9 @@ class Gon
 
         case value
         when Hash
-          Hash[value.map { |k, v|
+          Hash[value.map do |k, v|
             [convert_key(k, true), convert_hash_keys(v, current_depth + 1, max_depth)]
-          }]
+          end]
         when Enumerable
           value.map { |v| convert_hash_keys(v, current_depth + 1, max_depth) }
         else

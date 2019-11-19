@@ -32,7 +32,7 @@ class Gon
       Gon::Watch
     end
 
-    def method_missing(method, *args, &block)
+    def method_missing(method, *args)
       if method.to_s =~ /=$/
         if public_method_name?(method)
           raise "You can't use Gon public methods for storing data: #{method}"

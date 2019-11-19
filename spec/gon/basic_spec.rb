@@ -12,7 +12,7 @@ describe Gon do
       Gon.b = 2
       Gon.c = Gon.a + Gon.b
       expect(Gon.c).to eq(3)
-      expect(Gon.all_variables).to eq({ 'a' => 1, 'b' => 2, 'c' => 3 })
+      expect(Gon.all_variables).to eq('a' => 1, 'b' => 2, 'c' => 3)
     end
 
     it 'supports all data types' do
@@ -44,20 +44,20 @@ describe Gon do
     end
 
     it 'can be support new push syntax' do
-      Gon.push({ :int => 1, :string => 'string' })
-      expect(Gon.all_variables).to eq({ 'int' => 1, 'string' => 'string' })
+      Gon.push(:int => 1, :string => 'string')
+      expect(Gon.all_variables).to eq('int' => 1, 'string' => 'string')
     end
 
     it 'push with wrong object' do
-      expect {
+      expect do
         Gon.push(String.new('string object'))
-      }.to raise_error('Object must have each_pair method')
+      end.to raise_error('Object must have each_pair method')
     end
 
     describe "#merge_variable" do
       it 'deep merges the same key' do
-        Gon.merge_variable(:foo, { bar: { tar: 12 }, car: 23 })
-        Gon.merge_variable(:foo, { bar: { dar: 21 }, car: 12 })
+        Gon.merge_variable(:foo, bar: { tar: 12 }, car: 23)
+        Gon.merge_variable(:foo, bar: { dar: 21 }, car: 12)
         expect(Gon.get_variable(:foo)).to eq(bar: { tar: 12, dar: 21 }, car: 12)
       end
 
@@ -70,12 +70,12 @@ describe Gon do
       context 'overrides key' do
         specify "the previous value wasn't hash" do
           Gon.merge_variable(:foo, 2)
-          Gon.merge_variable(:foo, { a: 1 })
+          Gon.merge_variable(:foo, a: 1)
           expect(Gon.get_variable(:foo)).to eq(a: 1)
         end
 
         specify "the new value isn't a hash" do
-          Gon.merge_variable(:foo, { a: 1 })
+          Gon.merge_variable(:foo, a: 1)
           Gon.merge_variable(:foo, 2)
           expect(Gon.get_variable(:foo)).to eq(2)
         end
@@ -113,7 +113,7 @@ describe Gon do
       escaped_str = "\\u003c/script\\u003e\\u003cscript\\u003ealert('!')\\u003c/script\\u003e"
       expect(@base.include_gon).to eq(wrap_script(
                                         'window.gon={};' +
-                                        %Q(gon.str="#{escaped_str}";)
+                                        %(gon.str="#{escaped_str}";)
                                       ))
     end
 
@@ -180,7 +180,7 @@ describe Gon do
     it 'outputs correct js without variables, without tag and gon init if before there was data' do
       Gon::Request
         .instance_variable_set(:@request_id, 123)
-      Gon::Request.instance_variable_set(:@request_env, { 'gon' => { :a => 1 } })
+      Gon::Request.instance_variable_set(:@request_env, 'gon' => { :a => 1 })
       expect(@base.include_gon(need_tag: false, init: true)).to eq( \
         'window.gon={};'
       )
