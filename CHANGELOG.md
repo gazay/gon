@@ -1,5 +1,7 @@
 # CHANGELOG
 
+## [Unreleased]
+
 ## [6.3.1] - 2019-11-18
 ### Changed
 - ActionView::Base and ActionController::Base should be loaded inside
@@ -33,10 +35,11 @@
 - Remove rubysl and rubinius-developer_tools gem.
 
 ## [6.1.0] - 2016-07-11
+### Deprecated
+- env is deprecated and will be removed from Rails 5.0. Thanks to @dlupu
+
 ### Fixed
 - fix merging routes bug. Thanks to @strikyflo
-- DEPRECATION WARNING: env is deprecated and will be removed from Rails 5.0.
-  Thanks to @dlupu
 - Show what method was used in public methods error.
 
 ### Changed
@@ -218,6 +221,7 @@
 ### Changed
 - Don't really remember what was before this version
 
+[Unreleased]: https://github.com/gazay/gon/compare/v6.3.1...master
 [6.3.1]: https://github.com/gazay/gon/compare/v6.2.1...v6.3.1
 [6.2.1]: https://github.com/gazay/gon/compare/v6.2.0...v6.2.1
 [6.2.0]: https://github.com/gazay/gon/compare/v6.1.0...v6.2.0
