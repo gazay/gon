@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+## [6.3.2] - 2019-11-18
+### Security
+- Restrict possibility of vulnerable i18n legacy verision (0.3.6.pre)
+  installation
+
 ## [6.3.1] - 2019-11-18
 ### Changed
 - ActionView::Base and ActionController::Base should be loaded inside
