@@ -1,6 +1,8 @@
 # CHANGELOG
 
 ## [Unreleased]
+### Removed
+- Drop support for Ruby 2.2 and 2.3 [EOL]
 
 ## [6.3.2] - 2019-11-18
 ### Security
