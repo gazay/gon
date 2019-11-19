@@ -49,7 +49,8 @@ describe Gon::Watch do
       before do
         allow(controller).to receive_messages(params: {
                                                 gon_return_variable: true,
-                                                gon_watched_variable: 'safety'})
+                                                gon_watched_variable: 'safety'
+                                              })
       end
 
       it 'should return value of variable if called right request' do
@@ -64,7 +65,8 @@ describe Gon::Watch do
       before do
         allow(controller).to receive_messages(params: {
                                                 gon_return_variable: true,
-                                                gon_watched_variable: 'danger'})
+                                                gon_watched_variable: 'danger'
+                                              })
       end
 
       it 'should return value of variable if called right request' do

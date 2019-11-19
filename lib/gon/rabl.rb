@@ -3,10 +3,12 @@ require 'action_view'
 begin
   require 'rabl' # use rabl gem if it's available
 rescue LoadError
+  # It's ok to ignore this gem loading as rabl support is optional
 end
 begin
   require 'rabl-rails' # use rabl-rails gem if it's available
 rescue LoadError
+  # It's ok to ignore this gem loading as rabl support is optional
 end
 
 class Gon

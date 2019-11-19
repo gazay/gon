@@ -13,8 +13,8 @@ class Gon
 
       def javascript_tag(content, type, cdata, nonce)
         options = {}
-        options.merge!( { type: 'text/javascript' } ) if type
-        options.merge!( { nonce: nonce } ) if nonce
+        options.merge!({ type: 'text/javascript' }) if type
+        options.merge!({ nonce: nonce }) if nonce
 
         content_tag(:script, javascript_cdata_section(content, cdata).html_safe, options)
       end

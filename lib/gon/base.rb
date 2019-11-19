@@ -47,7 +47,7 @@ class Gon
         script << before
 
         script << gon_variables(_o.global_root)
-                    .map { |key, val| render_variable(_o, key, val) }.join
+                  .map { |key, val| render_variable(_o, key, val) }.join
         script << (render_watch(_o) || '')
 
         script << after
@@ -98,7 +98,7 @@ class Gon
         case value
         when Hash
           Hash[value.map { |k, v|
-            [ convert_key(k, true), convert_hash_keys(v, current_depth + 1, max_depth) ]
+            [convert_key(k, true), convert_hash_keys(v, current_depth + 1, max_depth)]
           }]
         when Enumerable
           value.map { |v| convert_hash_keys(v, current_depth + 1, max_depth) }

@@ -91,7 +91,7 @@ class Gon
       end
 
       def parse_path(path)
-        return path if File.exists?(path)
+        return path if File.exist?(path)
         if (splitted = path.split('/')).blank?
           raise 'Something wrong with partial path in your jbuilder templates'
         elsif splitted.size == 1
@@ -109,9 +109,9 @@ class Gon
       end
 
       def path_with_ext(path)
-        return path if File.exists?(path)
-        return "#{path}.jbuilder" if File.exists?("#{path}.jbuilder")
-        return "#{path}.json.jbuilder" if File.exists?("#{path}.json.jbuilder")
+        return path if File.exist?(path)
+        return "#{path}.jbuilder" if File.exist?("#{path}.jbuilder")
+        return "#{path}.json.jbuilder" if File.exist?("#{path}.json.jbuilder")
       end
 
       def find_partials(lines = [])

@@ -27,4 +27,3 @@ end
 if ENV['RAILS_ENV'] == 'test' && defined?(ActionController::TestCase::Behavior)
   ActionController::TestCase::Behavior.send :include, Gon::SpecHelper::Rails
 end
-

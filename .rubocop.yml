@@ -4,3 +4,5 @@ AllCops:
   Exclude:
     - 'spec/test_data/*'
     - 'gon.gemspec'
+Lint/HandleExceptions:
+  AllowComments: true

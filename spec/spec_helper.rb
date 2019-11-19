@@ -34,7 +34,7 @@ def request
   @request ||= double 'request', :env => {}
 end
 
-def wrap_script(content, cdata=true)
+def wrap_script(content, cdata = true)
   script = "<script>"
   script << "\n//<![CDATA[\n" if cdata
   script << content

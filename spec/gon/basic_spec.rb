@@ -1,5 +1,6 @@
 require "spec_helper"
 
+# rubocop:disable Metrics/BlockLength
 describe Gon do
   before(:each) do
     Gon.clear
@@ -95,15 +96,16 @@ describe Gon do
       Gon.int = 1
       expect(@base.include_gon).to eq(wrap_script(
                                         'window.gon={};' +
-                                        'gon.int=1;'))
+                                        'gon.int=1;'
+                                      ))
     end
 
     it 'outputs correct js with a string' do
       Gon.str = %q(a'b"c)
       expect(@base.include_gon).to eq(wrap_script(
                                         'window.gon={};' +
-                                        %q(gon.str="a'b\"c";))
-                                     )
+                                        %q(gon.str="a'b\"c";)
+                                      ))
     end
 
     it 'outputs correct js with a script string' do
@@ -111,8 +113,8 @@ describe Gon do
       escaped_str = "\\u003c/script\\u003e\\u003cscript\\u003ealert('!')\\u003c/script\\u003e"
       expect(@base.include_gon).to eq(wrap_script(
                                         'window.gon={};' +
-                                        %Q(gon.str="#{escaped_str}";))
-                                     )
+                                        %Q(gon.str="#{escaped_str}";)
+                                      ))
     end
 
     it 'outputs correct js with an integer and type' do
@@ -205,7 +207,8 @@ describe Gon do
           "\n" +
           'window.gon={};' +
           'gon.int=1;' +
-          "\n", false)
+          "\n", false
+        )
       )
     end
 
@@ -254,29 +257,29 @@ describe Gon do
     end
 
     it 'outputs correct js without variables' do
-      expect(@base.include_gon_amd).to eq( wrap_script( \
-                                             'define(\'gon\',[],function(){'+
-                                             'var gon={};return gon;'+
-                                             '});')
-                                         )
+      expect(@base.include_gon_amd).to eq(wrap_script( \
+                                            'define(\'gon\',[],function(){' +
+                                            'var gon={};return gon;' +
+                                            '});'
+                                          ))
     end
 
     it 'outputs correct js with an integer' do
       Gon.int = 1
 
-      expect(@base.include_gon_amd).to eq( wrap_script(
-                                             'define(\'gon\',[],function(){'+
-                                             'var gon={};gon[\'int\']=1;return gon;'+
-                                             '});')
-                                         )
+      expect(@base.include_gon_amd).to eq(wrap_script(
+                                            'define(\'gon\',[],function(){' +
+                                            'var gon={};gon[\'int\']=1;return gon;' +
+                                            '});'
+                                          ))
     end
 
     it 'outputs correct module name when given a namespace' do
       expect(@base.include_gon_amd(namespace: 'data')).to eq(wrap_script(
-                                                               'define(\'data\',[],function(){'+
-                                                               'var gon={};return gon;'+
-                                                               '});')
-                                                            )
+                                                               'define(\'data\',[],function(){' +
+                                                               'var gon={};return gon;' +
+                                                               '});'
+                                                             ))
     end
   end
 
@@ -295,3 +298,4 @@ describe Gon do
     end
   end
 end
+# rubocop:enable Metrics/BlockLength
