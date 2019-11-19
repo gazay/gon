@@ -66,9 +66,12 @@ class Gon
       end
 
       def parse_source(source, controller)
+        # We can't remove this argument here as it is used in eval for jbuilder structure
+        # rubocop:disable Lint/UnusedBlockArgument
         output = ::JbuilderTemplate.encode(controller) do |json|
           eval source
         end
+        # rubocop:enable Lint/UnusedBlockArgument
         JSON.parse(output)
       end
 
