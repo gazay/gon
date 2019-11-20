@@ -37,22 +37,22 @@ class Gon
 
       def eval_controller_helpers(controller)
         controller._helper_methods.each do |meth|
-          self.class.class_eval <<-ruby_eval, __FILE__, __LINE__ + 1
+          self.class.class_eval <<-RUBY_EVAL, __FILE__, __LINE__ + 1
               def #{meth}(*args, &blk)                                 # def current_user(*args, &blk)
                 __controller.send(%(#{meth}), *args, &blk)             #   controller.send(:current_user, *args, &blk)
               end                                                      # end
-          ruby_eval
+          RUBY_EVAL
         end
       end
 
       def eval_controller_url_helpers(_controller)
         if defined?(Rails) && Rails.respond_to?(:application)
           Rails.application.routes.url_helpers.instance_methods.each do |meth|
-            self.class.class_eval <<-ruby_eval, __FILE__, __LINE__ + 1
+            self.class.class_eval <<-RUBY_EVAL, __FILE__, __LINE__ + 1
               def #{meth}(*args, &blk)                                         # def user_path(*args, &blk)
                 __controller.send(%(#{meth}), *args, &blk)                     #   controller.send(:user_path, *args, &blk)
               end                                                              # end
-            ruby_eval
+            RUBY_EVAL
           end
         end
       end

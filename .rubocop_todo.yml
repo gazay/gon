@@ -31,20 +31,6 @@ Metrics/MethodLength:
 Metrics/ModuleLength:
   Max: 103
 
-# Offense count: 2
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: lowercase, uppercase
-Naming/HeredocDelimiterCase:
-  Exclude:
-    - 'lib/gon/jbuilder/parser.rb'
-
-# Offense count: 4
-# Configuration parameters: MinNameLength, AllowNamesEndingInNumbers, AllowedNames, ForbiddenNames.
-# AllowedNames: io, id, to, by, on, in, at, ip, db, os
-Naming/UncommunicativeMethodParamName:
-  Exclude:
-    - 'lib/gon/base.rb'
-
 # Offense count: 3
 Security/Eval:
   Exclude:
