@@ -27,4 +27,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'railties', '>= 3.0.20'
   s.add_development_dependency 'rake'
   s.add_development_dependency 'pry'
+  s.add_development_dependency 'pry-byebug'
 end

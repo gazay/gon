@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+## [6.4.0] - 2020-09-18
+### Security
+- CVE-2020-25739: Enforce HTML entities escaping in gon output
+
 ## [6.3.2] - 2019-11-18
 ### Security
 - Restrict possibility of vulnerable i18n legacy verision (0.3.6.pre)
