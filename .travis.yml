@@ -12,3 +12,4 @@ rvm:
   - 2.6.6
   - 2.7.1
   - ruby-head
+  - truffleruby-head
