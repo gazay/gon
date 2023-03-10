@@ -5,7 +5,7 @@ class Gon
 
       module ClassMethods
         module GonSession
-          def process(*, **)
+          def process(...)
             # preload threadlocal & store controller instance
             if controller.is_a? ActionController::Base
               controller.gon
