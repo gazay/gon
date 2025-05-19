@@ -43,7 +43,7 @@ class Gon
       end
 
       def formatted_data(_o)
-        script = ''
+        script = []
         before, after = render_wrap(_o)
         script << before
 
@@ -52,7 +52,7 @@ class Gon
         script << (render_watch(_o) || '')
 
         script << after
-        script
+        script.join
       end
 
       def render_wrap(_o)
