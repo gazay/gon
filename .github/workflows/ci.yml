@@ -1,0 +1,34 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        ruby-version: ['2.3', '2.4', '2.5', '2.6', '2.7', '3.0', '3.1', '3.2', '3.3', '3.4', 'head', 'truffleruby']
+        rabl-gem: ['rabl', 'rabl-rails']
+        include:
+          - ruby-version: head
+            continue-on-error: true
+          - ruby-version: truffleruby
+            continue-on-error: true
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set RABL_GEM environment variable
+      run: echo "RABL_GEM=${{ matrix.rabl-gem }}" >> $GITHUB_ENV
+
+    - name: Set up Ruby ${{ matrix.ruby-version }}
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{ matrix.ruby-version }}
+        bundler-cache: true
+
+    - name: Run tests
+      run: bundle exec rake
+      continue-on-error: ${{ matrix.continue-on-error || false }}

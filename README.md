@@ -4,7 +4,7 @@
 
 ![Gon. You should try this. If you look closer - you will see an elephant.](https://github.com/gazay/gon/raw/master/doc/logo_small.png)
 
-[![Build Status](https://travis-ci.org/gazay/gon.svg?branch=master)](https://travis-ci.org/gazay/gon) [![CodeClimate](https://codeclimate.com/github/gazay/gon/badges/gpa.svg)](https://codeclimate.com/github/gazay/gon)
+[![CodeClimate](https://codeclimate.com/github/gazay/gon/badges/gpa.svg)](https://codeclimate.com/github/gazay/gon)
 
 If you need to send some data to your js files and you don't want to do this with long way through views and parsing - use this force!
 

@@ -6,6 +6,7 @@ describe Gon do
       before do
         Gon.clear
         controller.instance_variable_set('@objects', objects)
+        allow(Rails).to receive_message_chain(:application, :routes, :url_helpers, :instance_methods) { [] }
       end
 
       let(:controller) { ActionController::Base.new }
@@ -43,7 +44,7 @@ describe Gon do
       end
 
       it 'render json from jbuilder template with a partial' do
-        controller.view_paths << 'spec/test_data'
+        controller.append_view_path('spec/test_data')
         Gon.jbuilder :template => 'spec/test_data/sample_with_partial.json.jbuilder', :controller => controller
         expect(Gon.objects.length).to eq(2)
       end
