@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Gon
   module Jbuilder
     class << self
@@ -30,7 +32,7 @@ class Gon
 
       def parse_options_from(args)
         if old_api? args
-          text =  "[DEPRECATION] view_path argument is now optional. "
+          text =  +"[DEPRECATION] view_path argument is now optional. "
           text << "If you need to specify it, "
           text << "please use gon.jbuilder(:template => 'path')"
           warn text

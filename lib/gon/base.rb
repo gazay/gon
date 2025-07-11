@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'ostruct'
 
 class Gon
@@ -43,7 +45,7 @@ class Gon
       end
 
       def formatted_data(_o)
-        script = ''
+        script = +''
         before, after = render_wrap(_o)
         script << before
 

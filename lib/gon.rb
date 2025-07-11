@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'request_store'
 require 'action_view'
 require 'action_controller'

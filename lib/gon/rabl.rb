@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'action_view'
 
 begin
@@ -63,7 +65,7 @@ class Gon
       def parse_options_from(args, global)
         if old_api? args
           unless global
-            text =  "[DEPRECATION] view_path argument is now optional. "
+            text =  +"[DEPRECATION] view_path argument is now optional. "
             text << "If you need to specify it, "
             text << "please use gon.rabl(:template => 'path')"
             warn text

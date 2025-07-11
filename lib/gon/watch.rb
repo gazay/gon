@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Gon
   class Watch < Gon
     class << self

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Gon
   module Escaper
     extend ActionView::Helpers::JavaScriptHelper

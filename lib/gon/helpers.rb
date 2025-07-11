@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Gon
   module ViewHelpers
     def include_gon(options = {})

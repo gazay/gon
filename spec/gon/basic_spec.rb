@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe Gon do
 
   before(:each) do
