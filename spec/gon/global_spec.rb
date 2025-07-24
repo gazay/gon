@@ -133,6 +133,7 @@ describe Gon::Global do
     end
 
     it 'works fine with jbuilder' do
+      allow(Rails).to receive_message_chain(:application, :routes, :url_helpers, :instance_methods) { [] }
       Gon.global.jbuilder :template => 'spec/test_data/sample.json.jbuilder', :controller => controller
       expect(Gon.global.objects.length).to eq(2)
     end
