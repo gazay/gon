@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe Gon do
 
   describe '.template_path' do

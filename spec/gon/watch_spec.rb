@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe Gon::Watch do
 
   let(:controller) { ActionController::Base.new }

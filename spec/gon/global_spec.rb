@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe Gon::Global do
 
   before(:each) do
