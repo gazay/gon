@@ -22,7 +22,7 @@ describe Gon do
       it 'render json from jbuilder template with locals' do
         Gon.jbuilder :template => 'spec/test_data/sample_with_locals.json.jbuilder',
                      :controller => controller,
-                     :locals => { :some_local => 1234, :some_complex_local => OpenStruct.new(:id => 1234) }
+                     :locals => { :some_local => 1234, :some_complex_local => Struct.new(:id).new(1234) }
         expect(Gon.some_local).to eq(1234)
         expect(Gon.some_complex_local_id).to eq(1234)
       end

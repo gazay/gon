@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'ostruct'
-
 class Gon
   module Base
     VALID_OPTION_DEFAULTS = {
@@ -18,6 +16,9 @@ class Gon
         nonce: nil
     }
 
+    Option = Struct.new(:cameled, *VALID_OPTION_DEFAULTS.keys)
+    private_constant :Option
+
     class << self
 
       def render_data(options = {})
@@ -33,7 +34,7 @@ class Gon
       private
 
       def define_options(options)
-        _o = OpenStruct.new
+        _o = Option.new
 
         VALID_OPTION_DEFAULTS.each do |opt_name, default|
           _o.send("#{opt_name}=", options.fetch(opt_name, default))
