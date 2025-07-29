@@ -13,7 +13,12 @@ Gem::Specification.new do |s|
   s.summary     = %q{Get your Rails variables in your JS}
   s.description = %q{If you need to send some data to your js files and you don't want to do this with long way trough views and parsing - use this force!}
 
-  s.files         = `git ls-files`.split("\n")
+  s.files         = Dir.glob('lib/**/*') + Dir.glob('coffee/**/*') + Dir.glob('js/**/*') + [
+    'CHANGELOG.md',
+    'LICENSE',
+    'README.md'
+  ]
+
   s.require_paths = ['lib']
   s.required_ruby_version = '>= 2.2.0'
   s.add_dependency 'actionpack', '>= 3.0.20'
