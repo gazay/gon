@@ -220,7 +220,7 @@ usage gon.global.
 
 ## Speed up Gon
 
-You can use any [JSON Engine](https://github.com/intridea/multi_json#supported-json-engines) you want.
+You can use any [JSON Engine](https://github.com/sferik/multi_json#supported-json-engines) you want.
 Gon uses `MultiJson` with autodetect mode, so all you need is just require your JSON library.
 
 ## Contributors
