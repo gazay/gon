@@ -9,10 +9,262 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        ruby-version: ['2.3', '2.4', '2.5', '2.6', '2.7', '3.0', '3.1', '3.2', '3.3', '3.4', 'head', 'truffleruby']
-        rabl-gem: ['rabl', 'rabl-rails']
         include:
-          - ruby-version: head
+          # Ruby 2.3 - Rails 3.2-5.2 ( rabl-rails supports Rails 4.2+)
+          - ruby-version: '2.3'
+            rails-version: '3.2'
+            rabl-gem: 'rabl'
+          - ruby-version: '2.3'
+            rails-version: '4.2'
+            rabl-gem: 'rabl'
+          - ruby-version: '2.3'
+            rails-version: '4.2'
+            rabl-gem: 'rabl-rails'
+            continue-on-error: true
+          - ruby-version: '2.3'
+            rails-version: '5.2'
+            rabl-gem: 'rabl'
+          - ruby-version: '2.3'
+            rails-version: '5.2'
+            rabl-gem: 'rabl-rails'
+            continue-on-error: true
+
+          # Ruby 2.4 - Rails 3.x-5.2
+          - ruby-version: '2.4'
+            rails-version: '4.2'
+            rabl-gem: 'rabl'
+          - ruby-version: '2.4'
+            rails-version: '4.2'
+            rabl-gem: 'rabl-rails'
+            continue-on-error: true
+          - ruby-version: '2.4'
+            rails-version: '5.2'
+            rabl-gem: 'rabl'
+          - ruby-version: '2.4'
+            rails-version: '5.2'
+            rabl-gem: 'rabl-rails'
+            continue-on-error: true
+          # Ruby 2.5 - Rails 5.2-6.1
+          - ruby-version: '2.5'
+            rails-version: '5.2'
+            rabl-gem: 'rabl'
+          - ruby-version: '2.5'
+            rails-version: '5.2'
+            rabl-gem: 'rabl-rails'
+            continue-on-error: true
+          - ruby-version: '2.5'
+            rails-version: '6.0'
+            rabl-gem: 'rabl'
+          - ruby-version: '2.5'
+            rails-version: '6.0'
+            rabl-gem: 'rabl-rails'
+            continue-on-error: true
+          - ruby-version: '2.5'
+            rails-version: '6.1'
+            rabl-gem: 'rabl'
+          - ruby-version: '2.5'
+            rails-version: '6.1'
+            rabl-gem: 'rabl-rails'
+            continue-on-error: true
+
+          # Ruby 2.6 - Rails 5.2-6.1
+          - ruby-version: '2.6'
+            rails-version: '5.2'
+            rabl-gem: 'rabl'
+          - ruby-version: '2.6'
+            rails-version: '5.2'
+            rabl-gem: 'rabl-rails'
+            continue-on-error: true
+          - ruby-version: '2.6'
+            rails-version: '6.0'
+            rabl-gem: 'rabl'
+          - ruby-version: '2.6'
+            rails-version: '6.0'
+            rabl-gem: 'rabl-rails'
+            continue-on-error: true
+          - ruby-version: '2.6'
+            rails-version: '6.1'
+            rabl-gem: 'rabl'
+          - ruby-version: '2.6'
+            rails-version: '6.1'
+            rabl-gem: 'rabl-rails'
+            continue-on-error: true
+
+          # Ruby 2.7 - Rails 6.0-7.0
+          - ruby-version: '2.7'
+            rails-version: '6.0'
+            rabl-gem: 'rabl'
+          - ruby-version: '2.7'
+            rails-version: '6.0'
+            rabl-gem: 'rabl-rails'
+            continue-on-error: true
+          - ruby-version: '2.7'
+            rails-version: '6.1'
+            rabl-gem: 'rabl'
+          - ruby-version: '2.7'
+            rails-version: '6.1'
+            rabl-gem: 'rabl-rails'
+            continue-on-error: true
+          - ruby-version: '2.7'
+            rails-version: '7.0'
+            rabl-gem: 'rabl'
+          - ruby-version: '2.7'
+            rails-version: '7.0'
+            rabl-gem: 'rabl-rails'
+            continue-on-error: true
+
+          # Ruby 3.0 - Rails 6.1-7.1
+          - ruby-version: '3.0'
+            rails-version: '6.1'
+            rabl-gem: 'rabl'
+          - ruby-version: '3.0'
+            rails-version: '6.1'
+            rabl-gem: 'rabl-rails'
+            continue-on-error: true
+          - ruby-version: '3.0'
+            rails-version: '7.0'
+            rabl-gem: 'rabl'
+          - ruby-version: '3.0'
+            rails-version: '7.0'
+            rabl-gem: 'rabl-rails'
+            continue-on-error: true
+          - ruby-version: '3.0'
+            rails-version: '7.1'
+            rabl-gem: 'rabl'
+          - ruby-version: '3.0'
+            rails-version: '7.1'
+            rabl-gem: 'rabl-rails'
+            continue-on-error: true
+
+          # Ruby 3.1 - Rails 6.1-7.1
+          - ruby-version: '3.1'
+            rails-version: '6.1'
+            rabl-gem: 'rabl'
+          - ruby-version: '3.1'
+            rails-version: '6.1'
+            rabl-gem: 'rabl-rails'
+            continue-on-error: true
+          - ruby-version: '3.1'
+            rails-version: '7.0'
+            rabl-gem: 'rabl'
+          - ruby-version: '3.1'
+            rails-version: '7.0'
+            rabl-gem: 'rabl-rails'
+            continue-on-error: true
+          - ruby-version: '3.1'
+            rails-version: '7.1'
+            rabl-gem: 'rabl'
+          - ruby-version: '3.1'
+            rails-version: '7.1'
+            rabl-gem: 'rabl-rails'
+            continue-on-error: true
+
+          # Ruby 3.2 - Rails 7.0-8.1
+          - ruby-version: '3.2'
+            rails-version: '7.0'
+            rabl-gem: 'rabl'
+          - ruby-version: '3.2'
+            rails-version: '7.0'
+            rabl-gem: 'rabl-rails'
+            continue-on-error: true
+          - ruby-version: '3.2'
+            rails-version: '7.1'
+            rabl-gem: 'rabl'
+          - ruby-version: '3.2'
+            rails-version: '7.1'
+            rabl-gem: 'rabl-rails'
+            continue-on-error: true
+          - ruby-version: '3.2'
+            rails-version: '8.0'
+            rabl-gem: 'rabl'
+          - ruby-version: '3.2'
+            rails-version: '8.0'
+            rabl-gem: 'rabl-rails'
+            continue-on-error: true
+          - ruby-version: '3.2'
+            rails-version: '8.1'
+            rabl-gem: 'rabl'
+          - ruby-version: '3.2'
+            rails-version: '8.1'
+            rabl-gem: 'rabl-rails'
+            continue-on-error: true
+
+          # Ruby 3.3 - Rails 7.1-8.1
+          - ruby-version: '3.3'
+            rails-version: '7.1'
+            rabl-gem: 'rabl'
+          - ruby-version: '3.3'
+            rails-version: '7.1'
+            rabl-gem: 'rabl-rails'
+            continue-on-error: true
+          - ruby-version: '3.3'
+            rails-version: '7.2'
+            rabl-gem: 'rabl'
+          - ruby-version: '3.3'
+            rails-version: '7.2'
+            rabl-gem: 'rabl-rails'
+            continue-on-error: true
+          - ruby-version: '3.3'
+            rails-version: '8.0'
+            rabl-gem: 'rabl'
+          - ruby-version: '3.3'
+            rails-version: '8.0'
+            rabl-gem: 'rabl-rails'
+            continue-on-error: true
+          - ruby-version: '3.3'
+            rails-version: '8.1'
+            rabl-gem: 'rabl'
+          - ruby-version: '3.3'
+            rails-version: '8.1'
+            rabl-gem: 'rabl-rails'
+            continue-on-error: true
+
+          # Ruby 3.4 - Rails 7.0-8.1
+          - ruby-version: '3.4'
+            rails-version: '7.1'
+            rabl-gem: 'rabl'
+          - ruby-version: '3.4'
+            rails-version: '7.1'
+            rabl-gem: 'rabl-rails'
+            continue-on-error: true
+          - ruby-version: '3.4'
+            rails-version: '7.2'
+            rabl-gem: 'rabl'
+          - ruby-version: '3.4'
+            rails-version: '7.2'
+            rabl-gem: 'rabl-rails'
+            continue-on-error: true
+          - ruby-version: '3.4'
+            rails-version: '8.0'
+            rabl-gem: 'rabl'
+          - ruby-version: '3.4'
+            rails-version: '8.0'
+            rabl-gem: 'rabl-rails'
+            continue-on-error: true
+          - ruby-version: '3.4'
+            rails-version: '8.1'
+            rabl-gem: 'rabl'
+          - ruby-version: '3.4'
+            rails-version: '8.1'
+            rabl-gem: 'rabl-rails'
+            continue-on-error: true
+
+          # Special Ruby versions
+          - ruby-version: 'head'
+            rails-version: '8.1'
+            rabl-gem: 'rabl'
+            continue-on-error: true
+          - ruby-version: 'head'
+            rails-version: '8.1'
+            rabl-gem: 'rabl-rails'
+            continue-on-error: true
+          - ruby-version: 'truffleruby'
+            rails-version: '8.1'
+            rabl-gem: 'rabl'
+            continue-on-error: true
+          - ruby-version: 'truffleruby'
+            rails-version: '8.1'
+            rabl-gem: 'rabl-rails'
             continue-on-error: true
 
     steps:
@@ -20,6 +272,9 @@ jobs:
 
     - name: Set RABL_GEM environment variable
       run: echo "RABL_GEM=${{ matrix.rabl-gem }}" >> $GITHUB_ENV
+
+    - name: Set RAILS_VERSION environment variable
+      run: echo "RAILS_VERSION=${{ matrix.rails-version }}" >> $GITHUB_ENV
 
     - name: Set up Ruby ${{ matrix.ruby-version }}
       uses: ruby/setup-ruby@v1
