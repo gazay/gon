@@ -25,8 +25,6 @@ Gem::Specification.new do |s|
   s.add_dependency 'i18n', '>= 0.7'
   s.add_dependency 'request_store', '>= 1.0'
   s.add_dependency 'multi_json'
-  s.add_development_dependency 'rabl'
-  s.add_development_dependency 'rabl-rails'
   s.add_development_dependency 'rspec', '>= 3.0'
   s.add_development_dependency 'jbuilder'
   s.add_development_dependency 'railties', '>= 3.0.20'
