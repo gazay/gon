@@ -1,20 +1,8 @@
 # frozen_string_literal: true
 
 require 'rails/railtie'
-# We don't require rails for specs, but jbuilder works only in rails.
-# And it checks version of rails. I've decided to configure jbuilder for rails v4
-module Rails
-  module VERSION
-    MAJOR = 4
-  end
-
-  def self.version
-    '4.2.0'
-  end
-end
-
+require 'rails/version' # jbuilder <= 2.13.0 checks rails version
 require 'gon'
-
 require 'jbuilder'
 
 RSpec.configure do |config|
