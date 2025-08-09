@@ -1,14 +1,15 @@
 # frozen_string_literal: true
 
 describe Gon::Global do
-
   before(:each) do
+    RequestStore.store[:gon] = Gon::Request.new({})
+    @request = RequestStore.store[:gon]
+    allow(Gon).to receive(:current_gon).and_return(@request)
     Gon::Global.clear
     Gon::Request.instance_variable_set(:@request_env, nil)
   end
 
   describe '#all_variables' do
-
     it 'returns all variables in hash' do
       Gon.global.a = 1
       Gon.global.b = 2
@@ -27,16 +28,14 @@ describe Gon::Global do
       Gon.global.hash_w_array = { :a => [2, 3] }
       Gon.global.klass        = Hash
     end
-
   end
 
   describe '#include_gon' do
-
     before(:each) do
       Gon.clear
       expect(ActionView::Base.instance_methods).to include(:include_gon)
       @base = ActionView::Base.new(nil, {}, nil)
-      @base.request = request
+      @base.request = @request
     end
 
     it 'outputs correct js with an integer' do
@@ -121,7 +120,6 @@ describe Gon::Global do
   end
 
   context 'with jbuilder and rabl' do
-
     before :each do
       controller.instance_variable_set('@objects', objects)
     end
@@ -144,6 +142,5 @@ describe Gon::Global do
       expect { Gon.global.rabl }.to raise_error(RuntimeError)
       expect { Gon.global.jbuilder }.to raise_error(RuntimeError)
     end
-
   end
 end
