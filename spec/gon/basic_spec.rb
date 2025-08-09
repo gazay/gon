@@ -1,13 +1,22 @@
 # frozen_string_literal: true
 
 describe Gon do
+  def wrap_script(content, cdata=true)
+    script = +"<script>"
+    script << "\n//<![CDATA[\n" if cdata
+    script << content
+    script << "\n//]]>\n" if cdata
+    script << '</script>'
+  end
 
   before(:each) do
+    RequestStore.store[:gon] = Gon::Request.new({})
+    @request = RequestStore.store[:gon]
+    allow(Gon).to receive(:current_gon).and_return(@request)
     Gon.clear
   end
 
   describe '#all_variables' do
-
     it 'returns all variables in hash' do
       Gon.a = 1
       Gon.b = 2
@@ -82,17 +91,15 @@ describe Gon do
         end
       end
     end
-
   end
 
   describe '#include_gon' do
-
     before(:each) do
       Gon::Request.
-        instance_variable_set(:@request_id, request.object_id)
+        instance_variable_set(:@request_id, @request.object_id)
       expect(ActionView::Base.instance_methods).to include(:include_gon)
       @base = ActionView::Base.new(nil,{}, nil)
-      @base.request = request
+      @base.request = @request
     end
 
     it 'outputs correct js with an integer' do
@@ -243,18 +250,15 @@ describe Gon do
       it 'outputs correct js with init' do
         expect(@base.include_gon(init: true)).to eq(wrap_script('window.gon={};'))
       end
-
     end
-
   end
 
   describe '#include_gon_amd' do
-
     before(:each) do
       Gon::Request.
-        instance_variable_set(:@request_id, request.object_id)
+        instance_variable_set(:@request_id, @request.object_id)
       @base = ActionView::Base.new(nil, {}, nil)
-      @base.request = request
+      @base.request = @request
     end
 
     it 'is included in ActionView::Base as a helper' do
@@ -294,7 +298,6 @@ describe Gon do
   end
 
   describe '#check_for_rabl_and_jbuilder' do
-
     let(:controller) { ActionController::Base.new }
 
     it 'should be able to handle constants array (symbols)' do
