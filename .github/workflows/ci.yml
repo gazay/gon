@@ -14,8 +14,6 @@ jobs:
         include:
           - ruby-version: head
             continue-on-error: true
-          - ruby-version: truffleruby
-            continue-on-error: true
 
     steps:
     - uses: actions/checkout@v4
