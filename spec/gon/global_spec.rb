@@ -4,7 +4,6 @@ describe Gon::Global do
   before(:each) do
     RequestStore.store[:gon] = Gon::Request.new({})
     @request = RequestStore.store[:gon]
-    allow(Gon).to receive(:current_gon).and_return(@request)
     Gon::Global.clear
   end
 
