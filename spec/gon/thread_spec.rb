@@ -1,14 +1,11 @@
 # frozen_string_literal: true
+require 'action_dispatch/testing/test_request'
 
 class GonTestWorker
   include Gon::ControllerHelpers
 
   def request
     @request ||= ActionDispatch::TestRequest.create
-  end
-
-  def env
-    request.env
   end
 
   def execute
@@ -23,10 +20,6 @@ class GonTestWorker
 end
 
 describe 'threading behaviour' do
-  before do
-    allow(Gon).to receive(:current_gon).and_call_original
-  end
-
   it 'is threadsafe' do
     threads = []
     10.times do
