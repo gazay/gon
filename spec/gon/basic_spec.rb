@@ -189,7 +189,7 @@ describe Gon do
     it 'outputs correct js without variables, without tag and gon init if before there was data' do
       Gon::Request.
         instance_variable_set(:@request_id, 123)
-      Gon::Request.instance_variable_set(:@request_env, { 'gon' => { :a => 1 } })
+      Gon::Request.instance_variable_set(:@env, { 'gon' => { :a => 1 } })
       expect(@base.include_gon(need_tag: false, init: true)).to eq( \
                                   'window.gon={};'
       )

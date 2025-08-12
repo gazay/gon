@@ -6,7 +6,6 @@ describe Gon::Global do
     @request = RequestStore.store[:gon]
     allow(Gon).to receive(:current_gon).and_return(@request)
     Gon::Global.clear
-    Gon::Request.instance_variable_set(:@request_env, nil)
   end
 
   describe '#all_variables' do
