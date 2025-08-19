@@ -1,6 +1,8 @@
 # CHANGELOG
 
-## [Unreleased]
+## 6.5.0 and later
+
+For changes from version 6.5.0 onwards, please check the [GitHub Releases page](https://github.com/gazay/gon/releases).
 
 ## [6.4.0] - 2020-09-18
 ### Security
