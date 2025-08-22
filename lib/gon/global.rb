@@ -3,7 +3,6 @@
 class Gon
   class Global < Gon
     class << self
-
       def all_variables
         @global_vars || {}
       end
@@ -38,7 +37,6 @@ class Gon
         @global_vars ||= {}
         @global_vars[name] = value
       end
-
     end
   end
 end

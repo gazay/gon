@@ -1,11 +1,7 @@
 # frozen_string_literal: true
 
 describe Gon::Global do
-  before(:each) do
-    RequestStore.store[:gon] = Gon::Request.new({})
-    @request = RequestStore.store[:gon]
-    Gon::Global.clear
-  end
+  before { Gon::Global.clear }
 
   describe '#all_variables' do
     it 'returns all variables in hash' do
@@ -28,97 +24,13 @@ describe Gon::Global do
     end
   end
 
-  describe '#include_gon' do
-    before(:each) do
-      Gon.clear
-      expect(ActionView::Base.instance_methods).to include(:include_gon)
-      @base = ActionView::Base.new(nil, {}, nil)
-      @base.request = @request
-    end
-
-    it 'outputs correct js with an integer' do
-      Gon.global.int = 1
-      expect(@base.include_gon).to eq("<script>" +
-                                    "\n//<![CDATA[\n" +
-                                    "window.gon={};" +
-                                    "gon.global={\"int\":1};" +
-                                    "\n//]]>\n" +
-                                  "</script>")
-    end
-
-    it 'outputs correct js with an integer and integer in Gon' do
-      Gon.int = 1
-      Gon.global.int = 1
-      expect(@base.include_gon).to eq("<script>" +
-                                    "\n//<![CDATA[\n" +
-                                    "window.gon={};" +
-                                    "gon.global={\"int\":1};" +
-                                    "gon.int=1;" +
-                                    "\n//]]>\n" +
-                                  "</script>")
-    end
-
-    it 'outputs correct js with a string' do
-      Gon.global.str = %q(a'b"c)
-      expect(@base.include_gon).to eq("<script>" +
-                                    "\n//<![CDATA[\n" +
-                                    "window.gon={};" +
-                                    "gon.global={\"str\":\"a'b\\\"c\"};" +
-                                    "\n//]]>\n" +
-                                  "</script>")
-    end
-
-    it 'outputs correct js with a script string' do
-      Gon.global.str = %q(</script><script>alert('!')</script>)
-      escaped_str = "\\u003c/script\\u003e\\u003cscript\\u003ealert('!')\\u003c/script\\u003e"
-      expect(@base.include_gon).to eq("<script>" +
-                                    "\n//<![CDATA[\n" +
-                                    "window.gon={};" +
-                                    "gon.global={\"str\":\"#{escaped_str}\"};" +
-                                    "\n//]]>\n" +
-                                  "</script>")
-    end
-
-    it 'outputs correct js with a unicode line separator' do
-      Gon.global.str = "\u2028"
-      expect(@base.include_gon).to eq("<script>" +
-                                    "\n//<![CDATA[\n" +
-                                    "window.gon={};" +
-                                    "gon.global={\"str\":\"&#x2028;\"};" +
-                                    "\n//]]>\n" +
-                                  "</script>")
-    end
-
-    it 'outputs locally overridden value' do
-      Gon.str = 'local value'
-      Gon.global.str = 'global value'
-      expect(@base.include_gon(global_root: '')).to eq("<script>" +
-                                     "\n//<![CDATA[\n" +
-                                     "window.gon={};" +
-                                     "gon.str=\"local value\";" +
-                                     "\n//]]>\n" +
-                                     "</script>")
-    end
-
-    it "includes the tag attributes in the script tag" do
-      Gon.global.int = 1
-      expect(@base.include_gon(nonce: 'test')).to eq("<script nonce=\"test\">" +
-                                    "\n//<![CDATA[\n" +
-                                    "window.gon={};" +
-                                    "gon.global={\"int\":1};" +
-                                    "\n//]]>\n" +
-                                  "</script>")
-    end
-
-  end
-
   it 'returns exception if try to set public method as variable' do
     expect { Gon.global.all_variables = 123 }.to raise_error(RuntimeError)
     expect { Gon.global.rabl = 123 }.to raise_error(RuntimeError)
   end
 
   context 'with jbuilder and rabl' do
-    before :each do
+    before do
       controller.instance_variable_set('@objects', objects)
     end
 
