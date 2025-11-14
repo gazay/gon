@@ -53,15 +53,8 @@ describe Gon do
 
       context 'within Rails' do
         before do
-          module ::Rails
-          end
-
           allow(Rails).to receive_message_chain("application.routes.url_helpers.instance_methods") { [:user_path] }
           controller.instance_variable_set('@user_id', 1)
-        end
-
-        after do
-          Object.send(:remove_const, :Rails)
         end
 
         it 'includes url_helpers' do
@@ -70,9 +63,6 @@ describe Gon do
           expect(Gon.url).to eq '/users/1'
         end
       end
-
     end
-
   end
-
 end
