@@ -21,6 +21,8 @@ end
 
 describe 'threading behaviour' do
   it 'is threadsafe' do
+    skip 'ActionDispatch::TestRequest.create is not supported on Rails versions below 5.0' if Rails::VERSION::STRING < '5.0'
+
     threads = []
     10.times do
       threads << Thread.new do
