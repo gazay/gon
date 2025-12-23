@@ -223,12 +223,20 @@ usage gon.global.
 You can use any [JSON Engine](https://github.com/sferik/multi_json#supported-json-engines) you want.
 Gon uses `MultiJson` with autodetect mode, so all you need is just require your JSON library.
 
-## Contributors
+## Current Maintainers
 
-* @gazay
+* [@willnet](https://github.com/willnet)
+
+## Special thanks
+
 * @takiy33
+* @brainopia
+* @kossnocorp
+* @ai
 
-Special thanks to @brainopia, @kossnocorp and @ai.
+## Original Author
+
+* [@gazay](https://github.com/gazay)
 
 ## License
 
