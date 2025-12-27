@@ -24,7 +24,7 @@ class Gon
     end
 
     def current_gon
-      RequestStore.store[:gon]
+      Current.gon
     end
   end
 
@@ -33,7 +33,7 @@ class Gon
       if wrong_gon_request?
         gon_request = Request.new(request.env)
         gon_request.id = gon_request_uuid
-        RequestStore.store[:gon] = gon_request
+        Current.gon = gon_request
       end
       Gon
     end
@@ -45,7 +45,7 @@ class Gon
     end
 
     def current_gon
-      RequestStore.store[:gon]
+      Current.gon
     end
 
     def gon_request_uuid

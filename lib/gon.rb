@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-require 'request_store'
 require 'action_view'
 require 'action_controller'
 require 'multi_json'
 
 require 'gon/base'
+require 'gon/current'
 require 'gon/env_finder'
 require 'gon/global'
 require 'gon/watch'
@@ -106,7 +106,7 @@ class Gon
     private
 
     def current_gon
-      RequestStore.store[:gon]
+      Current.gon
     end
 
     def store_builder_data(builder, data, options)

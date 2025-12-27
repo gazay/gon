@@ -39,7 +39,7 @@ class Gon
       end
 
       def current_gon
-        RequestStore.store[:gon]
+        Current.gon
       end
 
     end

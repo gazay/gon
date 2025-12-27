@@ -2,7 +2,7 @@
 
 describe Gon do
   before do
-    RequestStore.store[:gon] = Gon::Request.new({})
+    Gon.const_get(:Current).gon = Gon::Request.new({})
     Gon.clear
   end
 
