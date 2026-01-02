@@ -7,7 +7,7 @@ rescue LoadError
     require 'request_store'
   rescue LoadError => e
     message = "#{e.message}\n" \
-              "If you are using RequestStore, please add `gem 'request_store'` to your Gemfile."
+              "If you want to use gon with Rails versions prior to 5.2, please add `gem 'request_store'` to your Gemfile."
     raise LoadError, message
   end
 end
