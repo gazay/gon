@@ -249,6 +249,29 @@ jobs:
             rabl-gem: 'rabl-rails'
             continue-on-error: true
 
+          # Ruby 4.0 - Rails 7.2-8.1
+          - ruby-version: '4.0'
+            rails-version: '7.2'
+            rabl-gem: 'rabl'
+          - ruby-version: '4.0'
+            rails-version: '7.2'
+            rabl-gem: 'rabl-rails'
+            continue-on-error: true
+          - ruby-version: '4.0'
+            rails-version: '8.0'
+            rabl-gem: 'rabl'
+          - ruby-version: '4.0'
+            rails-version: '8.0'
+            rabl-gem: 'rabl-rails'
+            continue-on-error: true
+          - ruby-version: '4.0'
+            rails-version: '8.1'
+            rabl-gem: 'rabl'
+          - ruby-version: '4.0'
+            rails-version: '8.1'
+            rabl-gem: 'rabl-rails'
+            continue-on-error: true
+
           # Special Ruby versions
           - ruby-version: 'head'
             rails-version: '8.1'
