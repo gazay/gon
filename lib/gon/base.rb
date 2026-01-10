@@ -126,7 +126,7 @@ class Gon
       end
 
       def convert_key(key, camelize)
-        cache = RequestStore.store[:gon_keys_cache] ||= {}
+        cache = Current.gon_keys_cache ||= {}
         cache["#{key}_#{camelize}"] ||= camelize ? key.to_s.camelize(:lower) : key.to_s
       end
 

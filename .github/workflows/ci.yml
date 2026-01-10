@@ -308,3 +308,40 @@ jobs:
     - name: Run tests
       run: bundle exec rake
       continue-on-error: ${{ matrix.continue-on-error || false }}
+
+  test-rails51-without-request-store:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v5
+
+    - name: Set up Ruby 2.4
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '2.4'
+
+    - name: Run tests
+      env:
+        BUNDLE_GEMFILE: rails_5_1_without_request_store.gemfile
+      run: |
+        cat <<EOF > $BUNDLE_GEMFILE
+        source 'https://rubygems.org'
+        gem 'railties', '~> 5.1.0'
+        gem 'activesupport', '~> 5.1.0'
+        gemspec
+        EOF
+        EXPECT_MESSAGE="If you want to use gon with Rails versions prior to 5.2, please add \`gem 'request_store'\` to your Gemfile."
+
+        bundle install
+
+        if bundle exec ruby -e "require 'gon'" 2>error.log; then
+          echo "Test failed: Expected an error due to missing 'request_store' gem."
+          exit 1
+        elif grep -q "$EXPECT_MESSAGE" error.log; then
+          echo "Test passed: Error raised as expected due to missing 'request_store' gem."
+          exit 0
+        else
+          echo "Test failed: Unexpected error message."
+          cat error.log
+          exit 1
+        fi

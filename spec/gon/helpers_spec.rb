@@ -8,7 +8,7 @@ describe 'Gon Helpers' do
     script << "\n//]]>\n" if cdata
     script << '</script>'
   end
-  let(:request) { RequestStore.store[:gon] }
+  let(:request) { Gon.const_get(:Current).gon }
   let(:view) do
     v = ActionView::Base.new(nil, {}, nil)
     v.request = request
@@ -16,7 +16,7 @@ describe 'Gon Helpers' do
   end
 
   before do
-    RequestStore.store[:gon] = Gon::Request.new({})
+    Gon.const_get(:Current).gon = Gon::Request.new({})
     Gon.clear
     Gon::Global.clear
   end
@@ -235,7 +235,7 @@ describe 'Gon Helpers' do
     context 'edge cases' do
       context "without a current_gon instance" do
         before(:each) do
-          RequestStore.store[:gon] = nil
+          Gon.const_get(:Current).gon = nil
           allow(Gon).to receive(:current_gon).and_return(nil)
         end
 

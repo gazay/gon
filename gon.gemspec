@@ -22,8 +22,8 @@ Gem::Specification.new do |s|
   s.require_paths = ['lib']
   s.required_ruby_version = '>= 2.2.0'
   s.add_dependency 'actionpack', '>= 3.0.20'
+  s.add_dependency 'activesupport'
   s.add_dependency 'i18n', '>= 0.7'
-  s.add_dependency 'request_store', '>= 1.0'
   s.add_dependency 'multi_json'
   s.add_development_dependency 'rspec', '>= 3.0'
   s.add_development_dependency 'jbuilder'
