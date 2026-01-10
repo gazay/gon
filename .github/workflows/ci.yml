@@ -7,6 +7,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    continue-on-error: ${{ matrix.continue-on-error || false }}
     strategy:
       matrix:
         include:
@@ -307,7 +308,6 @@ jobs:
 
     - name: Run tests
       run: bundle exec rake
-      continue-on-error: ${{ matrix.continue-on-error || false }}
 
   test-rails51-without-request-store:
     runs-on: ubuntu-latest
