@@ -13,7 +13,7 @@ class Gon
     }
 
     def self.dump(object)
-      dumped_json = MultiJson.dump object,
+      dumped_json = MultiJSON.generate object,
         mode: :compat, escape_mode: :xss_safe, time_format: :ruby
       escape(dumped_json)
     end

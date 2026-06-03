@@ -24,7 +24,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'actionpack', '>= 3.0.20'
   s.add_dependency 'activesupport'
   s.add_dependency 'i18n', '>= 0.7'
-  s.add_dependency 'multi_json'
+  s.add_dependency 'multi_json', '>= 1.21.0'
   s.add_development_dependency 'rspec', '>= 3.0'
   s.add_development_dependency 'jbuilder'
   s.add_development_dependency 'railties'
