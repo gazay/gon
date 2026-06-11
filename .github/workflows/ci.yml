@@ -345,3 +345,32 @@ jobs:
           cat error.log
           exit 1
         fi
+
+  test-multi-json-compatibility:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        multi-json-version:
+          - '1.20.1'
+          - '~> 1.21'
+
+    steps:
+    - uses: actions/checkout@v6
+
+    - name: Set up Ruby 3.2
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '3.2'
+
+    - name: Test multi_json ${{ matrix.multi-json-version }}
+      env:
+        BUNDLE_GEMFILE: multi_json_compat.gemfile
+        MULTI_JSON_VERSION: ${{ matrix.multi-json-version }}
+      run: |
+        cat <<EOF > $BUNDLE_GEMFILE
+        source 'https://rubygems.org'
+        gem 'multi_json', '$MULTI_JSON_VERSION'
+        gemspec
+        EOF
+        bundle install
+        bundle exec rspec --require ./spec/spec_helper spec/gon/json_dumper_spec.rb
