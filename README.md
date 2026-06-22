@@ -110,6 +110,17 @@ gon.your_array # > [1, 2, 123]
 # gon.clear # gon.all_variables now is {}
 ```
 
+### Testing gon variables in controller specs
+
+In controller specs, Rails can clear `ActiveSupport::CurrentAttributes`
+after the request is processed. Use `gon_variables` to read the gon values
+assigned during the last request:
+
+``` ruby
+get :show
+expect(gon_variables['foo']).to eq('bar')
+```
+
 Access the variables from your JavaScript file:
 
 ``` js
