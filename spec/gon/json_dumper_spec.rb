@@ -9,7 +9,7 @@ describe Gon::JsonDumper do
       nothing: nil
     }
     expected = '{"string":"\\u003cscript\\u003e\\u0026\\u2028\\u2029",' \
-      '"number":1,"boolean":true,"nothing":null}'
+               '"number":1,"boolean":true,"nothing":null}'
 
     expect(described_class.dump(object)).to eq(expected)
   end

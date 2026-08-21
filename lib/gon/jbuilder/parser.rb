@@ -29,7 +29,7 @@ class Gon
 
       def assign_controller_variables(controller)
         controller.instance_variables.each do |name|
-          self.instance_variable_set \
+          instance_variable_set \
             name,
             controller.instance_variable_get(name)
         end
@@ -37,23 +37,23 @@ class Gon
 
       def eval_controller_helpers(controller)
         controller._helper_methods.each do |meth|
-          self.class.class_eval <<-ruby_eval, __FILE__, __LINE__ + 1
+          self.class.class_eval <<-RUBY_EVAL, __FILE__, __LINE__ + 1
               def #{meth}(*args, &blk)                               # def current_user(*args, &blk)
                 __controller.send(%(#{meth}), *args, &blk)             #   controller.send(:current_user, *args, &blk)
               end                                                    # end
-            ruby_eval
+          RUBY_EVAL
         end
       end
 
-      def eval_controller_url_helpers(controller)
-        if defined?(Rails) && Rails.respond_to?(:application)
-          Rails.application.routes.url_helpers.instance_methods.each do |meth|
-            self.class.class_eval <<-ruby_eval, __FILE__, __LINE__ + 1
+      def eval_controller_url_helpers(_controller)
+        return unless defined?(Rails) && Rails.respond_to?(:application)
+
+        Rails.application.routes.url_helpers.instance_methods.each do |meth|
+          self.class.class_eval <<-RUBY_EVAL, __FILE__, __LINE__ + 1
               def #{meth}(*args, &blk)                                         # def user_path(*args, &blk)
                 __controller.send(%(#{meth}), *args, &blk)                     #   controller.send(:user_path, *args, &blk)
               end                                                              # end
-            ruby_eval
-          end
+          RUBY_EVAL
         end
       end
 
@@ -61,7 +61,7 @@ class Gon
         locals.each do |name, value|
           self.class.class_eval do
             define_method "#{name}" do
-              return value
+              value
             end
           end
         end
@@ -87,18 +87,19 @@ class Gon
       def set_options_from_hash(options_hash)
         options = eval "{#{options_hash}}"
         options.each do |name, val|
-          self.instance_variable_set("@#{name.to_s}", val)
-          eval "def #{name}; self.instance_variable_get('@' + '#{name.to_s}'); end"
+          instance_variable_set("@#{name}", val)
+          eval "def #{name}; self.instance_variable_get('@' + '#{name}'); end"
         end
       end
 
       def parse_path(path)
         return path if File.exist?(path)
         if (splitted = path.split('/')).blank?
-            raise 'Something wrong with partial path in your jbuilder templates'
+          raise 'Something wrong with partial path in your jbuilder templates'
         elsif splitted.size == 1
-            splitted.shift(@_controller_name)
+          splitted.shift(@_controller_name)
         end
+
         construct_path(splitted)
       end
 
@@ -112,7 +113,8 @@ class Gon
       def path_with_ext(path)
         return path if File.exist?(path)
         return "#{path}.jbuilder" if File.exist?("#{path}.jbuilder")
-        return "#{path}.json.jbuilder" if File.exist?("#{path}.json.jbuilder")
+
+        "#{path}.json.jbuilder" if File.exist?("#{path}.json.jbuilder")
       end
 
       def find_partials(lines = [])
@@ -124,7 +126,6 @@ class Gon
           end
         end.flatten
       end
-
     end
   end
 end

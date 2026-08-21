@@ -1,1 +1,1 @@
-json.partial! 'spec/test_data/_sample_partial.json.jbuilder', :objects => @objects
+json.partial! 'spec/test_data/_sample_partial.json.jbuilder', objects: @objects

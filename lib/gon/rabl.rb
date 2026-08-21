@@ -10,12 +10,9 @@ end
 class Gon
   module Rabl
     class << self
-
       def handler(args, global = false)
         options = parse_options_from args, global
-        if global && !options[:template]
-          raise 'You should provide :template when use rabl with global variables'
-        end
+        raise 'You should provide :template when use rabl with global variables' if global && !options[:template]
 
         data = parse_rabl \
           Gon::EnvFinder.template_path(options, 'rabl'),
@@ -33,7 +30,7 @@ class Gon
         locals ||= {}
         source = File.read(rabl_path)
         include_helpers
-        rabl_engine = ::Rabl::Engine.new(source, :format => 'json', :template => rabl_path)
+        rabl_engine = ::Rabl::Engine.new(source, format: 'json', template: rabl_path)
         output = rabl_engine.render(controller, locals)
         JSON.parse(output)
       end
@@ -41,13 +38,13 @@ class Gon
       def parse_options_from(args, global)
         if old_api? args
           unless global
-            text =  +"[DEPRECATION] view_path argument is now optional. "
-            text << "If you need to specify it, "
+            text =  +'[DEPRECATION] view_path argument is now optional. '
+            text << 'If you need to specify it, '
             text << "please use gon.rabl(:template => 'path')"
             warn text
           end
 
-          args.extract_options!.merge(:template => args[0])
+          args.extract_options!.merge(template: args[0])
         elsif new_api? args
           args.first
         else
@@ -56,9 +53,9 @@ class Gon
       end
 
       def include_helpers
-        unless ::Rabl::Engine.include? ::ActionView::Helpers
-          ::Rabl::Engine.send(:include, ::ActionView::Helpers)
-        end
+        return if ::Rabl::Engine.include? ::ActionView::Helpers
+
+        ::Rabl::Engine.include ::ActionView::Helpers
       end
 
       def old_api?(args)
@@ -68,7 +65,6 @@ class Gon
       def new_api?(args)
         args.first.is_a? Hash
       end
-
     end
   end
 end

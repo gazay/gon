@@ -13,8 +13,8 @@ class Gon
       end
     end
 
-    def include_gon_amd(options={})
-      Gon::Base.render_data(options.merge({amd: true}))
+    def include_gon_amd(options = {})
+      Gon::Base.render_data(options.merge({ amd: true }))
     end
 
     private
@@ -55,8 +55,8 @@ class Gon
 end
 
 ActiveSupport.on_load :action_view do
-  ActionView::Base.send :include, Gon::ViewHelpers
+  ActionView::Base.include Gon::ViewHelpers
 end
 ActiveSupport.on_load :action_controller do
-  ActionController::Base.send :include, Gon::ControllerHelpers
+  ActionController::Base.include Gon::ControllerHelpers
 end

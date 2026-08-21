@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'action_dispatch/testing/test_request'
 
 class GonTestWorker
@@ -21,7 +22,9 @@ end
 
 describe 'threading behaviour' do
   it 'is threadsafe' do
-    skip 'ActionDispatch::TestRequest.create is not supported on Rails versions below 5.0' if Rails::VERSION::STRING < '5.0'
+    if Rails::VERSION::STRING < '5.0'
+      skip 'ActionDispatch::TestRequest.create is not supported on Rails versions below 5.0'
+    end
 
     threads = []
     10.times do

@@ -18,15 +18,12 @@ require 'gon/jbuilder/parser'
 require 'gon/json_dumper'
 
 # NOTE : ActionDispatch::Request#uuid appears only in Rails 3.2.1
-unless ActionDispatch::Request.public_instance_methods.include?(:uuid)
-  require 'gon/compatibility/old_rails'
-end
+require 'gon/compatibility/old_rails' unless ActionDispatch::Request.public_method_defined?(:uuid)
 
 require 'gon/spec_helpers'
 
 class Gon
   class << self
-
     def global
       Gon::Global
     end
@@ -35,11 +32,9 @@ class Gon
       Gon::Watch
     end
 
-    def method_missing(method, *args, &block)
+    def method_missing(method, *args)
       if method.to_s =~ /=$/
-        if public_method_name?(method)
-          raise "You can't use Gon public methods for storing data: #{method}"
-        end
+        raise "You can't use Gon public methods for storing data: #{method}" if public_method_name?(method)
         if self == Gon && !current_gon
           raise 'Assign request-specific gon variables only through `gon` helper, not through Gon constant'
         end
@@ -60,9 +55,7 @@ class Gon
 
     def merge_variable(name, value)
       old_value = all_variables[name]
-      if value.is_a?(Hash) && old_value.is_a?(Hash)
-        value = old_value.deep_merge(value)
-      end
+      value = old_value.deep_merge(value) if value.is_a?(Hash) && old_value.is_a?(Hash)
       set_variable(name, value)
     end
 
@@ -129,6 +122,5 @@ class Gon
     def ensure_template_handler_is_defined
       load 'jbuilder.rb' unless defined?(JbuilderTemplate)
     end
-
   end
 end

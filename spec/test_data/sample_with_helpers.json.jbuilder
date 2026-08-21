@@ -1,1 +1,1 @@
-json.date distance_of_time_in_words(20000)
+json.date distance_of_time_in_words(20_000)
