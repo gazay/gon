@@ -3,24 +3,23 @@
 class Gon
   module Base
     VALID_OPTION_DEFAULTS = {
-        namespace: 'gon',
-        camel_case: false,
-        camel_depth: 1,
-        watch: false,
-        need_tag: true,
-        type: false,
-        cdata: true,
-        global_root: 'global',
-        namespace_check: false,
-        amd: false,
-        nonce: nil
+      namespace: 'gon',
+      camel_case: false,
+      camel_depth: 1,
+      watch: false,
+      need_tag: true,
+      type: false,
+      cdata: true,
+      global_root: 'global',
+      namespace_check: false,
+      amd: false,
+      nonce: nil
     }
 
     Option = Struct.new(:cameled, *VALID_OPTION_DEFAULTS.keys)
     private_constant :Option
 
     class << self
-
       def render_data(options = {})
         _o = define_options(options)
 
@@ -50,8 +49,8 @@ class Gon
         before, after = render_wrap(_o)
         script << before
 
-        script << gon_variables(_o.global_root).
-                    map { |key, val| render_variable(_o, key, val) }.join
+        script << gon_variables(_o.global_root)
+                  .map { |key, val| render_variable(_o, key, val) }.join
         script << (render_watch(_o) || '')
 
         script << after
@@ -62,7 +61,7 @@ class Gon
         if _o.amd
           ["define('#{_o.namespace}',[],function(){var gon={};", 'return gon;});']
         else
-          before = \
+          before =
             if _o.namespace_check
               "window.#{_o.namespace}=window.#{_o.namespace}||{};"
             else
@@ -82,12 +81,12 @@ class Gon
       end
 
       def render_watch(_o)
-        if _o.watch and Gon::Watch.all_variables.present?
-          if _o.amd
-            Gon.watch.render_amd
-          else
-            Gon.watch.render
-          end
+        return unless _o.watch and Gon::Watch.all_variables.present?
+
+        if _o.amd
+          Gon.watch.render_amd
+        else
+          Gon.watch.render
         end
       end
 
@@ -101,9 +100,9 @@ class Gon
 
         case value
         when Hash
-          Hash[value.map { |k, v|
-            [ convert_key(k, true), convert_hash_keys(v, current_depth + 1, max_depth) ]
-          }]
+          Hash[value.map do |k, v|
+            [convert_key(k, true), convert_hash_keys(v, current_depth + 1, max_depth)]
+          end]
         when Enumerable
           value.map { |v| convert_hash_keys(v, current_depth + 1, max_depth) }
         else
@@ -129,7 +128,6 @@ class Gon
         cache = Current.gon_keys_cache ||= {}
         cache["#{key}_#{camelize}"] ||= camelize ? key.to_s.camelize(:lower) : key.to_s
       end
-
     end
   end
 end

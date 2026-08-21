@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 describe Gon::Watch do
-
   let(:controller) { ActionController::Base.new }
   let(:request) { ActionDispatch::Request.new({}) }
 
@@ -25,22 +24,18 @@ describe Gon::Watch do
   end
 
   describe '#all_variables' do
-
     it 'should generate array with current request url, method type and variable names' do
       Gon.watch.a = 1
       expect(Gon.watch.all_variables).to eq({ 'a' => { 'url' => '/foo', 'method' => 'GET', 'name' => 'a' } })
     end
-
   end
 
   describe '#render' do
-
     it 'should render function with variables in gon namespace' do
       Gon.watch.a = 1
       expect(Gon.watch.render).to match(/gon\.watch\s=/)
       expect(Gon.watch.render).to match(/gon\.watchedVariables/)
     end
-
   end
 
   describe 'Render concrete variable' do
@@ -55,28 +50,30 @@ describe Gon::Watch do
     context 'when request variable is json safe content' do
       before do
         allow(controller).to receive_messages(params: {
-          gon_return_variable: true,
-          gon_watched_variable: 'safety'})
+                                                gon_return_variable: true,
+                                                gon_watched_variable: 'safety'
+                                              })
       end
 
       it 'should return value of variable if called right request' do
         expect(controller).to receive(:render).with(json: '12345')
-        Gon.watch.safety = 12345
+        Gon.watch.safety = 12_345
       end
     end
 
     context 'when request variable is json unsafe content' do
-      let(:expected) { %Q{"\\u003cscript\\u003e'\\"\\u003c/script\\u003e&#x2028;Dangerous"} }
+      let(:expected) { %("\\u003cscript\\u003e'\\"\\u003c/script\\u003e&#x2028;Dangerous") }
 
       before do
         allow(controller).to receive_messages(params: {
-          gon_return_variable: true,
-          gon_watched_variable: 'danger'})
+                                                gon_return_variable: true,
+                                                gon_watched_variable: 'danger'
+                                              })
       end
 
       it 'should return value of variable if called right request' do
         expect(controller).to receive(:render).with(json: expected)
-        Gon.watch.danger = %Q{<script>'"</script>\u2028Dangerous}
+        Gon.watch.danger = %(<script>'"</script>\u2028Dangerous)
       end
     end
   end

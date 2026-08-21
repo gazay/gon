@@ -6,15 +6,14 @@ class Gon
     ENV_RESPONSE_KEY = 'action_controller.rescue.response'
 
     class << self
-
       def controller_env(options = {})
         options[:controller] ||
           (
-            current_gon &&
-            current_gon.env[ENV_CONTROLLER_KEY] ||
-            current_gon.env[ENV_RESPONSE_KEY].
-              instance_variable_get('@template').
-              instance_variable_get('@controller')
+            (current_gon &&
+            current_gon.env[ENV_CONTROLLER_KEY]) ||
+            current_gon.env[ENV_RESPONSE_KEY]
+              .instance_variable_get('@template')
+              .instance_variable_get('@controller')
           )
       end
 
@@ -41,8 +40,6 @@ class Gon
       def current_gon
         Current.gon
       end
-
     end
-
   end
 end

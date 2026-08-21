@@ -1,4 +1,4 @@
-lib = File.expand_path('../lib', __FILE__)
+lib = File.expand_path('lib', __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'gon/version'
 
@@ -10,10 +10,10 @@ Gem::Specification.new do |s|
   s.licenses    = ['MIT']
   s.email       = ['alex.gaziev@gmail.com']
   s.homepage    = 'https://github.com/gazay/gon'
-  s.summary     = %q{Get your Rails variables in your JS}
-  s.description = %q{If you need to send some data to your js files and you don't want to do this with long way trough views and parsing - use this force!}
+  s.summary     = 'Get your Rails variables in your JS'
+  s.description = "If you need to send some data to your js files and you don't want to do this with long way trough views and parsing - use this force!"
 
-  s.files         = Dir.glob('lib/**/*') + Dir.glob('coffee/**/*') + Dir.glob('js/**/*') + [
+  s.files = Dir.glob('lib/**/*') + Dir.glob('coffee/**/*') + Dir.glob('js/**/*') + [
     'CHANGELOG.md',
     'LICENSE',
     'README.md'
@@ -25,10 +25,11 @@ Gem::Specification.new do |s|
   s.add_dependency 'activesupport'
   s.add_dependency 'i18n', '>= 0.7'
   s.add_dependency 'multi_json'
-  s.add_development_dependency 'rspec', '>= 3.0'
   s.add_development_dependency 'jbuilder'
-  s.add_development_dependency 'railties'
-  s.add_development_dependency 'rake'
   s.add_development_dependency 'pry'
   s.add_development_dependency 'pry-byebug'
+  s.add_development_dependency 'railties'
+  s.add_development_dependency 'rake'
+  s.add_development_dependency 'rspec', '>= 3.0'
+  s.metadata['rubygems_mfa_required'] = 'true'
 end

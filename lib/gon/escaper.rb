@@ -6,18 +6,17 @@ class Gon
     extend ActionView::Helpers::TagHelper
 
     class << self
-
       def escape_unicode(javascript)
-        if javascript
-          result = escape_line_separator(javascript)
-          javascript.html_safe? ? result.html_safe : result
-        end
+        return unless javascript
+
+        result = escape_line_separator(javascript)
+        javascript.html_safe? ? result.html_safe : result
       end
 
       def javascript_tag(content, type, cdata, nonce)
         options = {}
-        options.merge!( { type: 'text/javascript' } ) if type
-        options.merge!( { nonce: nonce } ) if nonce
+        options.merge!({ type: 'text/javascript' }) if type
+        options.merge!({ nonce: nonce }) if nonce
 
         content_tag(:script, javascript_cdata_section(content, cdata).html_safe, options)
       end
@@ -35,7 +34,6 @@ class Gon
       def escape_line_separator(javascript)
         javascript.gsub(/\\u2028/u, '&#x2028;')
       end
-
     end
   end
 end
