@@ -47,12 +47,11 @@ describe Gon do
       expect(Gon.objects.first['object']['time_ago']).to eq('about 6 hours')
     end
 
-    it 'raise exception if rabl is not included' do
-      Gon.send :remove_const, 'Rabl'
-      expect { Gon.rabl :template => 'spec/test_data/sample.rabl', :controller => controller }.to raise_error(NameError)
-      rabl_gem = ENV.fetch('RABL_GEM', 'rabl')
-      load "#{rabl_gem}.rb"
-      load 'gon/rabl.rb'
+    it 'raises an exception if rabl is not included' do
+      hide_const('Rabl')
+
+      expect { Gon.rabl :template => 'spec/test_data/sample.rabl', :controller => controller }
+        .to raise_error(RuntimeError, 'rabl must be required in order to use gon.rabl')
     end
 
     context '.template_path' do

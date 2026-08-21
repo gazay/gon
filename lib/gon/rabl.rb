@@ -6,10 +6,6 @@ begin
   require 'rabl' # use rabl gem if it's available
 rescue LoadError
 end
-begin
-  require 'rabl-rails' # use rabl-rails gem if it's available
-rescue LoadError
-end
 
 class Gon
   module Rabl
@@ -32,33 +28,13 @@ class Gon
       private
 
       def parse_rabl(rabl_path, controller, locals)
-        if defined? ::Rabl
-          parse_with_rabl rabl_path, controller, locals
-        elsif defined? ::RablRails
-          parse_with_rabl_rails rabl_path, controller, locals
-        else
-          raise 'rabl or rabl-rails must be required in order to use gon.rabl'
-        end
-      end
+        raise 'rabl must be required in order to use gon.rabl' unless defined? ::Rabl
 
-      def parse_with_rabl(rabl_path, controller, locals)
         locals ||= {}
         source = File.read(rabl_path)
         include_helpers
         rabl_engine = ::Rabl::Engine.new(source, :format => 'json', :template => rabl_path)
         output = rabl_engine.render(controller, locals)
-        JSON.parse(output)
-      end
-
-      def parse_with_rabl_rails(rabl_path, controller, locals)
-        locals ||= {}
-        source = File.read(rabl_path)
-        original_formats = controller.formats
-        controller.formats = [:json]
-        view_context = controller.send(:view_context)
-        locals.each { |k, v| view_context.assigns[k.to_s] = v }
-        output = RablRails::Library.instance.get_rendered_template(source, view_context)
-        controller.formats = original_formats
         JSON.parse(output)
       end
 
