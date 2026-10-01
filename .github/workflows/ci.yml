@@ -214,6 +214,7 @@ jobs:
         cat <<EOF > $BUNDLE_GEMFILE
         source 'https://rubygems.org'
         gem 'multi_json', '$MULTI_JSON_VERSION'
+        gem 'oj'
         gemspec
         EOF
         bundle install
