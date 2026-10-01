@@ -13,7 +13,13 @@ class Gon
     }
 
     def self.dump(object)
-      options = { mode: :compat, escape_mode: :xss_safe, time_format: :ruby }
+      multi_json = defined?(MultiJSON) ? MultiJSON : MultiJson
+      adapter = multi_json.adapter
+      options = if defined?(multi_json::Adapters::Oj) && adapter == multi_json::Adapters::Oj
+                  { mode: :compat, escape_mode: :xss_safe, time_format: :ruby }
+                else
+                  {}
+                end
       dumped_json = if defined?(MultiJSON)
                       MultiJSON.generate(object, options)
                     else
