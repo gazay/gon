@@ -3,14 +3,14 @@
 class Gon
   module JsonDumper
     # Taken from ERB::Util
-    JSON_ESCAPE_REGEXP	=	/[\u2028\u2029&><]/u
+    JSON_ESCAPE_REGEXP	=	/[\u2028\u2029&><]/u.freeze
     JSON_ESCAPE	=	{
       '&' => '\u0026',
       '>' => '\u003e',
       '<' => '\u003c',
       "\u2028" => '\u2028',
       "\u2029" => '\u2029'
-    }
+    }.freeze
 
     def self.dump(object)
       multi_json = defined?(MultiJSON) ? MultiJSON : MultiJson

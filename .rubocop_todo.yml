@@ -153,15 +153,6 @@ Style/MissingRespondToMissing:
   Exclude:
     - 'lib/gon.rb'
 
-# Offense count: 3
-# This cop supports unsafe autocorrection (--autocorrect-all).
-# Configuration parameters: EnforcedStyle, Recursive.
-# SupportedStyles: literals, strict
-Style/MutableConstant:
-  Exclude:
-    - 'lib/gon/base.rb'
-    - 'lib/gon/json_dumper.rb'
-
 # Offense count: 4
 # Configuration parameters: AllowedMethods.
 # AllowedMethods: respond_to_missing?
