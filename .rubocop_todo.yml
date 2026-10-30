@@ -199,10 +199,3 @@ Style/StringConcatenation:
   Exclude:
     - 'lib/gon/jbuilder/parser.rb'
     - 'spec/gon/helpers_spec.rb'
-
-# Offense count: 2
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: AllowHeredoc, AllowURI, AllowQualifiedName, URISchemes, AllowRBSInlineAnnotation, AllowCopDirectives, AllowedPatterns, SplitStrings.
-# URISchemes: http, https
-Layout/LineLength:
-  Max: 153
