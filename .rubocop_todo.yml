@@ -137,11 +137,6 @@ Style/IfUnlessModifier:
     - 'lib/gon/spec_helpers.rb'
     - 'spec/gon/thread_spec.rb'
 
-# Offense count: 2
-Style/ItAssignment:
-  Exclude:
-    - 'spec/gon/rabl_spec.rb'
-
 # Offense count: 58
 # This cop supports unsafe autocorrection (--autocorrect-all).
 Style/LineEndConcatenation:
