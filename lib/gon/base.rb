@@ -14,7 +14,7 @@ class Gon
       namespace_check: false,
       amd: false,
       nonce: nil
-    }
+    }.freeze
 
     Option = Struct.new(:cameled, *VALID_OPTION_DEFAULTS.keys)
     private_constant :Option
