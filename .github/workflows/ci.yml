@@ -27,7 +27,8 @@ jobs:
       run: bundle exec rubocop
 
   test:
-    runs-on: ubuntu-latest
+    # Ruby 2.3 through 3.1 do not have Ubuntu 26.04 builds.
+    runs-on: ${{ contains(fromJSON('["2.3", "2.4", "2.5", "2.6", "2.7", "3.0", "3.1"]'), matrix.ruby-version) && 'ubuntu-24.04' || 'ubuntu-26.04' }}
     strategy:
       matrix:
         include:
@@ -150,7 +151,7 @@ jobs:
       continue-on-error: ${{ matrix.continue-on-error || false }}
 
   test-rails51-without-request-store:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
