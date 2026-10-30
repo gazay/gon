@@ -5,7 +5,7 @@ class Gon
     class << self
       def handler(args, global = false)
         options = parse_options_from args
-        valid_options? options, global
+        validate_options! options, global
 
         controller = Gon::EnvFinder.controller_env(options)
         controller_name = global ? '' : controller.controller_path
@@ -23,7 +23,7 @@ class Gon
 
       private
 
-      def valid_options?(options, global)
+      def validate_options!(options, global)
         return unless global && !options[:template]
 
         raise 'You should provide :template when use jbuilder with global variables'
