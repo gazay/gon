@@ -185,13 +185,6 @@ Style/RedundantInterpolation:
   Exclude:
     - 'lib/gon/jbuilder/parser.rb'
 
-# Offense count: 1
-# This cop supports unsafe autocorrection (--autocorrect-all).
-# Configuration parameters: AllowedMethods, AllowedPatterns.
-Style/ReturnNilInPredicateMethodDefinition:
-  Exclude:
-    - 'lib/gon/jbuilder.rb'
-
 # Offense count: 14
 # This cop supports unsafe autocorrection (--autocorrect-all).
 # Configuration parameters: Mode.
