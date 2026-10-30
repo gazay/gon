@@ -122,13 +122,6 @@ Style/EvalWithLocation:
   Exclude:
     - 'lib/gon/jbuilder/parser.rb'
 
-# Offense count: 1
-# This cop supports unsafe autocorrection (--autocorrect-all).
-# Configuration parameters: AllowSplatArgument.
-Style/HashConversion:
-  Exclude:
-    - 'lib/gon/base.rb'
-
 # Offense count: 3
 # This cop supports safe autocorrection (--autocorrect).
 Style/IfUnlessModifier:
