@@ -75,14 +75,6 @@ Security/Eval:
   Exclude:
     - 'lib/gon/jbuilder/parser.rb'
 
-# Offense count: 1
-# This cop supports unsafe autocorrection (--autocorrect-all).
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: always, conditionals
-Style/AndOr:
-  Exclude:
-    - 'lib/gon/base.rb'
-
 # Offense count: 2
 Style/DocumentDynamicEvalDefinition:
   Exclude:
