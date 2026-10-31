@@ -23,7 +23,7 @@ describe Gon do
           template: 'spec/test_data/sample.rabl',
           controller: controller
         )
-        expect(Gon.objects.map { |it| it['object']['inspect'] }).to eq(%w[1 2])
+        expect(Gon.objects.map { |object| object['object']['inspect'] }).to eq(%w[1 2])
       end
 
       it 'works with different locals object' do
@@ -32,7 +32,7 @@ describe Gon do
           controller: controller,
           locals: { objects: [3, 4] }
         )
-        expect(Gon.objects.map { |it| it['object']['inspect'] }).to eq(%w[3 4])
+        expect(Gon.objects.map { |object| object['object']['inspect'] }).to eq(%w[3 4])
       end
     end
 
