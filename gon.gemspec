@@ -11,7 +11,8 @@ Gem::Specification.new do |s|
   s.email       = ['alex.gaziev@gmail.com']
   s.homepage    = 'https://github.com/gazay/gon'
   s.summary     = 'Get your Rails variables in your JS'
-  s.description = "If you need to send some data to your js files and you don't want to do this with long way trough views and parsing - use this force!"
+  s.description = "If you need to send some data to your js files and you don't want to do this " \
+                  'with long way trough views and parsing - use this force!'
 
   s.files = Dir.glob('lib/**/*') + Dir.glob('coffee/**/*') + Dir.glob('js/**/*') + [
     'CHANGELOG.md',
