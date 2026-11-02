@@ -81,7 +81,7 @@ class Gon
       end
 
       def render_watch(_o)
-        return unless _o.watch and Gon::Watch.all_variables.present?
+        return unless _o.watch && Gon::Watch.all_variables.present?
 
         if _o.amd
           Gon.watch.render_amd
