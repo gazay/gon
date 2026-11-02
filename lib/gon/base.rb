@@ -100,9 +100,9 @@ class Gon
 
         case value
         when Hash
-          Hash[value.map do |k, v|
+          value.map do |k, v|
             [convert_key(k, true), convert_hash_keys(v, current_depth + 1, max_depth)]
-          end]
+          end.to_h
         when Enumerable
           value.map { |v| convert_hash_keys(v, current_depth + 1, max_depth) }
         else
